@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2010 OW2 Chameleon
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>org.ow2.chameleon</groupId>
+    <artifactId>template</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.ow2.chameleon.shell</groupId>
+  <artifactId>gogo-distribution</artifactId>
+  <packaging>pom</packaging>
+  <version>0.3.0-SNAPSHOT</version>
+
+  <name>OW2 Chameleon Shell :: Gogo Distribution</name>
+
+  <!-- Warning: as we're not child of the o.o.c.shell:chameleon-shell POM,
+       we do not inherit from the global properties. We have to duplicate them here -->
+  <properties>
+    <gogo.version>0.3.0-SNAPSHOT</gogo.version>
+    <jansi.version>1.1</jansi.version>
+  </properties>
+
+  <dependencies>
+    <!-- This dep is just here to ensure that the console is build before the distribution -->
+    <dependency>
+      <groupId>org.ow2.chameleon.shell</groupId>
+      <artifactId>chameleon-startup-console</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>copy-runtime</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                
+                <!-- In first, add the gogo runtime libs -->
+                <!-- - - - - - - - - - - - - - - - - - - -->
+                <artifactItem>
+                  <groupId>org.apache.felix.gogo</groupId>
+                  <artifactId>org.apache.felix.gogo.commands</artifactId>
+                  <version>${gogo.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.felix.gogo</groupId>
+                  <artifactId>org.apache.felix.gogo.runtime</artifactId>
+                  <version>${gogo.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+<!--
+                <artifactItem>
+                  <groupId>org.apache.felix.gogo</groupId>
+                  <artifactId>org.apache.felix.gogo.console</artifactId>
+                  <version>${gogo.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+-->
+
+                <!-- Then, add our handler and our commands -->
+                <!-- - - - - - - - - - - - - - - - - - - -->
+                <artifactItem>
+                  <groupId>org.ow2.chameleon.shell</groupId>
+                  <artifactId>chameleon-shell-gogo</artifactId>
+                  <version>${project.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.ow2.chameleon.shell.commands</groupId>
+                  <artifactId>chameleon-hello-command</artifactId>
+                  <version>${project.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.ow2.chameleon.shell.commands</groupId>
+                  <artifactId>chameleon-ssh-command</artifactId>
+                  <version>${project.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+
+                <!-- Add our start-up console -->
+                <!-- - - - - - - - - - - - - -->
+                <artifactItem>
+                  <groupId>org.ow2.chameleon.shell</groupId>
+                  <artifactId>chameleon-startup-console</artifactId>
+                  <version>${project.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+    </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <finalName>${project.artifactId}-${project.version}</finalName>
+          <tarLongFileMode>gnu</tarLongFileMode>
+          <descriptors>
+            <descriptor>assembly.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
