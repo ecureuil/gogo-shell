@@ -23,7 +23,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>chameleon-startup-console</artifactId>
-  <name>OW2 Chameleon Shell :: Startup Console (System in/out/err)</name>
+  <name>OW2 Chameleon Shell :: Startup System Console</name>
   <packaging>bundle</packaging>
 
   <build>
