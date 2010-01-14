@@ -43,6 +43,8 @@ public class CommandHandler extends PrimitiveHandler {
      * The handler Namespace.
      */
     public static final String NAMESPACE = "org.ow2.chameleon.shell.gogo";
+    private static final String OSGI_COMMAND_SCOPE = "osgi.command.scope";
+    private static final String OSGI_COMMAND_FUNCTION = "osgi.command.function";
 
     /**
      * Defines supported command types.
@@ -130,8 +132,8 @@ public class CommandHandler extends PrimitiveHandler {
         }
         // Prepare service properties
         Hashtable<String, Object> props = new Hashtable<String, Object>();
-        props.put("osgi.command.scope", cmd.scope());
-        props.put("osgi.command.function", cmd.name());
+        props.put(OSGI_COMMAND_SCOPE, cmd.scope());
+        props.put(OSGI_COMMAND_FUNCTION, cmd.name());
 
         // Actually create the command given its declared type
         command = null;
