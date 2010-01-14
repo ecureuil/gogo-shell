@@ -18,6 +18,7 @@ package org.ow2.chameleon.shell.gogo.handler;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.ComponentInstance;
@@ -30,6 +31,10 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.command.Function;
 
+/**
+ * This Handler manages the link between the iPOJO component (implementing the
+ * {@code Action} interface) and the shell runtime.
+ */
 @Handler(name = "command",
 		 namespace = CommandHandler.NAMESPACE)
 public class CommandHandler extends PrimitiveHandler {
@@ -39,8 +44,19 @@ public class CommandHandler extends PrimitiveHandler {
      */
     public static final String NAMESPACE = "org.ow2.chameleon.shell.gogo";
 
+    /**
+     * Defines supported command types.
+     */
 	public static enum Type {
-		STATELESS, STATEFUL
+        /**
+         * A stateless command is a command that keep no state information.
+         */
+		STATELESS,
+
+        /**
+         * A stateful command is a command that keeps some state in the instances.
+         */
+        STATEFUL
 	}
 
     /**
@@ -54,12 +70,18 @@ public class CommandHandler extends PrimitiveHandler {
 	public static String COMMAND_ELEMENT = "command";
 
 	/**
-	 * Default type is stateful.
+	 * Default type is stateless.
 	 */
-	private Type type = Type.STATEFUL;
+	private Type type = Type.STATELESS;
 
+    /**
+     * Remember OSGi registration.
+     */
 	private ServiceRegistration registration;
 
+    /**
+     * The command.
+     */
 	private GogoCommand command;
 
     @Requires
@@ -87,24 +109,31 @@ public class CommandHandler extends PrimitiveHandler {
 				throw new ConfigurationException("Invalid value for 'type' attribute "
 						                         + "('stateless' or 'stateful' only are permitted).");
 			}
-		} // by default, a command a stateless
+		} // by default, a command is stateless
 
 		// OK, now we have the configuration
 	}
 
 	public void registerCommandService() {
-		// register the service
 
+		// Do some preliminary checking
 		BundleContext context = this.getFactory().getBundleContext();
 		Class<?> actionClass = this.getInstanceManager().getClazz();
+        // Ensure the component implements the Action gogo interface
+        if (!Action.class.isAssignableFrom(actionClass)) {
+            throw new IllegalArgumentException("The Component is not inheriting from the Action interface!");
+        }
+        // Ensure that the component is annotated with @Command
         Command cmd = actionClass.getAnnotation(Command.class);
         if (cmd == null) {
             throw new IllegalArgumentException("Action class is not annotated with @Command");
         }
+        // Prepare service properties
         Hashtable<String, Object> props = new Hashtable<String, Object>();
         props.put("osgi.command.scope", cmd.scope());
         props.put("osgi.command.function", cmd.name());
 
+        // Actually create the command given its declared type
         command = null;
         switch (type) {
         case STATEFUL:
@@ -115,11 +144,12 @@ public class CommandHandler extends PrimitiveHandler {
         	break;
         }
 
+        // Register the service as a Function
         registration = context.registerService(Function.class.getName(), command, props);
 	}
 
 	public void unregisterCommandService() {
-		// un-register the service
+		// Un-register the service
 		registration.unregister();
 		command.release();
 	}
@@ -143,7 +173,4 @@ public class CommandHandler extends PrimitiveHandler {
 	@Override
 	public void stop() {
 	}
-
-
-
 }

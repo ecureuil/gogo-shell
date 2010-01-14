@@ -19,8 +19,15 @@ import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.InstanceManager;
 
-
+/**
+ * A Stateful Command is a command whose Action keeps state in the instance.
+ * Just like EJB stateful beans, there is only one instance bound to a client.
+ * That means that if the user perform multiple invocation of the same command,
+ * the same instance will be used.
+ */
 public class StatefulGogoCommand extends GogoCommand {
+
+    private Action unique;
 
 	public StatefulGogoCommand(InstanceManager manager, ActionPreparator preparator) {
 		super(manager, preparator);
@@ -28,11 +35,16 @@ public class StatefulGogoCommand extends GogoCommand {
 
 	@Override
 	protected Action createNewAction() throws Exception {
-		return (Action) manager.createPojoObject();
+        if (unique == null) {
+            unique = (Action) manager.createPojoObject();
+        }
+        return unique;
 	}
 
-	@Override
-	protected void releaseAction(Action action) throws Exception {
-		manager.deletePojoObject(action);
-	}
+    @Override
+    public void release() {
+        super.release();
+        this.unique = null;
+    }
+
 }

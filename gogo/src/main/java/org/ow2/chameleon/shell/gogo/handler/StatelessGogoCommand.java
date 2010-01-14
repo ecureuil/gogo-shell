@@ -19,9 +19,13 @@ import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.InstanceManager;
 
+/**
+ * A Stateless Command is a command whose Action does not keep state in the instance.
+ * Just like EJB stateless beans, any instance of the action can be used to execute a request.
+ * That means that if the user perform multiple invocation of the same command,
+ * a new instance will be created for each execution.
+ */
 public class StatelessGogoCommand extends GogoCommand {
-
-	private Action unique;
 
 	public StatelessGogoCommand(InstanceManager manager, ActionPreparator preparator) {
 		super(manager, preparator);
@@ -29,18 +33,11 @@ public class StatelessGogoCommand extends GogoCommand {
 
 	@Override
 	protected Action createNewAction() throws Exception {
-		if (unique == null) {
-			unique = (Action) manager.createPojoObject();
-		}
-		return unique;
+        return (Action) manager.createPojoObject();
 	}
 
-	@Override
-	public void release() {
-		super.release();
-		this.unique = null;
-	}
-
-
-
+    @Override
+    protected void releaseAction(Action action) throws Exception {
+        manager.deletePojoObject(action);
+    }
 }
