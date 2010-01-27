@@ -68,7 +68,13 @@
       <artifactId>plexus-interpolation</artifactId>
       <version>1.8.1</version>
     </dependency>
-    
+
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.ipojo.handler.whiteboard</artifactId>
+      <version>${wbp.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>

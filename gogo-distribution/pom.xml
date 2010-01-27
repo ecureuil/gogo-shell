@@ -219,6 +219,14 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.ipojo.handler.whiteboard</artifactId>
+                  <version>${wbp.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+                
 <!--
                 <artifactItem>
                   <groupId>org.ow2.chameleon.shell.commands</groupId>

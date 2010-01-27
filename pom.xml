@@ -32,6 +32,7 @@
     <ipojo.version>1.5.0-SNAPSHOT</ipojo.version>
     <jline.version>0.9.94</jline.version>
     <jansi.version>1.1</jansi.version>
+    <wbp.version>1.4.0</wbp.version>
   </properties>
 
   <modules>

@@ -30,6 +30,8 @@ import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Unbind;
+import org.apache.felix.ipojo.whiteboard.Wbp;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.command.CommandProcessor;
 import org.ow2.chameleon.shell.gogo.ICompletableCommand;
@@ -43,22 +45,22 @@ import org.ow2.chameleon.shell.gogo.ICompletableCommand;
  */
 @Component
 @Provides
+@Wbp(filter = "(&(osgi.command.scope=*)(osgi.command.function=*))",
+     onArrival = "onArrival",
+     onDeparture = "onDeparture")
 public class CommandsCompletor implements Completor {
 
 
     private Map<ServiceReference, Completor> completors;
+    private BundleContext context;
 
-    public CommandsCompletor() {
+    public CommandsCompletor(BundleContext context) {
         completors = new HashMap<ServiceReference, Completor>();
+        this.context = context;
     }
 
 
-    @Bind(aggregate = true,
-          optional = true,
-          filter = "(&(osgi.command.scope=*)(osgi.command.function=*))")
-    public void bindFunctionServiceReference(Object service, ServiceReference reference) {
-
-        System.out.println("Bound reference: " + reference);
+    public void onArrival(ServiceReference reference) {
 
         // For each new command
         // Provide a first Completor with registered function names
@@ -67,33 +69,39 @@ public class CommandsCompletor implements Completor {
         cl.add(new SimpleCompletor(functionNames));
 
         // Then, each command may provides its own set of Completors
-        if (service instanceof ICompletableCommand) {
-            ICompletableCommand command = (ICompletableCommand) service;
-            List<Completor> commandCompletors = command.getCompletors();
-            if (commandCompletors != null) {
-                for (Completor completor : commandCompletors) {
-                    // Support case where the command explicitely set a null value in the list
-                    if (completor == null) {
-                        cl.add(new NullCompletor());
-                    } else {
-                        // Normal case, just add the given Completor
-                        cl.add(completor);
+        try {
+            Object service = context.getService(reference);
+
+            if (service instanceof ICompletableCommand) {
+                ICompletableCommand command = (ICompletableCommand) service;
+                List<Completor> commandCompletors = command.getCompletors();
+                if (commandCompletors != null) {
+                    for (Completor completor : commandCompletors) {
+                        // Support case where the command explicitely set a null value in the list
+                        System.out.println("Completor: " + completor);
+                        if (completor == null) {
+                            cl.add(new NullCompletor());
+                        } else {
+                            // Normal case, just add the given Completor
+                            cl.add(completor);
+                        }
                     }
                 }
+            } else {
+                cl.add(new NullCompletor());
             }
-        } else {
-            cl.add(new NullCompletor());
-        }
-        // that we wrap in an ArgumentCompletor (one for each command)
-        ArgumentCompletor argumentCompletor = new ArgumentCompletor(cl);
+            // then we wrap in an ArgumentCompletor (one for each command)
+            ArgumentCompletor argumentCompletor = new ArgumentCompletor(cl);
 
-        // We finally store the ArgumentCompletor of the command in the map
-        completors.put(reference, argumentCompletor);
+            // We finally store the ArgumentCompletor of the command in the map
+            completors.put(reference, argumentCompletor);
+        } finally {
+            context.ungetService(reference);
+        }
 
     }
 
-    @Unbind
-    public void unbindFunctionServiceReference(ServiceReference reference) {
+    public void onDeparture(ServiceReference reference) {
         completors.remove(reference);
     }
 
