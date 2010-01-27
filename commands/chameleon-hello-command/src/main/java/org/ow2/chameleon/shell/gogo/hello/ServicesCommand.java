@@ -28,7 +28,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.command.CommandSession;
 
 @Component
-@Command(name="services", scope="osgi", description="List services")
+@Command(name="services2", scope="osgi", description="List services")
 public class ServicesCommand implements Action {
 
 	@Argument
