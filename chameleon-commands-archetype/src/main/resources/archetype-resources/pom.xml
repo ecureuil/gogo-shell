@@ -1,0 +1,102 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>${groupId}</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <packaging>bundle</packaging>
+  <version>${version}</version>
+  <name>OW2 Chameleon Shell :: Hello Commands</name>
+
+  <properties>
+    <ipojo.version>1.5.0-SNAPSHOT</ipojo.version>
+    <gogo.version>0.3.0-SNAPSHOT</gogo.version>
+    <jansi.version>1.1</jansi.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.ipojo.annotations</artifactId>
+      <version>${ipojo.version}</version>
+    </dependency>
+
+    <dependency>
+      <!-- Provides @Command/... annotations + specific API -->
+      <groupId>org.apache.felix.gogo</groupId>
+      <artifactId>org.apache.felix.gogo.commands</artifactId>
+      <version>${gogo.version}</version>
+    </dependency>
+
+    <dependency>
+      <!-- Provides RFC 147 APIs -->
+    	<groupId>org.apache.felix.gogo</groupId>
+    	<artifactId>org.apache.felix.gogo.runtime</artifactId>
+      <version>${gogo.version}</version>
+    </dependency>
+
+    <dependency>
+      <!-- Provides ANSI support -->
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+      <version>${jansi.version}</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-ipojo-plugin</artifactId>
+          <version>${ipojo.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.0.1</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <!-- Sources and target are Java 5 compatible -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!-- Default configuration for the maven plugin -->
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Private-Package>${groupId}</Private-Package>
+            <Export-Package>!*</Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!-- iPOJO generation plugin -->
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-ipojo-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>ipojo-bundle</goal>
+            </goals>
+            <configuration>
+              <metadata>src/main/resources/META-INF/metadata.xml</metadata>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

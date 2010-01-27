@@ -1,0 +1,9 @@
+<archetype>
+  <id>quickstart</id>
+  <sources>
+    <source>src/main/java/HelloAction.java</source>
+  </sources>
+  <resources>
+    <resource>src/main/resources/META-INF/metadata.xml</resource>
+  </resources>
+</archetype>
