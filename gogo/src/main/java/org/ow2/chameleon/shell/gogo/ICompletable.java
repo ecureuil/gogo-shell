@@ -26,6 +26,6 @@ import jline.Completor;
  * Time: 14:02:35
  * To change this template use File | Settings | File Templates.
  */
-public interface ICompletableCommand {
+public interface ICompletable {
     List<Completor> getCompletors();
 }

@@ -33,9 +33,8 @@ public class StatefulGogoCommand extends GogoCommand {
     private Action unique;
 
 	public StatefulGogoCommand(InstanceManager manager,
-                               ActionPreparator preparator,
-                               List<Completor> completors) {
-		super(manager, preparator, completors);
+                               ActionPreparator preparator) {
+		super(manager, preparator);
 	}
 
     @Override

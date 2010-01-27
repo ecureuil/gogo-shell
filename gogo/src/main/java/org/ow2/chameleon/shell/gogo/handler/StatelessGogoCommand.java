@@ -31,9 +31,8 @@ import org.apache.felix.ipojo.InstanceManager;
 public class StatelessGogoCommand extends GogoCommand {
 
 	public StatelessGogoCommand(InstanceManager manager,
-                                ActionPreparator preparator,
-                               List<Completor> completors) {
-		super(manager, preparator, completors);
+                                ActionPreparator preparator) {
+		super(manager, preparator);
 	}
 
 	@Override

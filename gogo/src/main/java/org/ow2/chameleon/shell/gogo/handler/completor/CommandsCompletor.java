@@ -26,15 +26,13 @@ import jline.Completor;
 import jline.MultiCompletor;
 import jline.NullCompletor;
 import jline.SimpleCompletor;
-import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
-import org.apache.felix.ipojo.annotations.Unbind;
 import org.apache.felix.ipojo.whiteboard.Wbp;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.command.CommandProcessor;
-import org.ow2.chameleon.shell.gogo.ICompletableCommand;
+import org.ow2.chameleon.shell.gogo.ICompletable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,11 +49,11 @@ import org.ow2.chameleon.shell.gogo.ICompletableCommand;
 public class CommandsCompletor implements Completor {
 
 
-    private Map<ServiceReference, Completor> completors;
+    private Map<ServiceReference, Completor> references;
     private BundleContext context;
 
     public CommandsCompletor(BundleContext context) {
-        completors = new HashMap<ServiceReference, Completor>();
+        references = new HashMap<ServiceReference, Completor>();
         this.context = context;
     }
 
@@ -72,13 +70,12 @@ public class CommandsCompletor implements Completor {
         try {
             Object service = context.getService(reference);
 
-            if (service instanceof ICompletableCommand) {
-                ICompletableCommand command = (ICompletableCommand) service;
-                List<Completor> commandCompletors = command.getCompletors();
-                if (commandCompletors != null) {
-                    for (Completor completor : commandCompletors) {
-                        // Support case where the command explicitely set a null value in the list
-                        System.out.println("Completor: " + completor);
+            if (service instanceof ICompletable) {
+                ICompletable completable = (ICompletable) service;
+                List<Completor> completors = completable.getCompletors();
+                if (completors != null) {
+                    for (Completor completor : completors) {
+                        // Support case where the completable explicitely set a null value in the list
                         if (completor == null) {
                             cl.add(new NullCompletor());
                         } else {
@@ -94,7 +91,7 @@ public class CommandsCompletor implements Completor {
             ArgumentCompletor argumentCompletor = new ArgumentCompletor(cl);
 
             // We finally store the ArgumentCompletor of the command in the map
-            completors.put(reference, argumentCompletor);
+            references.put(reference, argumentCompletor);
         } finally {
             context.ungetService(reference);
         }
@@ -102,7 +99,7 @@ public class CommandsCompletor implements Completor {
     }
 
     public void onDeparture(ServiceReference reference) {
-        completors.remove(reference);
+        references.remove(reference);
     }
 
     private String[] getFunctionNames(ServiceReference reference) {
@@ -145,7 +142,7 @@ public class CommandsCompletor implements Completor {
 
         // Create a multi completor for all registered completors
         // and run them all
-        Completor[] array = completors.values().toArray(new Completor[completors.size()]);
+        Completor[] array = references.values().toArray(new Completor[references.size()]);
         int res = new MultiCompletor(array).complete(buffer, cursor, candidates);
 
         // Note to myself: It still seems to be a little bit magic, how can jline,

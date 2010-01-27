@@ -17,14 +17,12 @@ package org.ow2.chameleon.shell.gogo.handler;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
 
 import jline.Completor;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
-import org.apache.felix.ipojo.ComponentInstance;
 import org.apache.felix.ipojo.ConfigurationException;
 import org.apache.felix.ipojo.PrimitiveHandler;
 import org.apache.felix.ipojo.annotations.Bind;
@@ -37,7 +35,7 @@ import org.apache.felix.ipojo.metadata.Element;
 import org.osgi.service.command.CommandProcessor;
 import org.osgi.service.command.CommandSession;
 import org.osgi.service.command.Function;
-import org.ow2.chameleon.shell.gogo.ICompletableCommand;
+import org.ow2.chameleon.shell.gogo.ICompletable;
 
 /**
  * This Handler manages the link between the iPOJO component (implementing the
@@ -46,7 +44,7 @@ import org.ow2.chameleon.shell.gogo.ICompletableCommand;
 @Handler(name = "command",
 		 namespace = CommandHandler.NAMESPACE, architecture = true)
 @Provides(specifications = Function.class)
-public class CommandHandler extends PrimitiveHandler implements Function, ICompletableCommand {
+public class CommandHandler extends PrimitiveHandler implements Function, ICompletable {
 
 	/**
      * The handler Namespace.
@@ -181,13 +179,11 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
         switch (type) {
         case STATEFUL:
             command = new StatefulGogoCommand(this.getInstanceManager(),
-                                              preparator,
-                                              completors);
+                                              preparator);
             break;
         case STATELESS:
             command = new StatelessGogoCommand(this.getInstanceManager(),
-                                               preparator,
-                                               completors);
+                                               preparator);
             break;
         }
 	}
