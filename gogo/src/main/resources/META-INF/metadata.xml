@@ -21,6 +21,7 @@
   <instance component="org.ow2.chameleon.shell.gogo.blueprint.BlueprintConverterTracker" />
   <instance component="org.ow2.chameleon.shell.gogo.handler.GogoPreparator" />
   <instance component="org.ow2.chameleon.shell.gogo.handler.completor.CommandsCompletor" />
+  <instance component="org.ow2.chameleon.shell.gogo.console.AnsiUsagePrinter" />
 
   <!-- - - - - - - - - - - - - - - - - - - - - - -->
   <!-- Provides Components from JLine Completors -->

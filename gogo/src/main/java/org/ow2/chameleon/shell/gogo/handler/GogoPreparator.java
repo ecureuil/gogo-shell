@@ -15,19 +15,29 @@
 
 package org.ow2.chameleon.shell.gogo.handler;
 
+import java.io.PrintStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.felix.gogo.commands.Action;
+import org.apache.felix.gogo.commands.Argument;
+import org.apache.felix.gogo.commands.Command;
+import org.apache.felix.gogo.commands.Option;
 import org.apache.felix.gogo.commands.basic.DefaultActionPreparator;
 import org.apache.felix.gogo.commands.converter.DefaultConverter;
 import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
+import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Unbind;
+import org.fusesource.jansi.Ansi;
 import org.osgi.service.command.CommandSession;
 import org.osgi.service.command.Converter;
+import org.ow2.chameleon.shell.gogo.IUsagePrinter;
 
 @Component
 @Provides
@@ -37,6 +47,9 @@ public class GogoPreparator extends DefaultActionPreparator {
      * List of converters.
      */
     private List<Converter> converters;
+
+    @Requires
+    private IUsagePrinter printer;
 
     public GogoPreparator() {
         this.converters = new ArrayList<Converter>();
@@ -79,4 +92,17 @@ public class GogoPreparator extends DefaultActionPreparator {
         // Return null if nothing could convert the value
         return null;
     }
+
+    @Override
+    protected void printUsage(final Command command,
+                              Set<Option> options,
+                              final Set<Argument> arguments,
+                              final PrintStream out) {
+        // Delegate to the dedicated component
+        if (command != null) {
+            printer.printUsage(command, options, arguments, out);
+        }
+    }
+
+
 }
