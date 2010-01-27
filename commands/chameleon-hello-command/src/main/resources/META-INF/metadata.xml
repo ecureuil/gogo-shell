@@ -39,12 +39,12 @@
 
     <!-- Manage Completers -->
     <instance component="jline.SimpleCompletor">
-      <property name="candidates" value="\{foo,bar,baz}" />
+      <!-- FIXME iPOJO does not recognize this pattern as an array of values ... -->
+      <property name="candidates" value="{foo,bar,baz}" />
     </instance>
 
     <!-- Export my handler registered command service -->
     <provides specification="org.osgi.service.command.Function" action="export" />
-    <!--<provides specification="org.ow2.chameleon.shell.gogo.ICompletableCommand" action="export" />-->
 
     <!-- Import the preparator into the composite (required by the CommandHandler) -->
     <subservice action="import"
