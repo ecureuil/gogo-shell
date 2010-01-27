@@ -102,16 +102,11 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
 
         // Lookup the scope of the command
         String scope = (String) reference.getProperty(CommandProcessor.COMMAND_SCOPE);
-        System.out.println("scope(addition)=" + scope);
         Integer numberOfCommands = scopes.get(scope);
-        System.out.println("#commands(before)=" + scopes.get(scope));
         if (numberOfCommands == null) {
             numberOfCommands = 0;
         }
         scopes.put(scope, ++numberOfCommands);
-        System.out.println("#commands(after)=" + scopes.get(scope));
-
-
     }
 
     public void onDeparture(ServiceReference reference) {
@@ -119,13 +114,10 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
 
         // Lookup the scope of the command
         String scope = (String) reference.getProperty(CommandProcessor.COMMAND_SCOPE);
-        System.out.println("scope(removal)=" + scope);
-        System.out.println("#commands(before)=" + scopes.get(scope));
 
         Integer numberOfCommands = scopes.get(scope);
         if (numberOfCommands != null) {
             scopes.put(scope, --numberOfCommands);
-            System.out.println("#commands(after)=" + scopes.get(scope));
         }
     }
 
