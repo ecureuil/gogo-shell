@@ -127,7 +127,7 @@ public class AnsiUsagePrinter implements IUsagePrinter {
         buffer.fg(Ansi.Color.BLUE);
         bold(buffer, " **** " + message + " ****");
         buffer.reset();
-        buffer.a("\n\n");
+        eol(buffer, 1);
     }
 
     private void bold(Ansi buffer, String message) {
