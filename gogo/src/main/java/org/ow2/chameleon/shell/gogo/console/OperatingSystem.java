@@ -18,13 +18,37 @@ package org.ow2.chameleon.shell.gogo.console;
 /**
  * Created by IntelliJ IDEA.
  * User: sauthieg
- * Date: 7 janv. 2010
- * Time: 10:26:35
+ * Date: 14 janv. 2010
+ * Time: 10:56:06
  * To change this template use File | Settings | File Templates.
  */
-public interface Constants {
+public class OperatingSystem {
 
-    String EXCEPTION_VARIABLE = "exception";
-    String PROMPT_VARIABLE = "prompt";
-    
+    private String name;
+    private String arch;
+    private String version;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getArch() {
+        return arch;
+    }
+
+    public void setArch(String arch) {
+        this.arch = arch;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 }

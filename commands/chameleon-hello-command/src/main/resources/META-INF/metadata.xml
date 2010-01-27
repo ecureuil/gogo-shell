@@ -13,6 +13,14 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
+<!--
+<ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="org.apache.felix.ipojo"
+       xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd
+                           org.apache.felix.ipojo.composite http://felix.apache.org/ipojo/schemas/1.4.0/composite.xsd"
+       xmlns:cmd="org.ow2.chameleon.shell.gogo" >
+-->
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd"
@@ -21,9 +29,32 @@
 	<component classname="org.ow2.chameleon.shell.gogo.hello.HelloCommand">
 	  <cmd:command />
 	</component>
-	<instance component="org.ow2.chameleon.shell.gogo.hello.HelloCommand"/>
 
-	<component classname="org.ow2.chameleon.shell.gogo.hello.ServicesCommand">
+  <!-- Using a composite for command declaration is useful when Completors are required -->
+  <composite name="org.ow2.chameleon.shell.gogo.hello.HelloCommandComposite"
+                 xmlns="org.apache.felix.ipojo.composite">
+
+    <!-- Creates an instance of the Action -->
+    <instance component="org.ow2.chameleon.shell.gogo.hello.HelloCommand" />
+
+    <!-- Manage Completers -->
+    <instance component="jline.SimpleCompletor">
+      <property name="candidates" value="\{foo,bar,baz}" />
+    </instance>
+
+    <!-- Export my handler registered command service -->
+    <provides specification="org.osgi.service.command.Function" action="export" />
+    <!--<provides specification="org.ow2.chameleon.shell.gogo.ICompletableCommand" action="export" />-->
+
+    <!-- Import the preparator into the composite (required by the CommandHandler) -->
+    <subservice action="import"
+                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
+  </composite>
+  <instance component="org.ow2.chameleon.shell.gogo.hello.HelloCommandComposite" />
+  
+
+  <!-- Keep a simple command (not using composite) -->
+  <component classname="org.ow2.chameleon.shell.gogo.hello.ServicesCommand">
 	  <cmd:command />
 	</component>
 	<instance component="org.ow2.chameleon.shell.gogo.hello.ServicesCommand"/>

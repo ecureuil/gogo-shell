@@ -20,5 +20,50 @@
   <!-- Initial instances -->
   <instance component="org.ow2.chameleon.shell.gogo.blueprint.BlueprintConverterTracker" />
   <instance component="org.ow2.chameleon.shell.gogo.handler.GogoPreparator" />
-  
+  <instance component="org.ow2.chameleon.shell.gogo.handler.completor.CommandsCompletor" />
+
+  <!-- - - - - - - - - - - - - - - - - - - - - - -->
+  <!-- Provides Components from JLine Completors -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - -->
+
+  <component classname="jline.SimpleCompletor">
+    <provides />
+    <properties>
+      <property name="candidates"
+                method="setCandidateStrings"
+                mandatory="true" />
+      <property field="delimiter" />
+    </properties>
+  </component>
+
+  <component classname="jline.NullCompletor">
+    <provides />
+  </component>
+
+  <component classname="jline.FileNameCompletor">
+    <provides />
+  </component>
+
+  <!-- This Completor probably have to be used inside a composite -->
+  <component classname="jline.MultiCompletor">
+    <provides />
+    <requires field="completors"
+              aggregate="true"
+              optional="true" />
+  </component>
+
+  <!-- This Completor probably have to be used inside a composite -->
+  <component classname="jline.ArgumentCompletor">
+    <provides />
+    <requires field="completors"
+              aggregate="true"
+              optional="true" />
+    <requires field="delim"
+              default-implementation="jline.ArgumentCompletor.WhitespaceArgumentDelimiter" />
+    <properties>
+      <property field="strict"
+                value="true" />
+    </properties>
+  </component>
+
 </ipojo>

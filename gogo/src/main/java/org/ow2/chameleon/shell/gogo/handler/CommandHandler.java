@@ -15,36 +15,43 @@
 
 package org.ow2.chameleon.shell.gogo.handler;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 
+import jline.Completor;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.ComponentInstance;
 import org.apache.felix.ipojo.ConfigurationException;
 import org.apache.felix.ipojo.PrimitiveHandler;
+import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Handler;
+import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
+import org.apache.felix.ipojo.annotations.ServiceProperty;
+import org.apache.felix.ipojo.annotations.Unbind;
 import org.apache.felix.ipojo.metadata.Element;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.command.CommandProcessor;
+import org.osgi.service.command.CommandSession;
 import org.osgi.service.command.Function;
+import org.ow2.chameleon.shell.gogo.ICompletableCommand;
 
 /**
  * This Handler manages the link between the iPOJO component (implementing the
  * {@code Action} interface) and the shell runtime.
  */
 @Handler(name = "command",
-		 namespace = CommandHandler.NAMESPACE)
-public class CommandHandler extends PrimitiveHandler {
+		 namespace = CommandHandler.NAMESPACE, architecture = true)
+@Provides(specifications = Function.class)
+public class CommandHandler extends PrimitiveHandler implements Function {
 
 	/**
      * The handler Namespace.
      */
     public static final String NAMESPACE = "org.ow2.chameleon.shell.gogo";
-    private static final String OSGI_COMMAND_SCOPE = "osgi.command.scope";
-    private static final String OSGI_COMMAND_FUNCTION = "osgi.command.function";
 
     /**
      * Defines supported command types.
@@ -77,17 +84,21 @@ public class CommandHandler extends PrimitiveHandler {
 	private Type type = Type.STATELESS;
 
     /**
-     * Remember OSGi registration.
-     */
-	private ServiceRegistration registration;
-
-    /**
      * The command.
      */
 	private GogoCommand command;
 
     @Requires
     private ActionPreparator preparator;
+
+    private List<Completor> completors;
+
+    @ServiceProperty(name = CommandProcessor.COMMAND_SCOPE)
+    private String scope;
+
+    @ServiceProperty(name = CommandProcessor.COMMAND_FUNCTION)
+    private String function;
+
 
 	@Override
 	public void configure(Element element, Dictionary dictionary)
@@ -114,13 +125,41 @@ public class CommandHandler extends PrimitiveHandler {
 		} // by default, a command is stateless
 
 		// OK, now we have the configuration
+        
+        completors = new ArrayList<Completor>();
+
 	}
 
-	public void registerCommandService() {
+    @Bind(optional = true,
+          aggregate = true)
+    public void bindCompletor(Completor completor) {
+        completors.add(completor);
+    }
 
-		// Do some preliminary checking
-		BundleContext context = this.getFactory().getBundleContext();
-		Class<?> actionClass = this.getInstanceManager().getClazz();
+    @Unbind
+    public void unbindCompletor(Completor completor) {
+        completors.remove(completor);
+    }
+
+    /**
+     * Simply wraps the inner command.
+     */
+    public Object execute(final CommandSession commandSession,
+                          final List<Object> objects) throws Exception {
+        if (command != null) {
+            return command.execute(commandSession, objects);
+        } else {
+            System.err.println("No command registered !!");
+            return null;
+        }
+    }
+
+
+	@Override
+	public void start() {
+
+        // Do some preliminary checking
+        Class<?> actionClass = this.getInstanceManager().getClazz();
         // Ensure the component implements the Action gogo interface
         if (!Action.class.isAssignableFrom(actionClass)) {
             throw new IllegalArgumentException("The Component is not inheriting from the Action interface!");
@@ -130,49 +169,30 @@ public class CommandHandler extends PrimitiveHandler {
         if (cmd == null) {
             throw new IllegalArgumentException("Action class is not annotated with @Command");
         }
+
         // Prepare service properties
-        Hashtable<String, Object> props = new Hashtable<String, Object>();
-        props.put(OSGI_COMMAND_SCOPE, cmd.scope());
-        props.put(OSGI_COMMAND_FUNCTION, cmd.name());
+        scope = cmd.scope();
+        function = cmd.name();
 
         // Actually create the command given its declared type
-        command = null;
         switch (type) {
         case STATEFUL:
-        	command = new StatefulGogoCommand(this.getInstanceManager(), preparator);
-        	break;
+            command = new StatefulGogoCommand(this.getInstanceManager(),
+                                              preparator,
+                                              completors);
+            break;
         case STATELESS:
-        	command = new StatelessGogoCommand(this.getInstanceManager(), preparator);
-        	break;
+            command = new StatelessGogoCommand(this.getInstanceManager(),
+                                               preparator,
+                                               completors);
+            break;
         }
-
-        // Register the service as a Function
-        registration = context.registerService(Function.class.getName(), command, props);
-	}
-
-	public void unregisterCommandService() {
-		// Un-register the service
-		registration.unregister();
-		command.release();
-	}
-
-	@Override
-	public void stateChanged(int state) {
-		switch(state) {
-		case ComponentInstance.VALID:
-			registerCommandService();
-			break;
-		case ComponentInstance.INVALID:
-			unregisterCommandService();
-			break;
-		}
-	}
-
-	@Override
-	public void start() {
 	}
 
 	@Override
 	public void stop() {
+        scope = null;
+        function = null;
+        command = null;
 	}
 }

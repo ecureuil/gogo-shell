@@ -15,6 +15,9 @@
 
 package org.ow2.chameleon.shell.gogo.handler;
 
+import java.util.List;
+
+import jline.Completor;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.InstanceManager;
@@ -29,11 +32,13 @@ public class StatefulGogoCommand extends GogoCommand {
 
     private Action unique;
 
-	public StatefulGogoCommand(InstanceManager manager, ActionPreparator preparator) {
-		super(manager, preparator);
+	public StatefulGogoCommand(InstanceManager manager,
+                               ActionPreparator preparator,
+                               List<Completor> completors) {
+		super(manager, preparator, completors);
 	}
 
-	@Override
+    @Override
 	protected Action createNewAction() throws Exception {
         if (unique == null) {
             unique = (Action) manager.createPojoObject();

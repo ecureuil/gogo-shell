@@ -24,17 +24,16 @@
   </formats>
   <fileSets>
     <fileSet>
-      <directory>.</directory>
+      <!-- Manage bundles -->
+      <directory>${distribution.target}</directory>
       <outputDirectory>/</outputDirectory>
       <useDefaultExcludes>true</useDefaultExcludes>
-      <excludes>
-        <exclude>pom.xml</exclude>
-        <exclude>*.iml</exclude>
-        <exclude>assembly.xml</exclude>
-        <exclude>target/**</exclude>
-        <exclude>felix-cache/**</exclude>
-        <exclude>chameleon-cache/**</exclude>
-      </excludes>
+    </fileSet>
+    <fileSet>
+      <!-- Manage start/stop binaries -->
+      <directory>${basedir}/src/main/bin</directory>
+      <outputDirectory>/</outputDirectory>
+      <useDefaultExcludes>true</useDefaultExcludes>
     </fileSet>
   </fileSets>
 </assembly>

@@ -13,10 +13,13 @@
 
 Private-Package org.ow2.chameleon.shell.gogo.*
 
+Export-Package org.ow2.chameleon.shell.gogo
+
 -exportcontents jline.*, \
                 org.fusesource.jansi
 
 Embed-Dependency jline;inline=true, \
+                 plexus-interpolation;inline=true, \
                  jansi;inline=true
 
 Import-Package com.sun.jna.*;resolution:=optional, \

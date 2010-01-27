@@ -1,3 +1,18 @@
+/**
+ * Copyright 2010 OW2 Chameleon
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.ow2.chameleon.shell.gogo.console;
 
 import java.io.InputStream;
@@ -6,8 +21,13 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
+import jline.Completor;
 import jline.ConsoleReader;
 import jline.Terminal;
+import org.codehaus.plexus.interpolation.EnvarBasedValueSource;
+import org.codehaus.plexus.interpolation.InterpolationException;
+import org.codehaus.plexus.interpolation.PropertiesBasedValueSource;
+import org.codehaus.plexus.interpolation.RegexBasedInterpolator;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 import org.osgi.service.command.CommandProcessor;
@@ -35,7 +55,14 @@ public class JLineConsole implements Runnable {
 
     private boolean running = true;
 
+    /**
+     * Default prompt.
+     * TODO Use Ansi coloring
+     */
+    private static final String DEFAULT_PROMPT = "${user.name}@${application.name}$ ";
+
     public JLineConsole(final CommandProcessor processor,
+                        Completor completor,
                         final InputStream in,
                         final PrintStream out,
                         final PrintStream err) throws Exception {
@@ -57,6 +84,8 @@ public class JLineConsole implements Runnable {
                                    new PrintWriter(wrappedOut),
                                    null, // TODO key-bindings
                                    terminal);
+
+        reader.addCompletor(completor);
 
         // TODO Setup History
     }
@@ -133,7 +162,28 @@ public class JLineConsole implements Runnable {
     }
 
     private String getPrompt() {
-        return ">$ ";
+        String prompt = (String) session.get(Constants.PROMPT_VARIABLE);
+        if (prompt == null) {
+            prompt = DEFAULT_PROMPT;
+        }
+
+        // TODO Need some caching
+        // Interpolate prompt
+        RegexBasedInterpolator interpolator = new RegexBasedInterpolator();
+        // Allow resolution of System properties
+        interpolator.addValueSource( new PropertiesBasedValueSource(System.getProperties()));
+        // then add values from the CommandSession
+        interpolator.addValueSource(new SessionValueSource(session));
+
+        // TODO Do we have some other sources of values that could be evaluated ?
+
+        // Resolve the prompt
+        try {
+            return interpolator.interpolate(prompt);
+        } catch (InterpolationException e) {
+            printDebug("Cannot interpolate prompt '" + prompt + "'. Error: " + e.getMessage());
+            return DEFAULT_PROMPT;
+        }
     }
 
     private void printError(String type, String message) {

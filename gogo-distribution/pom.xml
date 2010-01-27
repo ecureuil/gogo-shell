@@ -16,9 +16,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
-    <groupId>org.ow2.chameleon</groupId>
-    <artifactId>template</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>org.ow2.chameleon.shell</groupId>
+    <artifactId>chameleon-shell</artifactId>
+    <version>0.3.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -29,12 +29,20 @@
 
   <name>OW2 Chameleon Shell :: Gogo Distribution</name>
 
-  <!-- Warning: as we're not child of the o.o.c.shell:chameleon-shell POM,
-       we do not inherit from the global properties. We have to duplicate them here -->
+  <!-- Default Properties -->
   <properties>
-    <gogo.version>0.3.0-SNAPSHOT</gogo.version>
-    <jansi.version>1.1</jansi.version>
+
+    <distribution.target>${project.build.directory}/chameleon</distribution.target>
+    <!--  Core directory -->
+    <core.dir>${distribution.target}/core</core.dir>
+    <!--  Runtime directory -->
+    <runtime.dir>${distribution.target}/runtime</runtime.dir>
+    <!--  Application directory -->
+    <application.dir>${distribution.target}/application</application.dir>
+    <!--  Deploy directory -->
+    <deploy.dir>${distribution.target}/deploy</deploy.dir>
   </properties>
+  
 
   <dependencies>
     <!-- This dep is just here to ensure that the console is build before the distribution -->
@@ -61,10 +69,115 @@
             </goals>
             <configuration>
               <artifactItems>
+
+                <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+                <!-- As we're depending on iPOJO >= 1.5.0, we cannot     -->
+                <!-- extends the usual template POM: we need to recreate -->
+                <!-- the whole packaging ourself.                        -->
+                <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.framework</artifactId>
+                  <version>2.0.2</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <!-- TODO I would like to remove the old shell, but the chameleon start-up
+                       process check if this bundle is installed or not,
+                       not very flexible :) -->
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.shell</artifactId>
+                  <version>1.4.1</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <!-- TODO Should be removed as well -->
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.shell.tui</artifactId>
+                  <version>1.4.1</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.osgi</groupId>
+                  <artifactId>org.osgi.compendium</artifactId>
+                  <version>4.2.0</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.configadmin</artifactId>
+                  <version>1.2.4</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.fileinstall</artifactId>
+                  <version>2.0.4</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.ipojo</artifactId>
+                  <version>${ipojo.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.ipojo.arch</artifactId>
+                  <version>1.4.0</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+
+                <artifactItem>
+                  <groupId>org.ow2.chameleon</groupId>
+                  <artifactId>core</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-api</artifactId>
+                  <version>1.5.8</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>ch.qos.logback</groupId>
+                  <artifactId>logback-classic</artifactId>
+                  <version>0.9.9</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>ch.qos.logback</groupId>
+                  <artifactId>logback-core</artifactId>
+                  <version>0.9.9</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${core.dir}</outputDirectory>
+                </artifactItem>
                 
                 <!-- In first, add the gogo runtime libs -->
                 <!-- - - - - - - - - - - - - - - - - - - -->
                 <artifactItem>
+                  <!-- The commands API (with @Command annotation, ...) -->
                   <groupId>org.apache.felix.gogo</groupId>
                   <artifactId>org.apache.felix.gogo.commands</artifactId>
                   <version>${gogo.version}</version>
@@ -72,6 +185,7 @@
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
                 <artifactItem>
+                  <!-- The core of the shell -->
                   <groupId>org.apache.felix.gogo</groupId>
                   <artifactId>org.apache.felix.gogo.runtime</artifactId>
                   <version>${gogo.version}</version>
@@ -98,12 +212,14 @@
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
                 <artifactItem>
+                  <!-- Simple testing commands -->
                   <groupId>org.ow2.chameleon.shell.commands</groupId>
                   <artifactId>chameleon-hello-command</artifactId>
                   <version>${project.version}</version>
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
+<!--
                 <artifactItem>
                   <groupId>org.ow2.chameleon.shell.commands</groupId>
                   <artifactId>chameleon-ssh-command</artifactId>
@@ -111,13 +227,24 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
+-->
 
                 <!-- Add our start-up console -->
                 <!-- - - - - - - - - - - - - -->
                 <artifactItem>
+                  <!-- This automatically starts a local JLine shell console at startup -->
                   <groupId>org.ow2.chameleon.shell</groupId>
                   <artifactId>chameleon-startup-console</artifactId>
                   <version>${project.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+
+                <!-- Do not forget iPOJO composite -->
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.ipojo.composite</artifactId>
+                  <version>${ipojo.version}</version>
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
@@ -143,7 +270,7 @@
           <finalName>${project.artifactId}-${project.version}</finalName>
           <tarLongFileMode>gnu</tarLongFileMode>
           <descriptors>
-            <descriptor>assembly.xml</descriptor>
+            <descriptor>src/main/assembly/assembly.xml</descriptor>
           </descriptors>
         </configuration>
       </plugin>

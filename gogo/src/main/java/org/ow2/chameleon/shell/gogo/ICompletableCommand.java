@@ -13,18 +13,19 @@
  * limitations under the License.
  */
 
-package org.ow2.chameleon.shell.gogo.console;
+package org.ow2.chameleon.shell.gogo;
+
+import java.util.List;
+
+import jline.Completor;
 
 /**
  * Created by IntelliJ IDEA.
  * User: sauthieg
- * Date: 7 janv. 2010
- * Time: 10:26:35
+ * Date: 22 janv. 2010
+ * Time: 14:02:35
  * To change this template use File | Settings | File Templates.
  */
-public interface Constants {
-
-    String EXCEPTION_VARIABLE = "exception";
-    String PROMPT_VARIABLE = "prompt";
-    
+public interface ICompletableCommand {
+    List<Completor> getCompletors();
 }

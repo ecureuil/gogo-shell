@@ -15,20 +15,27 @@
 
 package org.ow2.chameleon.shell.gogo.handler;
 
+import java.util.List;
+
+import jline.Completor;
 import org.apache.felix.gogo.commands.basic.AbstractCommand;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.InstanceManager;
+import org.ow2.chameleon.shell.gogo.ICompletableCommand;
 
 
-public abstract class GogoCommand extends AbstractCommand {
+public abstract class GogoCommand extends AbstractCommand implements ICompletableCommand {
 
 	protected InstanceManager manager;
 
     private ActionPreparator preparator;
 
-	public GogoCommand(InstanceManager manager, ActionPreparator preparator) {
+    private List<Completor> completors;
+
+	public GogoCommand(InstanceManager manager, ActionPreparator preparator, List<Completor> completors) {
 		this.manager = manager;
         this.preparator = preparator;
+        this.completors = completors;
 	}
 
     public void release() {
@@ -41,6 +48,7 @@ public abstract class GogoCommand extends AbstractCommand {
 		return preparator;
 	}
 
-
-
+    public List<Completor> getCompletors() {
+        return completors;  
+    }
 }

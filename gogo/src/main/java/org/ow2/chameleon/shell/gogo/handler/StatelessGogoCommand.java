@@ -15,6 +15,9 @@
 
 package org.ow2.chameleon.shell.gogo.handler;
 
+import java.util.List;
+
+import jline.Completor;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.InstanceManager;
@@ -27,8 +30,10 @@ import org.apache.felix.ipojo.InstanceManager;
  */
 public class StatelessGogoCommand extends GogoCommand {
 
-	public StatelessGogoCommand(InstanceManager manager, ActionPreparator preparator) {
-		super(manager, preparator);
+	public StatelessGogoCommand(InstanceManager manager,
+                                ActionPreparator preparator,
+                               List<Completor> completors) {
+		super(manager, preparator, completors);
 	}
 
 	@Override
