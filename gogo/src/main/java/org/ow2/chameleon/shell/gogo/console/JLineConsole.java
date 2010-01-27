@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 
 import jline.Completor;
 import jline.ConsoleReader;
+import jline.MultiCompletor;
 import jline.Terminal;
 import org.codehaus.plexus.interpolation.EnvarBasedValueSource;
 import org.codehaus.plexus.interpolation.InterpolationException;
@@ -33,6 +34,7 @@ import org.fusesource.jansi.AnsiConsole;
 import org.osgi.service.command.CommandProcessor;
 import org.osgi.service.command.CommandSession;
 import org.osgi.service.command.Converter;
+import org.ow2.chameleon.shell.gogo.handler.completor.ScopeCompletor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -85,7 +87,13 @@ public class JLineConsole implements Runnable {
                                    null, // TODO key-bindings
                                    terminal);
 
-        reader.addCompletor(completor);
+        // Create a composite completor that use the given Completor and wrap it
+        // in a Completor that tries to complement using the known scopes (from
+        // SCOPE session variable)
+        Completor composite = new MultiCompletor(new Completor[] {
+                completor, new ScopeCompletor(completor, session)
+        });
+        reader.addCompletor(composite);
 
         // TODO Setup History
     }

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jline.ArgumentCompletor;
 import jline.Completor;
@@ -33,6 +34,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.command.CommandProcessor;
 import org.ow2.chameleon.shell.gogo.ICompletable;
+import org.ow2.chameleon.shell.gogo.IScopeRegistry;
 
 /**
  * Created by IntelliJ IDEA.
@@ -46,14 +48,16 @@ import org.ow2.chameleon.shell.gogo.ICompletable;
 @Wbp(filter = "(&(osgi.command.scope=*)(osgi.command.function=*))",
      onArrival = "onArrival",
      onDeparture = "onDeparture")
-public class CommandsCompletor implements Completor {
+public class CommandsCompletor implements Completor, IScopeRegistry {
 
 
     private Map<ServiceReference, Completor> references;
+    private Map<String, Integer> scopes;
     private BundleContext context;
 
     public CommandsCompletor(BundleContext context) {
         references = new HashMap<ServiceReference, Completor>();
+        scopes = new HashMap<String, Integer>();
         this.context = context;
     }
 
@@ -96,10 +100,33 @@ public class CommandsCompletor implements Completor {
             context.ungetService(reference);
         }
 
+        // Lookup the scope of the command
+        String scope = (String) reference.getProperty(CommandProcessor.COMMAND_SCOPE);
+        System.out.println("scope(addition)=" + scope);
+        Integer numberOfCommands = scopes.get(scope);
+        System.out.println("#commands(before)=" + scopes.get(scope));
+        if (numberOfCommands == null) {
+            numberOfCommands = 0;
+        }
+        scopes.put(scope, ++numberOfCommands);
+        System.out.println("#commands(after)=" + scopes.get(scope));
+
+
     }
 
     public void onDeparture(ServiceReference reference) {
         references.remove(reference);
+
+        // Lookup the scope of the command
+        String scope = (String) reference.getProperty(CommandProcessor.COMMAND_SCOPE);
+        System.out.println("scope(removal)=" + scope);
+        System.out.println("#commands(before)=" + scopes.get(scope));
+
+        Integer numberOfCommands = scopes.get(scope);
+        if (numberOfCommands != null) {
+            scopes.put(scope, --numberOfCommands);
+            System.out.println("#commands(after)=" + scopes.get(scope));
+        }
     }
 
     private String[] getFunctionNames(ServiceReference reference) {
@@ -152,5 +179,15 @@ public class CommandsCompletor implements Completor {
         // Then sort the resulting candidate list
         Collections.sort(candidates);
         return res;
+    }
+
+    /**
+     * Return a list of currently available scopes.
+     * The returned value is verified only at the time of the invocation.
+     *
+     * @return a list of currently available command scopes
+     */
+    public Set<String> getScopes() {
+        return scopes.keySet();
     }
 }
