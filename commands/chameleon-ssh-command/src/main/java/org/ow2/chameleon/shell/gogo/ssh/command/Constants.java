@@ -17,7 +17,6 @@ package org.ow2.chameleon.shell.gogo.ssh.command;
 
 public interface Constants {
 
-	String DEFAULT_SSH_SERVER_ID = "default.ssh.server";
 	int DEFAULT_SSH_SERVER_PORT = 10022;
 	String SSHD_PORT = "sshd.port";
 

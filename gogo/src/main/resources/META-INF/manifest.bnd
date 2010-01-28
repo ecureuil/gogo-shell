@@ -13,7 +13,8 @@
 
 Private-Package org.ow2.chameleon.shell.gogo.*
 
-Export-Package org.ow2.chameleon.shell.gogo
+Export-Package org.ow2.chameleon.shell.gogo,\
+               org.ow2.chameleon.shell.gogo.console               
 
 -exportcontents jline.*;version=${jline.version}, \
                 org.fusesource.jansi;version=${jansi.version}

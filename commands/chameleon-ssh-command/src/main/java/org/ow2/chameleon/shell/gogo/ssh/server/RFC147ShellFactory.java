@@ -22,16 +22,17 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Map;
 
-import org.apache.felix.gogo.console.stdio.Console;
 import org.apache.sshd.server.ShellFactory;
 import org.osgi.service.command.CommandProcessor;
 import org.osgi.service.command.CommandSession;
+import org.ow2.chameleon.shell.gogo.console.JLineConsole;
 
 public class RFC147ShellFactory implements ShellFactory {
 
 	private CommandProcessor provider;
+    private JLineConsole console;
 
-	public RFC147ShellFactory(CommandProcessor provider) {
+    public RFC147ShellFactory(CommandProcessor provider) {
 		this.provider = provider;
 	}
 
@@ -71,8 +72,9 @@ public class RFC147ShellFactory implements ShellFactory {
 		public void start(Environment env) throws IOException {
 
 	        try {
-	        	session = provider.createSession(in, new PrintStream(out), new PrintStream(err));
-                Console console = new Console() {
+                console = new JLineConsole(provider,
+                                                        null,
+                        in, new PrintStream(out), new PrintStream(err)) {
 
 					@Override
 					public void run() {
@@ -83,11 +85,11 @@ public class RFC147ShellFactory implements ShellFactory {
 					}
 
                 };
-                console.setSession(session);
+                session = console.getSession();
                 for (Map.Entry<String,String> e : env.getEnv().entrySet()) {
                     session.put(e.getKey(), e.getValue());
                 }
-                new Thread(console).start();
+                new Thread(console, "SSH Console").start();
             } catch (Exception e) {
                 throw (IOException) new IOException("Unable to start shell").initCause(e);
             }
@@ -95,6 +97,7 @@ public class RFC147ShellFactory implements ShellFactory {
 		}
 
 		public void onExit() {
+            console.close();
 			// close the streams
 			close(in, out, err);
 			callback.onExit(0);

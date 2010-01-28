@@ -17,6 +17,8 @@ package org.ow2.chameleon.shell.gogo.ssh.server;
 
 import java.io.IOException;
 
+import org.apache.sshd.server.PasswordAuthenticator;
+import org.apache.sshd.server.session.ServerSession;
 import org.ow2.chameleon.shell.gogo.ssh.command.Constants;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Invalidate;
@@ -35,7 +37,8 @@ public class SshDaemonComponent {
 	@Requires
 	private CommandProcessor provider;
 
-	@Property(mandatory = true, name = Constants.SSHD_PORT)
+	@Property(mandatory = true,
+              name = Constants.SSHD_PORT)
 	private int port;
 
 	@Validate
@@ -44,6 +47,20 @@ public class SshDaemonComponent {
 		server.setPort(port);
 		server.setShellFactory(new RFC147ShellFactory(provider));
 		server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
+        server.setPasswordAuthenticator(new PasswordAuthenticator() {
+
+            /**
+             * Check the validity of a password.
+             * This method should return null if the authentication fails.
+             *
+             * @param username the username
+             * @param password the password
+             * @return a non null identity object or <code>null</code if authentication fail
+             */
+            public Object authenticate(String username, String password, ServerSession session) {
+                return username;
+            }
+        });
 		try {
 			server.start();
 		} catch (IOException e) {

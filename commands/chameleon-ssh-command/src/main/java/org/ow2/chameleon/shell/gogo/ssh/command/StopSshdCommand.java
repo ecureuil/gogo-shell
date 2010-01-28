@@ -27,34 +27,62 @@ import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.command.CommandSession;
 
 @Component
-@Command(name="stop-daemon", scope="ssh", description="Stop a SSHD daemon")
+@Command(name = "stop-daemon",
+         scope = "ssh",
+         description = "Stop a SSHD daemon")
 @HandlerDeclaration("<sh:command xmlns:sh='org.ow2.chameleon.shell.gogo'/>")
 public class StopSshdCommand implements Action {
 
-	@Option(name="-i", aliases="--server-id", required=false)
-	private String serverId = Constants.DEFAULT_SSH_SERVER_ID;
+    private static final String FILTER = "(" + ConfigurationAdmin.SERVICE_FACTORYPID + "="
+                                         + SshDaemonComponent.class.getName() + ")";
+
+	@Option(name = "-i",
+            aliases = "--server-pid",
+            required = false)
+	private String serverPID;
 
 	@Requires
 	private ConfigurationAdmin configurationAdmin;
 
-	public Object execute(CommandSession session) throws Exception {
+    public Object execute(CommandSession session) throws Exception {
 
-		// Create the Configuration that will trigger the SSHD instance creation
-		Configuration config = configurationAdmin.getConfiguration(SshDaemonComponent.class.getName());
+        Configuration config = null;
+		// Look the SSHDaemonComponent instances
+		Configuration[] configurations = configurationAdmin.listConfigurations(FILTER);
+        if (configurations == null || (configurations.length == 0)) {
+            // That's a warning case: we try to stop but nothing has been started
+        } else {
+            if (serverPID == null) {
+                if (configurations.length == 1) {
+                    // No specific server was required to be stopped
+                    // If there is only 1 server available, stop it
+                    config = configurations[0];
+                } else {
+                    // Error, cannot choose the right server to stop
+                    System.err.println("Server PID was not specified.");
+                }
+            } else {
+                // We know the name of the server, find it in the configuration list
+                for (Configuration c : configurations) {
+                    if (c.getPid().equals(serverPID)) {
+                        config = c;
+                    }
+                }
+            }
+        }
 
-		// Display some infos
-		StringBuilder sb = new StringBuilder();
-		sb.append("SSH Daemon ");
-		if (!Constants.DEFAULT_SSH_SERVER_ID.equals(serverId)) {
-			sb.append("(");
-			sb.append(serverId);
-			sb.append(") ");
-		}
-		sb.append(" stopped.");
-		System.out.println(sb.toString());
+        if (config == null) {
+            // Error
+            System.err.println("Cannot find the Configuration object linked to the SSH Daemon.");
+        } else {
+            // Display some infos
+            StringBuilder sb = new StringBuilder();
+            sb.append("SSH Daemon stopped");
+            System.out.println(sb.toString());
 
-		// Delete the configuration
-		config.delete();
+            // Delete the configuration
+            config.delete();
+        }
 
 		return null;
 	}

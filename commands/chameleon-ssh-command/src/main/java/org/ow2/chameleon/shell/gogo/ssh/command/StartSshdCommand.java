@@ -33,11 +33,11 @@ import org.osgi.service.command.CommandSession;
 @HandlerDeclaration("<sh:command xmlns:sh='org.ow2.chameleon.shell.gogo'/>")
 public class StartSshdCommand implements Action {
 
-	@Option(name="-p", aliases="--port", required=false)
-	private int port = 10022;
-
-	@Option(name="-i", aliases="--server-id", required=false)
-	private String serverId = Constants.DEFAULT_SSH_SERVER_ID;
+	@Option(name = "-p",
+            aliases = "--port",
+            required = false,
+            description = "Listening port of the SSH server.")
+	private int port = Constants.DEFAULT_SSH_SERVER_PORT;
 
 	@Requires
 	private ConfigurationAdmin configurationAdmin;
@@ -47,18 +47,11 @@ public class StartSshdCommand implements Action {
 		// Create the Configuration that will trigger the SSHD instance creation
 		Configuration config = configurationAdmin.createFactoryConfiguration(SshDaemonComponent.class.getName(), null);
 		Properties properties = new Properties();
-		properties.setProperty(org.osgi.framework.Constants.SERVICE_PID, serverId);
 		properties.setProperty(Constants.SSHD_PORT, String.valueOf(port));
 
 		// Display some infos
 		StringBuilder sb = new StringBuilder();
-		sb.append("SSH Daemon ");
-		if (!Constants.DEFAULT_SSH_SERVER_ID.equals(serverId)) {
-			sb.append("(");
-			sb.append(serverId);
-			sb.append(") ");
-		}
-		sb.append(" started on port ");
+		sb.append("SSH Daemon starting on port ");
 		sb.append(port);
 		sb.append(" ...");
 		System.out.println(sb.toString());
