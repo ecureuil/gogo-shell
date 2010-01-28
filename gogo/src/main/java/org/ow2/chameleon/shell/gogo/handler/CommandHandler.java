@@ -31,6 +31,8 @@ import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.ServiceProperty;
 import org.apache.felix.ipojo.annotations.Unbind;
+import org.apache.felix.ipojo.architecture.HandlerDescription;
+import org.apache.felix.ipojo.metadata.Attribute;
 import org.apache.felix.ipojo.metadata.Element;
 import org.osgi.service.command.CommandProcessor;
 import org.osgi.service.command.CommandSession;
@@ -42,7 +44,7 @@ import org.ow2.chameleon.shell.gogo.ICompletable;
  * {@code Action} interface) and the shell runtime.
  */
 @Handler(name = "command",
-		 namespace = CommandHandler.NAMESPACE, architecture = true)
+		 namespace = CommandHandler.NAMESPACE)
 @Provides(specifications = Function.class)
 public class CommandHandler extends PrimitiveHandler implements Function, ICompletable {
 
@@ -54,7 +56,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
     /**
      * Defines supported command types.
      */
-	public static enum Type {
+	private static enum Type {
         /**
          * A stateless command is a command that keep no state information.
          */
@@ -96,7 +98,6 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
 
     @ServiceProperty(name = CommandProcessor.COMMAND_FUNCTION)
     private String function;
-
 
 	@Override
 	public void configure(Element element, Dictionary dictionary)
@@ -194,4 +195,38 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
         function = null;
         command = null;
 	}
+
+    /**
+     * Returns the current handler description.
+     * The simplest description contains only the name and the validity of the handler.
+     * If the handler override this method, it can customize the description.
+     * By default, this method returns the simplest description.
+     *
+     * @return the description of the handler.
+     */
+    @Override
+    public HandlerDescription getDescription() {
+        return new HandlerDescription(this) {
+            /**
+             * Gets handler information.
+             * This represent the actual state of the handler.
+             *
+             * @return the handler information.
+             */
+            @Override
+            public Element getHandlerInfo() {
+                Element info = super.getHandlerInfo();
+
+                Element command = new Element("command", "");
+                command.addAttribute(new Attribute("scope", scope));
+                command.addAttribute(new Attribute("name", function));
+                command.addAttribute(new Attribute("type", type.name()));
+
+                info.addElement(command);
+
+                return info;
+            }
+
+        };
+    }
 }
