@@ -48,6 +48,14 @@
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.compendium</artifactId>
     </dependency>
+
+    <dependency>
+      <!-- Provides Completion support -->
+      <groupId>jline</groupId>
+      <artifactId>jline</artifactId>
+      <version>${jline.version}</version>
+    </dependency>
+    
   </dependencies>
   
   <build>
