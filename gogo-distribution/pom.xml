@@ -221,9 +221,15 @@
                 </artifactItem>
 -->
                 <artifactItem>
-                  <!-- Simple testing commands -->
                   <groupId>org.ow2.chameleon.shell.commands</groupId>
                   <artifactId>chameleon-ipojo-commands</artifactId>
+                  <version>${project.version}</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.ow2.chameleon.shell.commands</groupId>
+                  <artifactId>chameleon-config-commands</artifactId>
                   <version>${project.version}</version>
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
