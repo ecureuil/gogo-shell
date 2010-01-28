@@ -192,15 +192,6 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
-<!--
-                <artifactItem>
-                  <groupId>org.apache.felix.gogo</groupId>
-                  <artifactId>org.apache.felix.gogo.console</artifactId>
-                  <version>${gogo.version}</version>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${runtime.dir}</outputDirectory>
-                </artifactItem>
--->
 
                 <!-- Then, add our handler and our commands -->
                 <!-- - - - - - - - - - - - - - - - - - - -->
