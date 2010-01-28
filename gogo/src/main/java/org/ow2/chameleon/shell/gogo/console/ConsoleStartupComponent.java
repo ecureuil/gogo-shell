@@ -68,9 +68,7 @@ public class ConsoleStartupComponent {
 
         StringBuilder scopeValue = new StringBuilder();
         if (scopeRegistry != null) {
-            System.out.println("scopeRegistry=" + scopeRegistry);
             Set<String> scopes = scopeRegistry.getScopes();
-            System.out.println("available scopes=" + scopes);
             if (scopes != null) {
                 for (String scope : scopes) {
                     scopeValue.append(scope);
