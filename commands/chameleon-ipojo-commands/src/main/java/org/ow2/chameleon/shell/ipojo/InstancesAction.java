@@ -56,6 +56,11 @@ public class InstancesAction implements Action {
     public Object execute(final CommandSession session) throws Exception {
 
         Ansi buffer = Ansi.ansi();
+        if (architectures.length != 0) {
+            buffer.a(Ansi.Attribute.INTENSITY_BOLD);
+            buffer.a("[ Status ] Instance name\n");
+            buffer.a(Ansi.Attribute.INTENSITY_BOLD_OFF);
+        }
         for (Architecture arch : architectures) {
             InstanceDescription instance = arch.getInstanceDescription();
 

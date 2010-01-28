@@ -52,6 +52,11 @@ public class FactoriesAction implements Action {
     public Object execute(final CommandSession session) throws Exception {
 
         Ansi buffer = Ansi.ansi();
+        if (factories.length != 0) {
+            buffer.a(Ansi.Attribute.INTENSITY_BOLD);
+            buffer.a("[ Status] Factory name\n");
+            buffer.a(Ansi.Attribute.INTENSITY_BOLD_OFF);
+        }
         for (Factory factory : factories) {
             printFactory(buffer, factory);
         }
