@@ -40,6 +40,7 @@
     <module>commands</module>
     <module>gogo-distribution</module>
     <module>chameleon-startup-console</module>
+    <module>chameleon-commands-archetype</module>
   </modules>
 
   <!-- Some common plugin configuration:
