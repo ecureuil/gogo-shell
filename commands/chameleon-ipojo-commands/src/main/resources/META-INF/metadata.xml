@@ -37,7 +37,7 @@
     <subservice action="import"
                 specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
     <subservice action="import"
-                scope="global"
+                aggregate="true"
                 specification="org.apache.felix.ipojo.architecture.Architecture" />
 
   </composite>
@@ -60,7 +60,7 @@
     <subservice action="import"
                 specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
     <subservice action="import"
-                scope="global"
+                aggregate="true"
                 specification="org.apache.felix.ipojo.Factory" />
 
   </composite>
