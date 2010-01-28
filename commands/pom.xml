@@ -31,6 +31,7 @@
     <module>chameleon-hello-command</module>
     <module>chameleon-ssh-command</module>
     <module>chameleon-builtin-commands</module>
+    <module>chameleon-ipojo-commands</module>
   </modules>
 
 
