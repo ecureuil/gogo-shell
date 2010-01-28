@@ -99,9 +99,17 @@ public class AnsiUsagePrinter implements IUsagePrinter {
                         bold(buffer, alias);
                     }
                 }
+                if (option.required()) {
+                    bold(buffer, " [required]");
+                }
                 eol(buffer, 1);
                 indent(buffer, 2);
                 buffer.a(option.description());
+                if (option.multiValued()) {
+                    eol(buffer, 1);
+                    indent(buffer, 3);
+                    buffer.a("- this option accept multiple occurrences on the same command line -");
+                }
             }
             eol(buffer, 1);
         }
