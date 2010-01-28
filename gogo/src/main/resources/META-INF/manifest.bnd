@@ -21,10 +21,10 @@ Export-Package org.ow2.chameleon.shell.gogo,\
 
 Embed-Dependency jline;inline=true, \
                  plexus-interpolation;inline=true, \
+                 jna;inline=true, \
                  jansi;inline=true
 
-Import-Package com.sun.jna.*;resolution:=optional, \
-               sun.reflect;resolution:=optional, \
+Import-Package sun.reflect;resolution:=optional, \
                org.osgi.service.blueprint.container;resolution:=optional, \
                !jline, \
                !org.fusesource.jansi*, \

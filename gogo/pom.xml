@@ -75,6 +75,13 @@
       <version>${wbp.version}</version>
     </dependency>
 
+    <dependency>
+      <!-- Activate ANSI buffer with Windows -->
+      <groupId>net.java.dev.jna</groupId>
+      <artifactId>jna</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+
   </dependencies>
 
   <build>
