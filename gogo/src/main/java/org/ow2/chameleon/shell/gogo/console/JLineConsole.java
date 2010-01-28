@@ -25,7 +25,6 @@ import jline.Completor;
 import jline.ConsoleReader;
 import jline.MultiCompletor;
 import jline.Terminal;
-import org.codehaus.plexus.interpolation.EnvarBasedValueSource;
 import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.interpolation.PropertiesBasedValueSource;
 import org.codehaus.plexus.interpolation.RegexBasedInterpolator;
@@ -142,19 +141,14 @@ public class JLineConsole implements Runnable {
                     continue;
                 }
 
-                printDebug("read line [" + line + "]");
-
                 // Execute the command line
                 Object result = session.execute(line);
 
 
                 // Format the result (if any)
                 if (result != null) {
-                    printDebug("result object [" + result.getClass().getSimpleName() + "][" + result + "]");
                     CharSequence value = session.format(result, Converter.INSPECT);
-                    printDebug("formatted result [" + value + "]");
                     session.getConsole().println(value);
-                    printDebug("printing done.");
                 }
             } catch (Throwable t) {
                 // Something went wrong during execution
