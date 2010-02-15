@@ -18,6 +18,7 @@ package org.ow2.chameleon.shell.gogo.extension;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.felix.ipojo.ComponentInstance;
 import org.apache.felix.ipojo.ConfigurationException;
@@ -230,6 +231,15 @@ public class CommandFactory extends IPojoFactory implements TrackerCustomizer {
     public void removedService(ServiceReference reference, Object service) {
         //To change body of implemented methods use File | Settings | File Templates.
         // TODO to be implemented
+
+        Factory factory = (Factory) this.getBundleContext().getService(reference);
+        if (isRequiredFactory(factory.getName())) {
+            // One required disappeared
+            stopInstances();
+            factories.remove(factory);
+
+        }
+
     }
 
     private class ComponentManager implements FactoryStateListener {
