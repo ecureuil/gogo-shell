@@ -15,56 +15,26 @@
 -->
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
+       xmlns:shell="org.ow2.chameleon.shell"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd">
 
-  <instance component="org.ow2.chameleon.shell.ipojo.InstancesAction" />
-  <instance component="org.ow2.chameleon.shell.ipojo.FactoriesAction" />
-  <instance component="org.ow2.chameleon.shell.ipojo.HandlersAction" />
+  <command xmlns="org.ow2.chameleon.shell"
+           action="org.ow2.chameleon.shell.ipojo.InstancesAction" />
 
-  <!-- Using a composite for command declaration is useful when Completors are required -->
-  <composite name="org.ow2.chameleon.shell.gogo.ipojo.InstanceCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
+  <command xmlns="org.ow2.chameleon.shell"
+           action="org.ow2.chameleon.shell.ipojo.FactoriesAction" />
 
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.ipojo.InstanceAction" />
+  <command xmlns="org.ow2.chameleon.shell"
+           action="org.ow2.chameleon.shell.ipojo.FactoriesAction" />
 
-    <!-- Manage Completers -->
-    <instance component="org.ow2.chameleon.shell.ipojo.completor.ComponentInstanceCompletor" />
+  <command xmlns="org.ow2.chameleon.shell"
+           action="org.ow2.chameleon.shell.ipojo.InstanceAction">
+    <completor component="org.ow2.chameleon.shell.ipojo.completor.ComponentInstanceCompletor" />
+  </command>
 
-    <!-- iPOJO Composite import/export stuff -->
-    <provides action="export"
-              specification="org.osgi.service.command.Function" />
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-    <subservice action="import"
-                aggregate="true"
-                specification="org.apache.felix.ipojo.architecture.Architecture" />
-
-  </composite>
-
-  <instance component="org.ow2.chameleon.shell.gogo.ipojo.InstanceCommandComposite" />
-
-  <!-- Using a composite for command declaration is useful when Completors are required -->
-  <composite name="org.ow2.chameleon.shell.gogo.ipojo.FactoryCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
-
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.ipojo.FactoryAction" />
-
-    <!-- Manage Completers -->
-    <instance component="org.ow2.chameleon.shell.ipojo.completor.ComponentFactoryCompletor" />
-
-    <!-- iPOJO Composite import/export stuff -->
-    <provides action="export"
-              specification="org.osgi.service.command.Function" />
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-    <subservice action="import"
-                aggregate="true"
-                specification="org.apache.felix.ipojo.Factory" />
-
-  </composite>
-
-  <instance component="org.ow2.chameleon.shell.gogo.ipojo.FactoryCommandComposite" />
+  <command xmlns="org.ow2.chameleon.shell"
+           action="org.ow2.chameleon.shell.ipojo.FactoryAction">
+    <completor component="org.ow2.chameleon.shell.ipojo.completor.ComponentFactoryCompletor" />
+  </command>
 
 </ipojo>

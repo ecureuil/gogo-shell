@@ -267,6 +267,15 @@
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
+                
+                <artifactItem>
+                  <groupId>org.apache.felix</groupId>
+                  <artifactId>org.apache.felix.ipojo.api</artifactId>
+                  <version>1.4.0</version>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${runtime.dir}</outputDirectory>
+                </artifactItem>
+
               </artifactItems>
             </configuration>
           </execution>

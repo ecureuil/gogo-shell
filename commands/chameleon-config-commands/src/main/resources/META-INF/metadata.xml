@@ -16,98 +16,27 @@
 
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
+       xmlns:shell="org.ow2.chameleon.shell"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd">
 
-  <!-- Creates an instance of the Action -->
-  <instance component="org.ow2.chameleon.shell.config.ListConfigurationAction" />
-  <instance component="org.ow2.chameleon.shell.config.CreateConfigurationAction" />
+  <shell:command action="org.ow2.chameleon.shell.config.ListConfigurationAction" />
 
-  <composite name="org.ow2.chameleon.shell.gogo.config.DeleteConfigurationCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
+  <shell:command action="org.ow2.chameleon.shell.config.CreateConfigurationAction" />
 
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.config.DeleteConfigurationAction" />
+  <shell:command action="org.ow2.chameleon.shell.config.DeleteConfigurationAction">
+    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+  </shell:command>
 
-    <!-- Manage Completers -->
-    <instance component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+  <shell:command action="org.ow2.chameleon.shell.config.PropertyDeleteAction">
+    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+  </shell:command>
 
-    <!-- iPOJO Composite import/export stuff -->
-    <provides action="export"
-              specification="org.osgi.service.command.Function" />
-    <provides action="export"
-              specification="org.osgi.service.cm.ConfigurationListener" />
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-    <subservice action="import"
-                specification="org.osgi.service.cm.ConfigurationAdmin" />
-  </composite>
+  <shell:command action="org.ow2.chameleon.shell.config.PropertySetAction">
+    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+  </shell:command>
 
-  <instance component="org.ow2.chameleon.shell.gogo.config.DeleteConfigurationCommandComposite" />
-
-  <composite name="org.ow2.chameleon.shell.gogo.config.PropertyDeleteCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
-
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.config.PropertyDeleteAction" />
-
-    <!-- Manage Completers -->
-    <instance component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
-
-    <!-- iPOJO Composite import/export stuff -->
-    <provides action="export"
-              specification="org.osgi.service.command.Function" />
-    <provides action="export"
-              specification="org.osgi.service.cm.ConfigurationListener" />
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-    <subservice action="import"
-                specification="org.osgi.service.cm.ConfigurationAdmin" />
-  </composite>
-
-  <instance component="org.ow2.chameleon.shell.gogo.config.PropertyDeleteCommandComposite" />
-
-  <composite name="org.ow2.chameleon.shell.gogo.config.PropertySetCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
-
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.config.PropertySetAction" />
-
-    <!-- Manage Completers -->
-    <instance component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
-
-    <!-- iPOJO Composite import/export stuff -->
-    <provides action="export"
-              specification="org.osgi.service.command.Function" />
-    <provides action="export"
-              specification="org.osgi.service.cm.ConfigurationListener" />
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-    <subservice action="import"
-                specification="org.osgi.service.cm.ConfigurationAdmin" />
-  </composite>
-
-  <instance component="org.ow2.chameleon.shell.gogo.config.PropertySetCommandComposite" />
-
-  <composite name="org.ow2.chameleon.shell.gogo.config.DetailsConfigurationCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
-
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.config.DetailsConfigurationAction" />
-
-    <!-- Manage Completers -->
-    <instance component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
-
-    <!-- iPOJO Composite import/export stuff -->
-    <provides action="export"
-              specification="org.osgi.service.command.Function" />
-    <provides action="export"
-              specification="org.osgi.service.cm.ConfigurationListener" />
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-    <subservice action="import"
-                specification="org.osgi.service.cm.ConfigurationAdmin" />
-  </composite>
-
-  <instance component="org.ow2.chameleon.shell.gogo.config.DetailsConfigurationCommandComposite" />
+  <shell:command action="org.ow2.chameleon.shell.config.DetailsConfigurationAction">
+    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+  </shell:command>
 
 </ipojo>

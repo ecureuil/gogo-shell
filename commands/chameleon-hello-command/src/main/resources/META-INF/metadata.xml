@@ -14,17 +14,11 @@
  limitations under the License.
 -->
 
-<!--
-<ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="org.apache.felix.ipojo"
-       xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd
-                           org.apache.felix.ipojo.composite http://felix.apache.org/ipojo/schemas/1.4.0/composite.xsd"
-       xmlns:cmd="org.ow2.chameleon.shell.gogo" >
--->
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd"
-       xmlns:cmd="org.ow2.chameleon.shell.gogo" >
+       xmlns:cmd="org.ow2.chameleon.shell.gogo"
+       xmlns:shell="org.ow2.chameleon.shell">
 
 	<component classname="org.ow2.chameleon.shell.gogo.hello.HelloCommand">
 	  <cmd:command />

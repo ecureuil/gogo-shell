@@ -21,11 +21,10 @@ REM =========================================================================
 rem Launching OW2 Chameleon Core
 
 rem set the classpath
-set CP=%CLASSPATH%
-set CP=%CP%;.\logback.xml
+set CP=.\logback.xml
 
 
-start "OW2 Chameleon Core" java -cp %CP% -jar core/core-0.0.1-SNAPSHOT.jar
+java -cp %CP% -jar core/core-0.0.1-SNAPSHOT.jar
 
 echo OW2 Chameleon is starting ...
 echo Wait few seconds before continuing

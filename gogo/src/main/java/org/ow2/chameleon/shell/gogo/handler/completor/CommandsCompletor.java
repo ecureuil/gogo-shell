@@ -29,6 +29,7 @@ import jline.NullCompletor;
 import jline.SimpleCompletor;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
+import org.apache.felix.ipojo.annotations.ServiceProperty;
 import org.apache.felix.ipojo.whiteboard.Wbp;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -54,6 +55,9 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
     private Map<ServiceReference, Completor> references;
     private Map<String, Integer> scopes;
     private BundleContext context;
+
+    @ServiceProperty
+    private String type = "commands";
 
     public CommandsCompletor(BundleContext context) {
         references = new HashMap<ServiceReference, Completor>();

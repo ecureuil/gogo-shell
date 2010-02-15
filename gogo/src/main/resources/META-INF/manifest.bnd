@@ -29,3 +29,5 @@ Import-Package sun.reflect;resolution:=optional, \
                !jline, \
                !org.fusesource.jansi*, \
                *
+
+IPOJO-Extension command:org.ow2.chameleon.shell.gogo.extension.CommandFactory

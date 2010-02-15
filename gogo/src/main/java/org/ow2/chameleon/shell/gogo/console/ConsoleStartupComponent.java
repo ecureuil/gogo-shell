@@ -43,7 +43,7 @@ public class ConsoleStartupComponent {
     @Requires
     private CommandProcessor processor;
 
-    @Requires
+    @Requires(filter = "(type=commands)")
     private Completor completor;
 
     @Requires

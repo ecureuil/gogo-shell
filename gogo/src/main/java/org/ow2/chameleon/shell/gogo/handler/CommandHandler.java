@@ -16,6 +16,8 @@
 package org.ow2.chameleon.shell.gogo.handler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.List;
 
@@ -34,6 +36,7 @@ import org.apache.felix.ipojo.annotations.Unbind;
 import org.apache.felix.ipojo.architecture.HandlerDescription;
 import org.apache.felix.ipojo.metadata.Attribute;
 import org.apache.felix.ipojo.metadata.Element;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.command.CommandProcessor;
 import org.osgi.service.command.CommandSession;
 import org.osgi.service.command.Function;
@@ -99,6 +102,8 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
     @ServiceProperty(name = CommandProcessor.COMMAND_FUNCTION)
     private String function;
 
+    private String commandId;
+
 	@Override
 	public void configure(Element element, Dictionary dictionary)
 			throws ConfigurationException {
@@ -126,13 +131,21 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
 		// OK, now we have the configuration
         
         completors = new ArrayList<Completor>();
+        commandId = (String) dictionary.get("instance.name");
 
 	}
 
     @Bind(optional = true,
           aggregate = true)
-    public void bindCompletor(Completor completor) {
-        completors.add(completor);
+    public void bindCompletor(Completor completor, ServiceReference reference) {
+
+        System.out.println("Completor available " + completor + " " + Arrays.asList(reference.getPropertyKeys()));
+        if (commandId.equals(reference.getProperty("command.id"))) {
+            completors.add(completor);
+            // TODO Sort list
+            System.out.println("Completor for " + commandId);
+            //Collections.sort(completors, new CompletorServiceComparator());
+        }
     }
 
     @Unbind
