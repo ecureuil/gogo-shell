@@ -130,6 +130,7 @@
                   <outputDirectory>${core.dir}</outputDirectory>
                 </artifactItem>
                 <artifactItem>
+                  <!-- This one could be removed thanks to the new ipojo commands -->
                   <groupId>org.apache.felix</groupId>
                   <artifactId>org.apache.felix.ipojo.arch</artifactId>
                   <version>1.4.0</version>
@@ -255,23 +256,6 @@
                   <groupId>org.ow2.chameleon.shell</groupId>
                   <artifactId>chameleon-startup-console</artifactId>
                   <version>${project.version}</version>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${runtime.dir}</outputDirectory>
-                </artifactItem>
-
-                <!-- Do not forget iPOJO composite -->
-                <artifactItem>
-                  <groupId>org.apache.felix</groupId>
-                  <artifactId>org.apache.felix.ipojo.composite</artifactId>
-                  <version>${ipojo.version}</version>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${runtime.dir}</outputDirectory>
-                </artifactItem>
-                
-                <artifactItem>
-                  <groupId>org.apache.felix</groupId>
-                  <artifactId>org.apache.felix.ipojo.api</artifactId>
-                  <version>1.4.0</version>
                   <overWrite>false</overWrite>
                   <outputDirectory>${runtime.dir}</outputDirectory>
                 </artifactItem>
