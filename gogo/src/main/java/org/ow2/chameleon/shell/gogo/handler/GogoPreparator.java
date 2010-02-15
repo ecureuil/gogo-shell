@@ -18,8 +18,6 @@ package org.ow2.chameleon.shell.gogo.handler;
 import java.io.PrintStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +32,6 @@ import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Unbind;
-import org.fusesource.jansi.Ansi;
 import org.osgi.service.command.CommandSession;
 import org.osgi.service.command.Converter;
 import org.ow2.chameleon.shell.gogo.IUsagePrinter;

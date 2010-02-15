@@ -18,17 +18,12 @@ package org.ow2.chameleon.shell.gogo.console;
 import java.util.Set;
 
 import jline.Completor;
-import jline.ConsoleReader;
-import jline.ConsoleReaderInputStream;
-import jline.History;
-import jline.MultiCompletor;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Invalidate;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Validate;
 import org.osgi.service.command.CommandProcessor;
 import org.ow2.chameleon.shell.gogo.IScopeRegistry;
-import org.ow2.chameleon.shell.gogo.handler.completor.ScopeCompletor;
 
 /**
  * Created by IntelliJ IDEA.

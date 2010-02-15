@@ -20,13 +20,13 @@ import java.util.Properties;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.Option;
-import org.ow2.chameleon.shell.gogo.ssh.server.SshDaemonComponent;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.command.CommandSession;
+import org.ow2.chameleon.shell.gogo.ssh.server.SshDaemonComponent;
 
 @Component
 @Command(name="start-daemon", scope="ssh", description="Start a SSHD daemon")

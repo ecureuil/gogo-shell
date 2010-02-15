@@ -16,7 +16,6 @@
 package org.ow2.chameleon.shell.ipojo;
 
 import java.io.PrintStream;
-import java.util.List;
 
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Argument;
@@ -26,8 +25,6 @@ import org.apache.felix.ipojo.Factory;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.apache.felix.ipojo.annotations.Requires;
-import org.apache.felix.ipojo.metadata.Attribute;
-import org.apache.felix.ipojo.metadata.Element;
 import org.fusesource.jansi.Ansi;
 import org.osgi.service.command.CommandSession;
 import org.ow2.chameleon.shell.ipojo.util.AnsiPrintToolkit;

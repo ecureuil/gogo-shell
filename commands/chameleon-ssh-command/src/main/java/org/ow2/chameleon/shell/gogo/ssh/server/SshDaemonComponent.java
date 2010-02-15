@@ -17,17 +17,17 @@ package org.ow2.chameleon.shell.gogo.ssh.server;
 
 import java.io.IOException;
 
-import org.apache.sshd.server.PasswordAuthenticator;
-import org.apache.sshd.server.session.ServerSession;
-import org.ow2.chameleon.shell.gogo.ssh.command.Constants;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Invalidate;
 import org.apache.felix.ipojo.annotations.Property;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Validate;
 import org.apache.sshd.SshServer;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.apache.sshd.server.session.ServerSession;
 import org.osgi.service.command.CommandProcessor;
+import org.ow2.chameleon.shell.gogo.ssh.command.Constants;
 
 @Component
 public class SshDaemonComponent {

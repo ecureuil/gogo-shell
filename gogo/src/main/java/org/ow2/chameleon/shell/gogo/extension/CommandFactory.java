@@ -18,7 +18,6 @@ package org.ow2.chameleon.shell.gogo.extension;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.felix.ipojo.ComponentInstance;
 import org.apache.felix.ipojo.ConfigurationException;
@@ -27,8 +26,6 @@ import org.apache.felix.ipojo.FactoryStateListener;
 import org.apache.felix.ipojo.HandlerManager;
 import org.apache.felix.ipojo.IPojoContext;
 import org.apache.felix.ipojo.IPojoFactory;
-import org.apache.felix.ipojo.MissingHandlerException;
-import org.apache.felix.ipojo.UnacceptableConfiguration;
 import org.apache.felix.ipojo.metadata.Element;
 import org.apache.felix.ipojo.util.Logger;
 import org.apache.felix.ipojo.util.Tracker;
@@ -38,7 +35,6 @@ import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.ow2.chameleon.shell.gogo.extension.parser.CommandParser;
-import org.ow2.chameleon.shell.gogo.extension.parser.MetadataUtils;
 import org.ow2.chameleon.shell.gogo.extension.type.ECommand;
 import org.ow2.chameleon.shell.gogo.extension.type.ECompletor;
 

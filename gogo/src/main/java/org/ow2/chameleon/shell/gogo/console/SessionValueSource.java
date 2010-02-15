@@ -16,7 +16,6 @@
 package org.ow2.chameleon.shell.gogo.console;
 
 import org.codehaus.plexus.interpolation.AbstractValueSource;
-import org.codehaus.plexus.interpolation.ValueSource;
 import org.osgi.service.command.CommandSession;
 
 /**

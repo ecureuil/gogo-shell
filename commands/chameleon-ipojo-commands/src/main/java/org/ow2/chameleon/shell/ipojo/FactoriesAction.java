@@ -20,13 +20,10 @@ import java.util.List;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.Option;
-import org.apache.felix.ipojo.ComponentInstance;
 import org.apache.felix.ipojo.Factory;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.apache.felix.ipojo.annotations.Requires;
-import org.apache.felix.ipojo.architecture.Architecture;
-import org.apache.felix.ipojo.architecture.InstanceDescription;
 import org.fusesource.jansi.Ansi;
 import org.osgi.service.command.CommandSession;
 

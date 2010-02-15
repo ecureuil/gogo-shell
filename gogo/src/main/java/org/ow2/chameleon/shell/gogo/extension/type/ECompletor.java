@@ -16,9 +16,7 @@
 package org.ow2.chameleon.shell.gogo.extension.type;
 
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.

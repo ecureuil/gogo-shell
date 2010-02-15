@@ -16,7 +16,6 @@
 package org.ow2.chameleon.shell.gogo.extension.parser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
@@ -24,18 +23,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
 
-import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.ConfigurationException;
-import org.apache.felix.ipojo.api.composite.CompositeComponentType;
-import org.apache.felix.ipojo.api.composite.ExportedService;
-import org.apache.felix.ipojo.api.composite.ImportedService;
-import org.apache.felix.ipojo.api.composite.Instance;
 import org.apache.felix.ipojo.metadata.Element;
-import org.osgi.framework.BundleContext;
-import org.osgi.service.command.Function;
 import org.ow2.chameleon.shell.gogo.extension.type.ECommand;
 import org.ow2.chameleon.shell.gogo.extension.type.ECompletor;
-import org.ow2.chameleon.shell.gogo.handler.CommandHandler;
 import org.ow2.chameleon.shell.gogo.handler.CompletorServiceComparator;
 
 import static org.ow2.chameleon.shell.gogo.extension.parser.MetadataUtils.getAttributeValue;

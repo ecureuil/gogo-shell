@@ -15,9 +15,6 @@
 
 package org.ow2.chameleon.shell.gogo.handler;
 
-import java.util.List;
-
-import jline.Completor;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
 import org.apache.felix.ipojo.InstanceManager;
