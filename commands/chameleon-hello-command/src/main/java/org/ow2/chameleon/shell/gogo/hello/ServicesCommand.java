@@ -22,6 +22,7 @@ import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Argument;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -29,6 +30,7 @@ import org.osgi.service.command.CommandSession;
 
 @Component
 @Command(name="services2", scope="osgi", description="List services")
+@HandlerDeclaration("<sh:command xmlns:sh='org.ow2.chameleon.shell.gogo'/>")
 public class ServicesCommand implements Action {
 
 	@Argument

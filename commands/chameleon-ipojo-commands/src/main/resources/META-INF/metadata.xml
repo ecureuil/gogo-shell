@@ -25,9 +25,6 @@
            action="org.ow2.chameleon.shell.ipojo.FactoriesAction" />
 
   <command xmlns="org.ow2.chameleon.shell"
-           action="org.ow2.chameleon.shell.ipojo.FactoriesAction" />
-
-  <command xmlns="org.ow2.chameleon.shell"
            action="org.ow2.chameleon.shell.ipojo.InstanceAction">
     <completor component="org.ow2.chameleon.shell.ipojo.completor.ComponentInstanceCompletor" />
   </command>

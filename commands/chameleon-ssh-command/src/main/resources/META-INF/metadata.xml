@@ -16,19 +16,10 @@
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd"
-       xmlns:cmd="org.apache.felix.gogo.shelbie" >
+       xmlns:shell="org.ow2.chameleon.shell" >
 
-<!--
-	<component classname="org.ow2lix.gogo.shelbie.ssh.command.StartSshdCommand">
-	  <requires field="configurationAdmin" optional="false" />
-	  <cmd:command />
-	</component> -->
-	<instance component="org.ow2.chameleon.shell.gogo.ssh.command.StartSshdCommand"/>
+	<shell:command action="org.ow2.chameleon.shell.gogo.ssh.command.StartSshdCommand" />
 
-<!--
-	<component classname="org.ow2lix.gogo.shelbie.ssh.command.StopSshdCommand">
-	  <cmd:command />
-	</component> -->
-	<instance component="org.ow2.chameleon.shell.gogo.ssh.command.StopSshdCommand"/>
+	<shell:command action="org.ow2.chameleon.shell.gogo.ssh.command.StopSshdCommand" />
 
 </ipojo>

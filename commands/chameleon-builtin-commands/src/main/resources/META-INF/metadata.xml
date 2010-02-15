@@ -15,25 +15,11 @@
 -->
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
+       xmlns:shell="org.ow2.chameleon.shell"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd">
 
-  <composite name="org.ow2.chameleon.shell.gogo.builtin.SourceCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
-
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.builtin.SourceAction" />
-
-    <!-- Manage Completers -->
-    <instance component="jline.FileNameCompletor" />
-
-    <!-- iPOJO Composite import/export stuff -->
-    <provides action="export"
-              specification="org.osgi.service.command.Function" />
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-  </composite>
-
-  <instance component="org.ow2.chameleon.shell.gogo.builtin.SourceCommandComposite" />
-
+  <shell:command action="org.ow2.chameleon.shell.builtin.SourceAction">
+    <shell:completor component="jline.FileNameCompletor" />
+  </shell:command>
 
 </ipojo>

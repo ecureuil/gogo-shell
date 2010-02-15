@@ -18,12 +18,14 @@ package org.ow2.chameleon.shell.gogo.ssh.command;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.command.CommandSession;
 
 @Component
 @Command(name="list-daemons", scope="ssh", description="List started SSH daemons")
+@HandlerDeclaration("<sh:command xmlns:sh='org.ow2.chameleon.shell.gogo'/>")
 public class ListSshdCommand implements Action {
 
 	@Requires

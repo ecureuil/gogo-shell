@@ -22,10 +22,12 @@ import org.apache.felix.gogo.commands.Argument;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.Option;
 import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.osgi.service.command.CommandSession;
 
 @Component
 @Command(name="hello", scope="test", description="A simple hello command")
+@HandlerDeclaration("<sh:command xmlns:sh='org.ow2.chameleon.shell.gogo'/>")
 public class HelloCommand implements Action {
 
 	@Argument(multiValued=true)

@@ -17,39 +17,17 @@
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd"
-       xmlns:cmd="org.ow2.chameleon.shell.gogo"
        xmlns:shell="org.ow2.chameleon.shell">
 
-	<component classname="org.ow2.chameleon.shell.gogo.hello.HelloCommand">
-	  <cmd:command />
-	</component>
+  <shell:command action="org.ow2.chameleon.shell.gogo.hello.HelloCommand">
+<!--
+    <shell:completor component="jline.SimpleCompletor">
+      <shell:property name="candidates" type="array">
+        <shell:property name=""
+      </shell:property>
+    </shell:completor>
+-->
+  </shell:command>
 
-  <!-- Using a composite for command declaration is useful when Completors are required -->
-  <composite name="org.ow2.chameleon.shell.gogo.hello.HelloCommandComposite"
-                 xmlns="org.apache.felix.ipojo.composite">
-
-    <!-- Creates an instance of the Action -->
-    <instance component="org.ow2.chameleon.shell.gogo.hello.HelloCommand" />
-
-    <!-- Manage Completers -->
-    <instance component="jline.SimpleCompletor">
-      <!-- FIXME iPOJO does not recognize this pattern as an array of values ... -->
-      <property name="candidates" value="{foo,bar,baz}" />
-    </instance>
-
-    <!-- Export my handler registered command service -->
-    <provides specification="org.osgi.service.command.Function" action="export" />
-
-    <!-- Import the preparator into the composite (required by the CommandHandler) -->
-    <subservice action="import"
-                specification="org.apache.felix.gogo.commands.basic.ActionPreparator" />
-  </composite>
-  <instance component="org.ow2.chameleon.shell.gogo.hello.HelloCommandComposite" />
-  
-
-  <!-- Keep a simple command (not using composite) -->
-  <component classname="org.ow2.chameleon.shell.gogo.hello.ServicesCommand">
-	  <cmd:command />
-	</component>
-	<instance component="org.ow2.chameleon.shell.gogo.hello.ServicesCommand"/>
+  <shell:command action="org.ow2.chameleon.shell.gogo.hello.ServicesCommand" />
 </ipojo>
