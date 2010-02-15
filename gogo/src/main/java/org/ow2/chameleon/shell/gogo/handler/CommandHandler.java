@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Dictionary;
 import java.util.List;
+import java.util.Map;
 
 import jline.Completor;
 import org.apache.felix.gogo.commands.Action;
@@ -136,14 +137,13 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
 	}
 
     @Bind(optional = true,
-          aggregate = true)
-    public void bindCompletor(Completor completor, ServiceReference reference) {
+          aggregate = true,
+          filter = "(command.id=*)")
+    public void bindCompletor(Completor completor, Map reference) {
 
-        System.out.println("Completor available " + completor + " " + Arrays.asList(reference.getPropertyKeys()));
-        if (commandId.equals(reference.getProperty("command.id"))) {
+        if (commandId.equals(reference.get("command.id"))) {
             completors.add(completor);
             // TODO Sort list
-            System.out.println("Completor for " + commandId);
             //Collections.sort(completors, new CompletorServiceComparator());
         }
     }

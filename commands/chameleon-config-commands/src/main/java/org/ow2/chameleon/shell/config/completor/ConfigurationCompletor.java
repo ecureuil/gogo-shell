@@ -18,7 +18,7 @@ import org.osgi.service.cm.ConfigurationListener;
  * Time: 21:05:49
  * To change this template use File | Settings | File Templates.
  */
-@Component
+@Component(propagation = true)
 @Provides(specifications = {Completor.class, ConfigurationListener.class})
 public class ConfigurationCompletor extends SimpleCompletor implements ConfigurationListener {
 

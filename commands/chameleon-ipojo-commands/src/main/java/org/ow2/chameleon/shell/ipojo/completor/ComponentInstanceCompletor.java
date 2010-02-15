@@ -31,7 +31,7 @@ import org.apache.felix.ipojo.architecture.InstanceDescription;
 /**
  * This Completor provides completion support for iPOJO instance names.
  */
-@Component
+@Component(propagation = true)
 @Provides(specifications = Completor.class)
 public class ComponentInstanceCompletor extends SimpleCompletor {
 

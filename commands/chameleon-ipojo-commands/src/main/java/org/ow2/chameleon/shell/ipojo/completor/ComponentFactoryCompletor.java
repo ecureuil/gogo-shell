@@ -30,7 +30,7 @@ import org.apache.felix.ipojo.annotations.Unbind;
 /**
  * This Completor provides completion support for iPOJO factory names.
  */
-@Component
+@Component(propagation = true)
 @Provides(specifications = Completor.class)
 public class ComponentFactoryCompletor extends SimpleCompletor {
 
