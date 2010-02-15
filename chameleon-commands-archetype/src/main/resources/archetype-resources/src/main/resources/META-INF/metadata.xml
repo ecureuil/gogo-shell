@@ -16,9 +16,10 @@
 
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
+       xmlns:shell="org.ow2.chameleon.shell"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd">
 
   <!-- Creates an instance of the Action -->
-  <instance component="${groupId}.HelloAction" />
+  <shell:command action="${groupId}.HelloAction" />
   
 </ipojo>
