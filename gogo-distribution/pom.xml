@@ -125,7 +125,7 @@
                 <artifactItem>
                   <groupId>org.apache.felix</groupId>
                   <artifactId>org.apache.felix.ipojo</artifactId>
-                  <version>${ipojo.version}</version>
+                  <version>${ipojo.runtime.version}</version>
                   <overWrite>false</overWrite>
                   <outputDirectory>${core.dir}</outputDirectory>
                 </artifactItem>
@@ -133,7 +133,7 @@
                   <!-- This one could be removed thanks to the new ipojo commands -->
                   <groupId>org.apache.felix</groupId>
                   <artifactId>org.apache.felix.ipojo.arch</artifactId>
-                  <version>1.4.0</version>
+                  <version>${ipojo.runtime.version}</version>
                   <type>jar</type>
                   <overWrite>false</overWrite>
                   <outputDirectory>${core.dir}</outputDirectory>
@@ -143,9 +143,6 @@
                   <groupId>org.ow2.chameleon</groupId>
                   <artifactId>core</artifactId>
                   <version>0.0.1-SNAPSHOT</version>
-                  <type>jar</type>
-                  <overWrite>false</overWrite>
-                  <outputDirectory>${core.dir}</outputDirectory>
                   <type>jar</type>
                   <overWrite>false</overWrite>
                   <outputDirectory>${core.dir}</outputDirectory>
