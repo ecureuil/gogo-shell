@@ -1,0 +1,61 @@
+<xs:schema elementFormDefault="qualified"
+           targetNamespace="org.ow2.chameleon.shell"
+           xmlns="org.ow2.chameleon.shell"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="command" type="commandType" />
+
+  <xs:complexType name="commandType">
+    <xs:sequence>
+      <xs:element name="completor"
+                  type="completorType"
+                  minOccurs="0"
+                  maxOccurs="unbounded" />
+      <xs:element name="import"
+                  type="importType"
+                  minOccurs="0"
+                  maxOccurs="unbounded" />
+      <xs:element name="export"
+                  type="exportType"
+                  minOccurs="0"
+                  maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="action" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="completorType">
+    <xs:attribute name="component" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="importType">
+    <xs:attribute name="specification"
+                  type="xs:string"
+                  use="required" />
+    <xs:attribute name="filter"
+                  type="xs:string"
+                  use="optional" />
+    <xs:attribute name="aggregate"
+                  type="xs:boolean"
+                  use="optional" />
+    <xs:attribute name="optional"
+                  type="xs:boolean"
+                  use="optional"
+                  default="true" />
+  </xs:complexType>
+
+  <xs:complexType name="exportType">
+    <xs:attribute name="specification"
+                  type="xs:string"
+                  use="required" />
+    <xs:attribute name="filter"
+                  type="xs:string"
+                  use="optional" />
+    <xs:attribute name="aggregate"
+                  type="xs:boolean"
+                  use="optional" />
+    <xs:attribute name="optional"
+                  type="xs:boolean"
+                  use="optional"
+                  default="true" />
+  </xs:complexType>
+</xs:schema>
