@@ -29,7 +29,7 @@
 
   <component classname="jline.SimpleCompletor">
     <provides />
-    <properties>
+    <properties propagation="true">
       <property name="candidates"
                 method="setCandidateStrings"
                 mandatory="true" />
@@ -39,10 +39,12 @@
 
   <component classname="jline.NullCompletor">
     <provides />
+    <properties propagation="true" />
   </component>
 
   <component classname="jline.FileNameCompletor">
     <provides />
+    <properties propagation="true" />
   </component>
 
   <!-- This Completor probably have to be used inside a composite -->
@@ -51,6 +53,7 @@
     <requires field="completors"
               aggregate="true"
               optional="true" />
+    <properties propagation="true" />
   </component>
 
   <!-- This Completor probably have to be used inside a composite -->
@@ -61,7 +64,7 @@
               optional="true" />
     <requires field="delim"
               default-implementation="jline.ArgumentCompletor.WhitespaceArgumentDelimiter" />
-    <properties>
+    <properties propagation="true">
       <property field="strict"
                 value="true" />
     </properties>
