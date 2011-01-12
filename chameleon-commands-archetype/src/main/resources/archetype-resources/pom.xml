@@ -7,7 +7,7 @@
   <name>OW2 Chameleon Shell :: Hello Commands</name>
 
   <properties>
-    <ipojo.version>1.5.0-SNAPSHOT</ipojo.version>
+    <ipojo.version>1.6.0</ipojo.version>
     <gogo.version>0.3.0-SNAPSHOT</gogo.version>
     <jansi.version>1.1</jansi.version>
   </properties>

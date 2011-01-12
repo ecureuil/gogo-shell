@@ -29,8 +29,8 @@
 
   <properties>
     <gogo.version>0.3.0-SNAPSHOT</gogo.version>
-    <ipojo.version>1.5.0-SNAPSHOT</ipojo.version>
-    <ipojo.runtime.version>1.4.0</ipojo.runtime.version>
+    <ipojo.version>1.6.8</ipojo.version>
+    <ipojo.runtime.version>${ipojo.version}</ipojo.runtime.version>
     <jline.version>0.9.94</jline.version>
     <jansi.version>1.1</jansi.version>
     <wbp.version>1.4.0</wbp.version>
@@ -39,7 +39,6 @@
   <modules>
     <module>gogo</module>
     <module>commands</module>
-    <module>gogo-distribution</module>
     <module>chameleon-startup-console</module>
     <module>chameleon-commands-archetype</module>
   </modules>
@@ -115,7 +114,7 @@
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-ipojo-plugin</artifactId>
-          <version>1.5.0-SNAPSHOT</version>
+          <version>1.6.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.felix</groupId>
@@ -136,8 +135,7 @@
       <dependency>
         <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.ipojo</artifactId>
-        <!-- FIXME Use an old iPOJO version to stay compatible with chameleon -->
-        <version>1.4.0</version>
+        <version>${ipojo.version}</version>
         <scope>provided</scope>
         <exclusions>
           <!-- Exclude old core and compendium artifacts -->
@@ -154,7 +152,7 @@
       <dependency>
         <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.ipojo.annotations</artifactId>
-        <version>${ipojo.version}</version>
+        <version>1.6.0</version>
         <scope>provided</scope>
       </dependency>
 

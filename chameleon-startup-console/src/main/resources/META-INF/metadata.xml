@@ -15,7 +15,7 @@
 -->
 <ipojo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="org.apache.felix.ipojo"
-       xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.4.0/core.xsd" >
+       xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd" >
 
 	<instance component="org.ow2.chameleon.shell.gogo.console.ConsoleStartupComponent" />
 </ipojo>
