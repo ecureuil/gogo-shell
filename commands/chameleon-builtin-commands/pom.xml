@@ -34,14 +34,13 @@
     </dependency>
 
     <dependency>
-      <!-- Provides @Command/... annotations + specific API -->
-      <groupId>org.apache.felix.gogo</groupId>
-      <artifactId>org.apache.felix.gogo.commands</artifactId>
+      <!-- Provides RFC 147 APIs -->
+    	<groupId>org.apache.felix</groupId>
+    	<artifactId>org.apache.felix.gogo.runtime</artifactId>
     </dependency>
     <dependency>
-      <!-- Provides RFC 147 APIs -->
-    	<groupId>org.apache.felix.gogo</groupId>
-    	<artifactId>org.apache.felix.gogo.runtime</artifactId>
+      <groupId>org.apache.karaf.shell</groupId>
+      <artifactId>org.apache.karaf.shell.console</artifactId>
     </dependency>
 
     <dependency>

@@ -16,7 +16,7 @@
 package org.ow2.chameleon.shell.gogo.ssh.server;
 
 import org.apache.felix.ipojo.annotations.Component;
-import org.osgi.service.command.Converter;
+import org.apache.felix.service.command.Converter;
 
 @Component
 public class SshDaemonConverter implements Converter {

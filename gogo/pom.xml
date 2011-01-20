@@ -28,8 +28,8 @@
 
   <dependencies>
   	<dependency>
-  		<groupId>org.apache.felix.gogo</groupId>
-  		<artifactId>org.apache.felix.gogo.commands</artifactId>
+  		<groupId>org.apache.felix</groupId>
+  		<artifactId>org.apache.felix.gogo.command</artifactId>
   	</dependency>
   	<dependency>
   		<groupId>org.apache.felix</groupId>
@@ -80,6 +80,11 @@
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna</artifactId>
       <version>3.1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.karaf.shell</groupId>
+      <artifactId>org.apache.karaf.shell.console</artifactId>
     </dependency>
 
   </dependencies>

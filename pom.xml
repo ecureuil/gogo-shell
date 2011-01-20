@@ -28,12 +28,13 @@
   <name>Chameleon Shell Reactor</name>
 
   <properties>
-    <gogo.version>0.3.0-SNAPSHOT</gogo.version>
+    <gogo.version>0.6.1</gogo.version>
     <ipojo.version>1.6.8</ipojo.version>
     <ipojo.runtime.version>${ipojo.version}</ipojo.runtime.version>
     <jline.version>0.9.94</jline.version>
     <jansi.version>1.1</jansi.version>
     <wbp.version>1.4.0</wbp.version>
+    <karaf.version>2.1.99-SNAPSHOT</karaf.version>
   </properties>
 
   <modules>
@@ -161,20 +162,13 @@
       <!-- - - - - - - - - - - - - -->
 
       <dependency>
-        <groupId>org.apache.felix.gogo</groupId>
-        <artifactId>org.apache.felix.gogo.commands</artifactId>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>org.apache.felix.gogo.command</artifactId>
         <version>${gogo.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <!-- TODO: Still required ? -->
-        <groupId>org.apache.felix.gogo</groupId>
-        <artifactId>org.apache.felix.gogo.console</artifactId>
-        <version>${gogo.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.felix.gogo</groupId>
+        <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.gogo.runtime</artifactId>
         <version>${gogo.version}</version>
         <scope>provided</scope>
@@ -211,6 +205,11 @@
         <version>${jansi.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.apache.karaf.shell</groupId>
+        <artifactId>org.apache.karaf.shell.console</artifactId>
+        <version>${karaf.version}</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>

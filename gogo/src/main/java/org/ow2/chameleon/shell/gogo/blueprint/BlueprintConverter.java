@@ -15,8 +15,8 @@
 
 package org.ow2.chameleon.shell.gogo.blueprint;
 
+import org.apache.felix.service.command.Converter;
 import org.osgi.service.blueprint.container.ReifiedType;
-import org.osgi.service.command.Converter;
 
 /**
  * Created by IntelliJ IDEA.

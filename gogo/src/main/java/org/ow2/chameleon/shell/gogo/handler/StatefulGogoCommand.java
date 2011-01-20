@@ -35,7 +35,7 @@ public class StatefulGogoCommand extends GogoCommand {
 	}
 
     @Override
-	protected Action createNewAction() throws Exception {
+	public Action createNewAction() {
         if (unique == null) {
             unique = (Action) manager.createPojoObject();
         }

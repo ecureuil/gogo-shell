@@ -25,14 +25,14 @@ import jline.Completor;
 import jline.ConsoleReader;
 import jline.MultiCompletor;
 import jline.Terminal;
+import org.apache.felix.service.command.CommandProcessor;
+import org.apache.felix.service.command.CommandSession;
+import org.apache.felix.service.command.Converter;
 import org.codehaus.plexus.interpolation.InterpolationException;
 import org.codehaus.plexus.interpolation.PropertiesBasedValueSource;
 import org.codehaus.plexus.interpolation.RegexBasedInterpolator;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
-import org.osgi.service.command.CommandProcessor;
-import org.osgi.service.command.CommandSession;
-import org.osgi.service.command.Converter;
 import org.ow2.chameleon.shell.gogo.handler.completor.ScopeCompletor;
 
 /**

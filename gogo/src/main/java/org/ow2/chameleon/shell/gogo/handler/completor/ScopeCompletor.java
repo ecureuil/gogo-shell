@@ -21,7 +21,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import jline.Completor;
-import org.osgi.service.command.CommandSession;
+import org.apache.felix.service.command.CommandSession;
 
 /**
  * This completor is used to prefix the command name with the available scope.

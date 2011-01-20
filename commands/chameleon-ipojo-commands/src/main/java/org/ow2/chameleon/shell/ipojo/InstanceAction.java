@@ -27,8 +27,8 @@ import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.architecture.Architecture;
 import org.apache.felix.ipojo.architecture.InstanceDescription;
+import org.apache.felix.service.command.CommandSession;
 import org.fusesource.jansi.Ansi;
-import org.osgi.service.command.CommandSession;
 import org.ow2.chameleon.shell.ipojo.util.AnsiPrintToolkit;
 
 /**

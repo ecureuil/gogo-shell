@@ -15,8 +15,8 @@
 
 package org.ow2.chameleon.shell.gogo.console;
 
+import org.apache.felix.service.command.CommandSession;
 import org.codehaus.plexus.interpolation.AbstractValueSource;
-import org.osgi.service.command.CommandSession;
 
 /**
  * Wrap an OSGi CommandSession as a ValueSource to permit resolution of expression

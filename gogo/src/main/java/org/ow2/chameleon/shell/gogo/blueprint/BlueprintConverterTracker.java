@@ -21,10 +21,10 @@ import java.util.Map;
 import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Unbind;
+import org.apache.felix.service.command.Converter;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.command.Converter;
 
 /**
  * Created by IntelliJ IDEA.

@@ -22,7 +22,7 @@ import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Invalidate;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Validate;
-import org.osgi.service.command.CommandProcessor;
+import org.apache.felix.service.command.CommandProcessor;
 import org.ow2.chameleon.shell.gogo.IScopeRegistry;
 
 /**

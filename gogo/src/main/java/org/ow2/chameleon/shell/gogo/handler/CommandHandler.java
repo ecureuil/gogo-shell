@@ -35,9 +35,9 @@ import org.apache.felix.ipojo.annotations.Unbind;
 import org.apache.felix.ipojo.architecture.HandlerDescription;
 import org.apache.felix.ipojo.metadata.Attribute;
 import org.apache.felix.ipojo.metadata.Element;
-import org.osgi.service.command.CommandProcessor;
-import org.osgi.service.command.CommandSession;
-import org.osgi.service.command.Function;
+import org.apache.felix.service.command.CommandProcessor;
+import org.apache.felix.service.command.CommandSession;
+import org.apache.felix.service.command.Function;
 import org.ow2.chameleon.shell.gogo.ICompletable;
 
 /**

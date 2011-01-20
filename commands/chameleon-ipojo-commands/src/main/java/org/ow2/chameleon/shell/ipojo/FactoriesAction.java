@@ -24,8 +24,8 @@ import org.apache.felix.ipojo.Factory;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.apache.felix.ipojo.annotations.Requires;
+import org.apache.felix.service.command.CommandSession;
 import org.fusesource.jansi.Ansi;
-import org.osgi.service.command.CommandSession;
 
 /**
  * List the iPOJO component factories.

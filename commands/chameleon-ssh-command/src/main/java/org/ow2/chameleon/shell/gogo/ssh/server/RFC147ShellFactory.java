@@ -22,9 +22,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Map;
 
+import org.apache.felix.service.command.CommandProcessor;
+import org.apache.felix.service.command.CommandSession;
 import org.apache.sshd.server.ShellFactory;
-import org.osgi.service.command.CommandProcessor;
-import org.osgi.service.command.CommandSession;
 import org.ow2.chameleon.shell.gogo.console.JLineConsole;
 
 public class RFC147ShellFactory implements ShellFactory {

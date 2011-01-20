@@ -33,12 +33,12 @@ public class StatelessGogoCommand extends GogoCommand {
 	}
 
 	@Override
-	protected Action createNewAction() throws Exception {
+	public Action createNewAction() {
         return (Action) manager.createPojoObject();
 	}
 
     @Override
-    protected void releaseAction(Action action) throws Exception {
+    public void releaseAction(Action action) throws Exception {
         manager.deletePojoObject(action);
     }
 }

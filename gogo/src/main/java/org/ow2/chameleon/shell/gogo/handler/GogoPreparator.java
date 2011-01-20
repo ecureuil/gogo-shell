@@ -16,9 +16,11 @@
 package org.ow2.chameleon.shell.gogo.handler;
 
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.felix.gogo.commands.Action;
@@ -32,8 +34,8 @@ import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Unbind;
-import org.osgi.service.command.CommandSession;
-import org.osgi.service.command.Converter;
+import org.apache.felix.service.command.CommandSession;
+import org.apache.felix.service.command.Converter;
 import org.ow2.chameleon.shell.gogo.IUsagePrinter;
 
 @Component
@@ -91,14 +93,17 @@ public class GogoPreparator extends DefaultActionPreparator {
     }
 
     @Override
-    protected void printUsage(final Command command,
-                              Set<Option> options,
-                              final Set<Argument> arguments,
-                              final PrintStream out) {
+    protected void printUsage(CommandSession session,
+                              Action action,
+                              Map<Option,Field> optionsMap,
+                              Map<Argument,Field> argsMap,
+                              PrintStream out) {
         // Delegate to the dedicated component
+        /*
         if (command != null) {
             printer.printUsage(command, options, arguments, out);
         }
+        */
     }
 
 

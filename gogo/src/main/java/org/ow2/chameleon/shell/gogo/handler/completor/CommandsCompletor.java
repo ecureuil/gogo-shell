@@ -31,9 +31,9 @@ import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.ServiceProperty;
 import org.apache.felix.ipojo.whiteboard.Wbp;
+import org.apache.felix.service.command.CommandProcessor;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
-import org.osgi.service.command.CommandProcessor;
 import org.ow2.chameleon.shell.gogo.ICompletable;
 import org.ow2.chameleon.shell.gogo.IScopeRegistry;
 
