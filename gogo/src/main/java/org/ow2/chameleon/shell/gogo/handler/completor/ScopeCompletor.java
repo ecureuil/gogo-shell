@@ -20,26 +20,26 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import jline.Completor;
+import jline.console.completer.Completer;
 import org.apache.felix.service.command.CommandSession;
 
 /**
  * This completor is used to prefix the command name with the available scope.
  * This is useful when the user do not type the command scope.
  */
-public class ScopeCompletor implements Completor {
+public class ScopeCompletor implements Completer {
 
     /**
      * Delegating Completor.
      */
-    private Completor delegate;
+    private Completer delegate;
 
     /**
      * The session containing the 'SCOPE' variable.
      */
     private CommandSession session;
 
-    public ScopeCompletor(Completor delegate, CommandSession session) {
+    public ScopeCompletor(Completer delegate, CommandSession session) {
         this.delegate = delegate;
         this.session = session;
     }

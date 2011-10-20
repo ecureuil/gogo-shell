@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import jline.Completor;
-import jline.SimpleCompletor;
+import jline.console.completer.Completer;
+import jline.console.completer.StringsCompleter;
 import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
@@ -32,8 +32,8 @@ import org.apache.felix.ipojo.architecture.InstanceDescription;
  * This Completor provides completion support for iPOJO instance names.
  */
 @Component(propagation = true)
-@Provides(specifications = Completor.class)
-public class ComponentInstanceCompletor extends SimpleCompletor {
+@Provides(specifications = Completer.class)
+public class ComponentInstanceCompletor extends StringsCompleter {
 
     private SortedSet<String> names;
 
@@ -45,7 +45,8 @@ public class ComponentInstanceCompletor extends SimpleCompletor {
     @Override
     public int complete(String buffer, int cursor, List clist) {
         // Update candidates
-        setCandidates(names);
+        getStrings().clear();
+        getStrings().addAll(names);
         return super.complete(buffer, cursor, clist);
     }
 

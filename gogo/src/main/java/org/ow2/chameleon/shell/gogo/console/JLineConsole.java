@@ -21,10 +21,11 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
-import jline.Completor;
-import jline.ConsoleReader;
-import jline.MultiCompletor;
 import jline.Terminal;
+import jline.TerminalFactory;
+import jline.console.ConsoleReader;
+import jline.console.completer.AggregateCompleter;
+import jline.console.completer.Completer;
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
 import org.apache.felix.service.command.Converter;
@@ -63,7 +64,7 @@ public class JLineConsole implements Runnable {
     private static final String DEFAULT_PROMPT = "${user.name}@${application.name}$ ";
 
     public JLineConsole(final CommandProcessor processor,
-                        Completor completor,
+                        Completer completor,
                         final InputStream in,
                         final PrintStream out,
                         final PrintStream err) throws Exception {
@@ -78,7 +79,7 @@ public class JLineConsole implements Runnable {
                                           wrappedErr);
 
         // Get an os specific terminal
-        Terminal terminal = Terminal.getTerminal();
+        Terminal terminal = TerminalFactory.get();
 
         // Create the JLine reader
         reader = new ConsoleReader(in,
@@ -89,10 +90,10 @@ public class JLineConsole implements Runnable {
         // Create a composite completor that use the given Completor and wrap it
         // in a Completor that tries to complement using the known scopes (from
         // SCOPE session variable)
-        Completor composite = new MultiCompletor(new Completor[] {
+        Completer composite = new AggregateCompleter(new Completer[] {
                 completor, new ScopeCompletor(completor, session)
         });
-        reader.addCompletor(composite);
+        reader.addCompleter(composite);
 
         // TODO Setup History
     }

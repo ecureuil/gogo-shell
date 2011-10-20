@@ -27,43 +27,42 @@
   <!-- Provides Components from JLine Completors -->
   <!-- - - - - - - - - - - - - - - - - - - - - - -->
 
-  <component classname="jline.SimpleCompletor">
+  <component classname="jline.console.completer.StringsCompleter">
     <provides />
     <properties propagation="true">
       <property name="candidates"
                 method="setCandidateStrings"
                 mandatory="true" />
-      <property field="delimiter" />
     </properties>
   </component>
 
-  <component classname="jline.NullCompletor">
+  <component classname="jline.console.completer.NullCompleter">
     <provides />
     <properties propagation="true" />
   </component>
 
-  <component classname="jline.FileNameCompletor">
+  <component classname="jline.console.completer.FileNameCompleter">
     <provides />
     <properties propagation="true" />
   </component>
 
   <!-- This Completor probably have to be used inside a composite -->
-  <component classname="jline.MultiCompletor">
+  <component classname="jline.console.completer.AggregateCompleter">
     <provides />
-    <requires field="completors"
+    <requires field="completers"
               aggregate="true"
               optional="true" />
     <properties propagation="true" />
   </component>
 
   <!-- This Completor probably have to be used inside a composite -->
-  <component classname="jline.ArgumentCompletor">
+  <component classname="jline.console.completer.ArgumentCompleter">
     <provides />
-    <requires field="completors"
+    <requires field="completers"
               aggregate="true"
               optional="true" />
-    <requires field="delim"
-              default-implementation="jline.ArgumentCompletor.WhitespaceArgumentDelimiter" />
+    <requires field="delimiter"
+              default-implementation="jline.console.completer.ArgumentCompleter.WhitespaceArgumentDelimiter" />
     <properties propagation="true">
       <property field="strict"
                 value="true" />

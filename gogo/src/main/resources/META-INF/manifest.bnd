@@ -15,7 +15,8 @@ Private-Package org.ow2.chameleon.shell.gogo.*
 
 Export-Package org.ow2.chameleon.shell.gogo,\
                org.ow2.chameleon.shell.gogo.console,\
-               org.apache.felix.gogo.commands
+               org.apache.karaf.shell.console.NameScoping,\
+               org.apache.felix.gogo.commands.*
 
 -exportcontents jline.*;version=${jline.version}, \
                 org.fusesource.jansi;version=${jansi.version}

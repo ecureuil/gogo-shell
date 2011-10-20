@@ -51,9 +51,8 @@
 
     <dependency>
       <!-- Provides Completion support -->
-      <groupId>jline</groupId>
+      <groupId>org.sonatype.jline</groupId>
       <artifactId>jline</artifactId>
-      <version>${jline.version}</version>
     </dependency>
     
   </dependencies>

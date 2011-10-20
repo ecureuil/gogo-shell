@@ -22,11 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import jline.ArgumentCompletor;
-import jline.Completor;
-import jline.MultiCompletor;
-import jline.NullCompletor;
-import jline.SimpleCompletor;
+import jline.console.completer.*;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.ServiceProperty;
@@ -49,10 +45,10 @@ import org.ow2.chameleon.shell.gogo.IScopeRegistry;
 @Wbp(filter = "(&(osgi.command.scope=*)(osgi.command.function=*))",
      onArrival = "onArrival",
      onDeparture = "onDeparture")
-public class CommandsCompletor implements Completor, IScopeRegistry {
+public class CommandsCompletor implements Completer, IScopeRegistry {
 
 
-    private Map<ServiceReference, Completor> references;
+    private Map<ServiceReference, Completer> references;
     private Map<String, Integer> scopes;
     private BundleContext context;
 
@@ -60,7 +56,7 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
     private String type = "commands";
 
     public CommandsCompletor(BundleContext context) {
-        references = new HashMap<ServiceReference, Completor>();
+        references = new HashMap<ServiceReference, Completer>();
         scopes = new HashMap<String, Integer>();
         this.context = context;
     }
@@ -71,8 +67,8 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
         // For each new command
         // Provide a first Completor with registered function names
         String[] functionNames = getFunctionNames(reference);
-        List<Completor> cl = new ArrayList<Completor>();
-        cl.add(new SimpleCompletor(functionNames));
+        List<Completer> cl = new ArrayList<Completer>();
+        cl.add(new StringsCompleter(functionNames));
 
         // Then, each command may provides its own set of Completors
         try {
@@ -80,12 +76,12 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
 
             if (service instanceof ICompletable) {
                 ICompletable completable = (ICompletable) service;
-                List<Completor> completors = completable.getCompletors();
+                List<Completer> completors = completable.getCompletors();
                 if (completors != null) {
-                    for (Completor completor : completors) {
+                    for (Completer completor : completors) {
                         // Support case where the completable explicitely set a null value in the list
                         if (completor == null) {
-                            cl.add(new NullCompletor());
+                            cl.add(new NullCompleter());
                         } else {
                             // Normal case, just add the given Completor
                             cl.add(completor);
@@ -93,10 +89,10 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
                     }
                 }
             } else {
-                cl.add(new NullCompletor());
+                cl.add(new NullCompleter());
             }
             // then we wrap in an ArgumentCompletor (one for each command)
-            ArgumentCompletor argumentCompletor = new ArgumentCompletor(cl);
+            ArgumentCompleter argumentCompletor = new ArgumentCompleter(cl);
 
             // We finally store the ArgumentCompletor of the command in the map
             references.put(reference, argumentCompletor);
@@ -165,8 +161,8 @@ public class CommandsCompletor implements Completor, IScopeRegistry {
 
         // Create a multi completor for all registered completors
         // and run them all
-        Completor[] array = references.values().toArray(new Completor[references.size()]);
-        int res = new MultiCompletor(array).complete(buffer, cursor, candidates);
+        Completer[] array = references.values().toArray(new Completer[references.size()]);
+        int res = new AggregateCompleter(array).complete(buffer, cursor, candidates);
 
         // Note to myself: It still seems to be a little bit magic, how can jline,
         // from a list of all completors of all commands, provides the right completion values ...

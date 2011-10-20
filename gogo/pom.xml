@@ -55,7 +55,7 @@
 
     <!-- JLine and Jansi support -->
     <dependency>
-      <groupId>jline</groupId>
+      <groupId>org.sonatype.jline</groupId>
       <artifactId>jline</artifactId>
     </dependency>
     <dependency>

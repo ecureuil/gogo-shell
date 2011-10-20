@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import jline.Completor;
-import jline.SimpleCompletor;
+import jline.console.completer.Completer;
+import jline.console.completer.StringsCompleter;
 import org.apache.felix.ipojo.Factory;
 import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
@@ -31,8 +31,8 @@ import org.apache.felix.ipojo.annotations.Unbind;
  * This Completor provides completion support for iPOJO factory names.
  */
 @Component(propagation = true)
-@Provides(specifications = Completor.class)
-public class ComponentFactoryCompletor extends SimpleCompletor {
+@Provides(specifications = Completer.class)
+public class ComponentFactoryCompletor extends StringsCompleter {
 
     private SortedSet<String> names;
 
@@ -44,7 +44,8 @@ public class ComponentFactoryCompletor extends SimpleCompletor {
     @Override
     public int complete(String buffer, int cursor, List clist) {
         // Update candidates
-        setCandidates(names);
+        getStrings().clear();
+        getStrings().addAll(names);
         return super.complete(buffer, cursor, clist);
     }
 

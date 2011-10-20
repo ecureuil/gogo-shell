@@ -17,7 +17,7 @@ package org.ow2.chameleon.shell.gogo;
 
 import java.util.List;
 
-import jline.Completor;
+import jline.console.completer.Completer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,5 +27,5 @@ import jline.Completor;
  * To change this template use File | Settings | File Templates.
  */
 public interface ICompletable {
-    List<Completor> getCompletors();
+    List<Completer> getCompletors();
 }

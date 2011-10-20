@@ -17,7 +17,7 @@ package org.ow2.chameleon.shell.gogo.console;
 
 import java.util.Set;
 
-import jline.Completor;
+import jline.console.completer.Completer;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Invalidate;
 import org.apache.felix.ipojo.annotations.Requires;
@@ -39,7 +39,7 @@ public class ConsoleStartupComponent {
     private CommandProcessor processor;
 
     @Requires(filter = "(type=commands)")
-    private Completor completor;
+    private Completer completor;
 
     @Requires
     private IScopeRegistry scopeRegistry;

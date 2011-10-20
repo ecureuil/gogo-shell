@@ -20,7 +20,7 @@ import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
-import jline.Completor;
+import jline.console.completer.Completer;
 import org.apache.felix.gogo.commands.Action;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.basic.ActionPreparator;
@@ -92,7 +92,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
     @Requires
     private ActionPreparator preparator;
 
-    private List<Completor> completors;
+    private List<Completer> completors;
 
     @ServiceProperty(name = CommandProcessor.COMMAND_SCOPE)
     private String scope;
@@ -128,7 +128,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
 
 		// OK, now we have the configuration
         
-        completors = new ArrayList<Completor>();
+        completors = new ArrayList<Completer>();
         commandId = (String) dictionary.get("instance.name");
 
 	}
@@ -136,7 +136,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
     @Bind(optional = true,
           aggregate = true,
           filter = "(command.id=*)")
-    public void bindCompletor(Completor completor, Map reference) {
+    public void bindCompletor(Completer completor, Map reference) {
 
         if (commandId.equals(reference.get("command.id"))) {
             completors.add(completor);
@@ -146,7 +146,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
     }
 
     @Unbind
-    public void unbindCompletor(Completor completor) {
+    public void unbindCompletor(Completer completor) {
         completors.remove(completor);
     }
 
@@ -163,7 +163,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
         }
     }
 
-    public List<Completor> getCompletors() {
+    public List<Completer> getCompletors() {
         return completors;
     }
 

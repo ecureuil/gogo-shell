@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import jline.Completor;
-import jline.SimpleCompletor;
+import jline.console.completer.Completer;
+import jline.console.completer.StringsCompleter;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.osgi.service.cm.ConfigurationEvent;
@@ -19,8 +19,8 @@ import org.osgi.service.cm.ConfigurationListener;
  * To change this template use File | Settings | File Templates.
  */
 @Component(propagation = true)
-@Provides(specifications = {Completor.class, ConfigurationListener.class})
-public class ConfigurationCompletor extends SimpleCompletor implements ConfigurationListener {
+@Provides(specifications = {Completer.class, ConfigurationListener.class})
+public class ConfigurationCompletor extends StringsCompleter implements ConfigurationListener {
 
     private SortedSet<String> configurations;
 
@@ -36,7 +36,8 @@ public class ConfigurationCompletor extends SimpleCompletor implements Configura
     @Override
     public int complete(String buffer, int cursor, List clist) {
         // Update candidates list
-        setCandidates(configurations);
+        getStrings().clear();
+        getStrings().addAll(configurations);
         return super.complete(buffer, cursor, clist);
     }
 
