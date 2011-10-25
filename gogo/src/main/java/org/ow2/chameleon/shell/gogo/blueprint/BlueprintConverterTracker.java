@@ -33,7 +33,7 @@ import org.osgi.framework.ServiceRegistration;
  * Time: 22:43:33
  * To change this template use File | Settings | File Templates.
  */
-@Component
+//@Component
 public class BlueprintConverterTracker {
 
     private Map<ServiceReference, ServiceRegistration> converters;
