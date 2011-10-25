@@ -11,11 +11,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Private-Package org.ow2.chameleon.shell.gogo.*
+Private-Package org.ow2.chameleon.shell.gogo.*,\
+                org.apache.karaf.shell.console
 
 Export-Package org.ow2.chameleon.shell.gogo,\
                org.ow2.chameleon.shell.gogo.console,\
-               org.apache.karaf.shell.console.NameScoping,\
                org.apache.felix.gogo.commands.*
 
 -exportcontents jline.*;version=${jline.version}, \
@@ -30,6 +30,9 @@ Import-Package sun.reflect;resolution:=optional, \
                org.osgi.service.blueprint.container;resolution:=optional, \
                !jline, \
                !org.fusesource.jansi*, \
+               !org.apache.karaf.shell.console.jline, \
+               !org.apache.felix.gogo.runtime.*, \
+               !org.slf4j, \
                *
 
 IPOJO-Extension command:org.ow2.chameleon.shell.gogo.extension.CommandFactory
