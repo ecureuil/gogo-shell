@@ -99,11 +99,11 @@ public class GogoPreparator extends DefaultActionPreparator {
                               Map<Argument,Field> argsMap,
                               PrintStream out) {
         // Delegate to the dedicated component
-        /*
+        Command command = action.getClass().getAnnotation(Command.class);
         if (command != null) {
-            printer.printUsage(command, options, arguments, out);
+            printer.printUsage(command, optionsMap.keySet(), argsMap.keySet(), out);
         }
-        */
+
     }
 
 
