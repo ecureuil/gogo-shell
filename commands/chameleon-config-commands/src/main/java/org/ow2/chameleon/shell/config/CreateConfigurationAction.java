@@ -39,7 +39,7 @@ public class CreateConfigurationAction implements Action {
     @Option(name = "-f",
             aliases = "--factory",
             description = "Create a factory Configuration (given PID will become"
-                          + "the factoryPid of that Configuration)")
+                          + " the factoryPid of that Configuration)")
     private boolean createFactoryConf = false;
 
     @Argument(name = "pid",
