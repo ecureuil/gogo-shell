@@ -230,7 +230,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
                 Element command = new Element("command", "");
                 command.addAttribute(new Attribute("scope", scope));
                 command.addAttribute(new Attribute("name", function));
-                command.addAttribute(new Attribute("type", type.name()));
+                command.addAttribute(new Attribute("type", type.name().toLowerCase()));
 
                 info.addElement(command);
 
