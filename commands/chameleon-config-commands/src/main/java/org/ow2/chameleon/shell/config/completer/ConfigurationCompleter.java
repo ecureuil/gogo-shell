@@ -1,4 +1,4 @@
-package org.ow2.chameleon.shell.config.completor;
+package org.ow2.chameleon.shell.config.completer;
 
 import java.util.List;
 import java.util.SortedSet;
@@ -20,15 +20,15 @@ import org.osgi.service.cm.ConfigurationListener;
  */
 @Component(propagation = true)
 @Provides(specifications = {Completer.class, ConfigurationListener.class})
-public class ConfigurationCompletor extends StringsCompleter implements ConfigurationListener {
+public class ConfigurationCompleter extends StringsCompleter implements ConfigurationListener {
 
     private SortedSet<String> configurations;
 
     /**
-     * Create a new SimpleCompletor with a single possible completion
+     * Create a new StringsCompleter with a single possible completion
      * values.
      */
-    public ConfigurationCompletor() {
+    public ConfigurationCompleter() {
         super("");
         configurations = new TreeSet<String>();
     }

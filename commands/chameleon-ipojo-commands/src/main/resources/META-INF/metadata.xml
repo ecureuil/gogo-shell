@@ -26,12 +26,12 @@
 
   <command xmlns="org.ow2.chameleon.shell"
            action="org.ow2.chameleon.shell.ipojo.InstanceAction">
-    <completor component="org.ow2.chameleon.shell.ipojo.completor.ComponentInstanceCompletor" />
+    <completer component="org.ow2.chameleon.shell.ipojo.completer.ComponentInstanceCompleter" />
   </command>
 
   <command xmlns="org.ow2.chameleon.shell"
            action="org.ow2.chameleon.shell.ipojo.FactoryAction">
-    <completor component="org.ow2.chameleon.shell.ipojo.completor.ComponentFactoryCompletor" />
+    <completer component="org.ow2.chameleon.shell.ipojo.completer.ComponentFactoryCompleter" />
   </command>
 
 </ipojo>

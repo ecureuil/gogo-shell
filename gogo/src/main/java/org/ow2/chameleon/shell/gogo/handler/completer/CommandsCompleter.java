@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.ow2.chameleon.shell.gogo.handler.completor;
+package org.ow2.chameleon.shell.gogo.handler.completer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +45,7 @@ import org.ow2.chameleon.shell.gogo.IScopeRegistry;
 @Wbp(filter = "(&(osgi.command.scope=*)(osgi.command.function=*))",
      onArrival = "onArrival",
      onDeparture = "onDeparture")
-public class CommandsCompletor implements Completer, IScopeRegistry {
+public class CommandsCompleter implements Completer, IScopeRegistry {
 
 
     private Map<ServiceReference, Completer> references;
@@ -55,7 +55,7 @@ public class CommandsCompletor implements Completer, IScopeRegistry {
     @ServiceProperty
     private String type = "commands";
 
-    public CommandsCompletor(BundleContext context) {
+    public CommandsCompleter(BundleContext context) {
         references = new HashMap<ServiceReference, Completer>();
         scopes = new HashMap<String, Integer>();
         this.context = context;
@@ -65,37 +65,37 @@ public class CommandsCompletor implements Completer, IScopeRegistry {
     public void onArrival(ServiceReference reference) {
 
         // For each new command
-        // Provide a first Completor with registered function names
+        // Provide a first Completer with registered function names
         String[] functionNames = getFunctionNames(reference);
         List<Completer> cl = new ArrayList<Completer>();
         cl.add(new StringsCompleter(functionNames));
 
-        // Then, each command may provides its own set of Completors
+        // Then, each command may provides its own set of Completers
         try {
             Object service = context.getService(reference);
 
             if (service instanceof ICompletable) {
                 ICompletable completable = (ICompletable) service;
-                List<Completer> completors = completable.getCompletors();
-                if (completors != null) {
-                    for (Completer completor : completors) {
+                List<Completer> completers = completable.getCompleters();
+                if (completers != null) {
+                    for (Completer completer : completers) {
                         // Support case where the completable explicitely set a null value in the list
-                        if (completor == null) {
+                        if (completer == null) {
                             cl.add(new NullCompleter());
                         } else {
-                            // Normal case, just add the given Completor
-                            cl.add(completor);
+                            // Normal case, just add the given Completer
+                            cl.add(completer);
                         }
                     }
                 }
             } else {
                 cl.add(new NullCompleter());
             }
-            // then we wrap in an ArgumentCompletor (one for each command)
-            ArgumentCompleter argumentCompletor = new ArgumentCompleter(cl);
+            // then we wrap in an ArgumentCompleter (one for each command)
+            ArgumentCompleter argumentCompleter = new ArgumentCompleter(cl);
 
-            // We finally store the ArgumentCompletor of the command in the map
-            references.put(reference, argumentCompletor);
+            // We finally store the ArgumentCompleter of the command in the map
+            references.put(reference, argumentCompleter);
         } finally {
             context.ungetService(reference);
         }
@@ -159,13 +159,13 @@ public class CommandsCompletor implements Completer, IScopeRegistry {
      */
     public int complete(String buffer, int cursor, List candidates) {
 
-        // Create a multi completor for all registered completors
+        // Create a multi completer for all registered completers
         // and run them all
         Completer[] array = references.values().toArray(new Completer[references.size()]);
         int res = new AggregateCompleter(array).complete(buffer, cursor, candidates);
 
         // Note to myself: It still seems to be a little bit magic, how can jline,
-        // from a list of all completors of all commands, provides the right completion values ...
+        // from a list of all completers of all commands, provides the right completion values ...
         // There is some magic left in the world ;)
 
         // Then sort the resulting candidate list

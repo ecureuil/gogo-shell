@@ -26,8 +26,8 @@ import java.util.Vector;
 import org.apache.felix.ipojo.ConfigurationException;
 import org.apache.felix.ipojo.metadata.Element;
 import org.ow2.chameleon.shell.gogo.extension.type.ECommand;
-import org.ow2.chameleon.shell.gogo.extension.type.ECompletor;
-import org.ow2.chameleon.shell.gogo.handler.CompletorServiceComparator;
+import org.ow2.chameleon.shell.gogo.extension.type.ECompleter;
+import org.ow2.chameleon.shell.gogo.handler.CompleterServiceComparator;
 
 import static org.ow2.chameleon.shell.gogo.extension.parser.MetadataUtils.getAttributeValue;
 
@@ -61,7 +61,7 @@ public class CommandParser {
     public static final String LIST_TYPE = "list";
     public static final String MAP_TYPE = "map";
     public static final String DICTIONARY_TYPE = "dictionary";
-    public static final String COMPLETOR = "completor";
+    public static final String COMPLETER = "completer";
     public static final String EXPORT = "export";
     public static final String IMPORT = "import";
 
@@ -69,25 +69,25 @@ public class CommandParser {
 
         ECommand type = new ECommand(getAttributeValue(metadata, ACTION));
 
-        // Create completors instances
-        Element[] completors = metadata.getElements(COMPLETOR, NAMESPACE);
+        // Create completers instances
+        Element[] completers = metadata.getElements(COMPLETER, NAMESPACE);
 
-        if (completors != null) {
-            for (int i = 0; i < completors.length; i++) {
-                ECompletor completor = createCompletor(completors[i]);
-                // Add an attribute used to sort the completors automatically
-                completor.addProperty(CompletorServiceComparator.POSITION,
+        if (completers != null) {
+            for (int i = 0; i < completers.length; i++) {
+                ECompleter completer = createCompleter(completers[i]);
+                // Add an attribute used to sort the completers automatically
+                completer.addProperty(CompleterServiceComparator.POSITION,
                                       String.valueOf(i));
-                type.addCompletor(completor);
+                type.addCompleter(completer);
             }
         }
 
         return type;
     }
 
-    private ECompletor createCompletor(Element element) throws ConfigurationException {
+    private ECompleter createCompleter(Element element) throws ConfigurationException {
 
-        ECompletor instance = new ECompletor(getAttributeValue(element, COMPONENT));
+        ECompleter instance = new ECompleter(getAttributeValue(element, COMPONENT));
 
         Element[] properties = element.getElements(PROPERTY);
         if (properties != null) {

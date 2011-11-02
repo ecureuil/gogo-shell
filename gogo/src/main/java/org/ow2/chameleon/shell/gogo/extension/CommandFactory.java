@@ -36,7 +36,7 @@ import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 import org.ow2.chameleon.shell.gogo.extension.parser.CommandParser;
 import org.ow2.chameleon.shell.gogo.extension.type.ECommand;
-import org.ow2.chameleon.shell.gogo.extension.type.ECompletor;
+import org.ow2.chameleon.shell.gogo.extension.type.ECompleter;
 
 /**
  * <pre>
@@ -183,7 +183,7 @@ public class CommandFactory extends IPojoFactory implements TrackerCustomizer {
     }
 
     public boolean addingService(ServiceReference reference) {
-        // Only interested in action or completor components
+        // Only interested in action or completer components
         String name = (String) reference.getProperty("factory.name");
 
         // First case of error
@@ -199,8 +199,8 @@ public class CommandFactory extends IPojoFactory implements TrackerCustomizer {
             return true;
         }
 
-        for (ECompletor completor : command.getCompletors()) {
-            if (completor.getComponent().equals(name)) {
+        for (ECompleter completer : command.getCompleters()) {
+            if (completer.getComponent().equals(name)) {
                 return true;
             }
         }
@@ -269,8 +269,8 @@ public class CommandFactory extends IPojoFactory implements TrackerCustomizer {
 
         List<String> names = new ArrayList<String>();
         names.add(command.getAction());
-        for (ECompletor completor : command.getCompletors()) {
-            names.add(completor.getComponent());
+        for (ECompleter completer : command.getCompleters()) {
+            names.add(completer.getComponent());
         }
         return names;
     }
@@ -297,19 +297,19 @@ public class CommandFactory extends IPojoFactory implements TrackerCustomizer {
         }
         String id = actionInstance.getInstanceName();
 
-        List<Factory> completorFactories = getCompletorFactories();
-        for (Factory factory : completorFactories) {
-            Dictionary dict = getCompletorConfiguration(factory.getName());
+        List<Factory> completerFactories = getCompleterFactories();
+        for (Factory factory : completerFactories) {
+            Dictionary dict = getCompleterConfiguration(factory.getName());
             dict.put("command.id", id);
 
-            ComponentInstance completor = null;
+            ComponentInstance completer = null;
             try {
-                completor = factory.createComponentInstance(dict);
+                completer = factory.createComponentInstance(dict);
             } catch (Exception e) {
                 // TODO Fixme
                 e.printStackTrace();
             }
-            instances.add(completor);
+            instances.add(completer);
         }
 
         instances.add(actionInstance);
@@ -319,26 +319,26 @@ public class CommandFactory extends IPojoFactory implements TrackerCustomizer {
         }
     }
 
-    private Dictionary getCompletorConfiguration(String name) {
+    private Dictionary getCompleterConfiguration(String name) {
 
-        for (ECompletor completor : command.getCompletors()) {
-            if (completor.getComponent().equals(name)) {
-                return completor.getConfiguration();
+        for (ECompleter completer : command.getCompleters()) {
+            if (completer.getComponent().equals(name)) {
+                return completer.getConfiguration();
             }
         }
         throw new IllegalStateException("Should not happen");
     }
 
-    private List<Factory> getCompletorFactories() {
+    private List<Factory> getCompleterFactories() {
 
-        List<Factory> completors = new ArrayList<Factory>();
+        List<Factory> completers = new ArrayList<Factory>();
         for (Factory factory : factories) {
-            // We have action or completors, nothing else
+            // We have action or completers, nothing else
             if (!factory.getName().equals(command.getAction())) {
-                completors.add(factory);
+                completers.add(factory);
             }
         }
-        return completors;
+        return completers;
     }
 
     private Factory getActionFactory() {

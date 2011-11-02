@@ -92,7 +92,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
     @Requires
     private ActionPreparator preparator;
 
-    private List<Completer> completors;
+    private List<Completer> completers;
 
     @ServiceProperty(name = CommandProcessor.COMMAND_SCOPE)
     private String scope;
@@ -128,7 +128,7 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
 
 		// OK, now we have the configuration
         
-        completors = new ArrayList<Completer>();
+        completers = new ArrayList<Completer>();
         commandId = (String) dictionary.get("instance.name");
 
 	}
@@ -136,18 +136,18 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
     @Bind(optional = true,
           aggregate = true,
           filter = "(command.id=*)")
-    public void bindCompletor(Completer completor, Map reference) {
+    public void bindCompleter(Completer completer, Map reference) {
 
         if (commandId.equals(reference.get("command.id"))) {
-            completors.add(completor);
+            completers.add(completer);
             // TODO Sort list
-            //Collections.sort(completors, new CompletorServiceComparator());
+            //Collections.sort(completers, new CompleterServiceComparator());
         }
     }
 
     @Unbind
-    public void unbindCompletor(Completer completor) {
-        completors.remove(completor);
+    public void unbindCompleter(Completer completer) {
+        completers.remove(completer);
     }
 
     /**
@@ -163,8 +163,8 @@ public class CommandHandler extends PrimitiveHandler implements Function, ICompl
         }
     }
 
-    public List<Completer> getCompletors() {
-        return completors;
+    public List<Completer> getCompleters() {
+        return completers;
     }
 
 	@Override

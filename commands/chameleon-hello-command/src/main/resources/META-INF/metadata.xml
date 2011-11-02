@@ -21,11 +21,11 @@
 
   <shell:command action="org.ow2.chameleon.shell.gogo.hello.HelloCommand">
 <!--
-    <shell:completor component="jline.SimpleCompletor">
+    <shell:completer component="jline.console.completer.StringsCompleter">
       <shell:property name="candidates" type="array">
         <shell:property name=""
       </shell:property>
-    </shell:completor>
+    </shell:completer>
 -->
   </shell:command>
 

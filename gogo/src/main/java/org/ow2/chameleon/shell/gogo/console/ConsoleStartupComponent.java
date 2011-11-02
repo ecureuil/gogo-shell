@@ -39,7 +39,7 @@ public class ConsoleStartupComponent {
     private CommandProcessor processor;
 
     @Requires(filter = "(type=commands)")
-    private Completer completor;
+    private Completer completer;
 
     @Requires
     private IScopeRegistry scopeRegistry;
@@ -51,7 +51,7 @@ public class ConsoleStartupComponent {
 
         // Start the console
         console = new JLineConsole(processor,
-                                   completor,
+                                   completer,
                                    System.in,
                                    System.out,
                                    System.err);

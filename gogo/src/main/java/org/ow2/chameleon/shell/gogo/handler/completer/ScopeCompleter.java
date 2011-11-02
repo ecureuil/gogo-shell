@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.ow2.chameleon.shell.gogo.handler.completor;
+package org.ow2.chameleon.shell.gogo.handler.completer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +24,13 @@ import jline.console.completer.Completer;
 import org.apache.felix.service.command.CommandSession;
 
 /**
- * This completor is used to prefix the command name with the available scope.
+ * This completer is used to prefix the command name with the available scope.
  * This is useful when the user do not type the command scope.
  */
-public class ScopeCompletor implements Completer {
+public class ScopeCompleter implements Completer {
 
     /**
-     * Delegating Completor.
+     * Delegating Completer.
      */
     private Completer delegate;
 
@@ -39,7 +39,7 @@ public class ScopeCompletor implements Completer {
      */
     private CommandSession session;
 
-    public ScopeCompletor(Completer delegate, CommandSession session) {
+    public ScopeCompleter(Completer delegate, CommandSession session) {
         this.delegate = delegate;
         this.session = session;
     }
@@ -58,7 +58,7 @@ public class ScopeCompletor implements Completer {
      */
     public int complete(String buffer, int cursor, List candidates) {
 
-        // Use a SortedMap keyed by the return result of the delegate Completor so that
+        // Use a SortedMap keyed by the return result of the delegate Completer so that
         // all values are grouped and maximum value can be easily retrieved
         SortedMap<Integer, List<List>> completions = new TreeMap<Integer, List<List>>();
 

@@ -24,19 +24,19 @@
   <shell:command action="org.ow2.chameleon.shell.config.CreateConfigurationAction" />
 
   <shell:command action="org.ow2.chameleon.shell.config.DeleteConfigurationAction">
-    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
   </shell:command>
 
   <shell:command action="org.ow2.chameleon.shell.config.PropertyDeleteAction">
-    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
   </shell:command>
 
   <shell:command action="org.ow2.chameleon.shell.config.PropertySetAction">
-    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
   </shell:command>
 
   <shell:command action="org.ow2.chameleon.shell.config.DetailsConfigurationAction">
-    <shell:completor component="org.ow2.chameleon.shell.config.completor.ConfigurationCompletor" />
+    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
   </shell:command>
 
 </ipojo>

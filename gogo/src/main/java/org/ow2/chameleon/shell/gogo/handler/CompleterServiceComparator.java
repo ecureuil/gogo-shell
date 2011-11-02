@@ -11,9 +11,9 @@ import org.osgi.framework.ServiceReference;
  * Time: 12:43:49
  * To change this template use File | Settings | File Templates.
  */
-public class CompletorServiceComparator implements Comparator<ServiceReference> {
+public class CompleterServiceComparator implements Comparator<ServiceReference> {
 
-    public static final String POSITION = "completor.position";
+    public static final String POSITION = "completer.position";
 
     public int compare(ServiceReference ref1, ServiceReference ref2) {
 
@@ -21,7 +21,7 @@ public class CompletorServiceComparator implements Comparator<ServiceReference> 
         String pos2 = (String) ref2.getProperty(POSITION);
 
         if ((pos1 != null) && (pos2 != null)) {
-            // Completors are comparable
+            // Completers are comparable
             return pos1.compareTo(pos2);
         }
         return 0;

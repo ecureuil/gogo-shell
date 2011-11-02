@@ -27,5 +27,5 @@ import jline.console.completer.Completer;
  * To change this template use File | Settings | File Templates.
  */
 public interface ICompletable {
-    List<Completer> getCompletors();
+    List<Completer> getCompleters();
 }

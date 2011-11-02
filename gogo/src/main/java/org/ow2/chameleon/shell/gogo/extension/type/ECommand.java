@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by IntelliJ IDEA.
  * User: Guillaume
- * Date: 5 févr. 2010
+ * Date: 5 fï¿½vr. 2010
  * Time: 21:41:44
  * To change this template use File | Settings | File Templates.
  */
@@ -33,33 +33,33 @@ public class ECommand {
     private String action;
 
     /**
-     * The list of completors.
+     * The list of completers.
      */
-    private List<ECompletor> completors;
+    private List<ECompleter> completers;
 
 
     public ECommand(String action) {
         this.action = action;
-        completors = new ArrayList<ECompletor>();
+        completers = new ArrayList<ECompleter>();
     }
 
-    public void addCompletor(ECompletor completor) {
-        completors.add(completor);
+    public void addCompleter(ECompleter completer) {
+        completers.add(completer);
     }
 
     public String getAction() {
         return action;
     }
 
-    public List<ECompletor> getCompletors() {
-        return completors;
+    public List<ECompleter> getCompleters() {
+        return completers;
     }
 
     @Override
     public String toString() {
         return "ECommand{" +
                 "action='" + action + '\'' +
-                ", completors=" + completors +
+                ", completers=" + completers +
                 '}';
     }
 }

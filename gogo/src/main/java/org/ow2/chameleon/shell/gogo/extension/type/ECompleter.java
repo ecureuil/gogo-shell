@@ -21,14 +21,14 @@ import java.util.Hashtable;
 /**
  * Created by IntelliJ IDEA.
  * User: Guillaume
- * Date: 5 févr. 2010
+ * Date: 5 fï¿½vr. 2010
  * Time: 21:42:59
  * To change this template use File | Settings | File Templates.
  */
-public class ECompletor {
+public class ECompleter {
 
     /**
-     * Completor component name.
+     * Completer component name.
      */
     private String component;
 
@@ -37,7 +37,7 @@ public class ECompletor {
      */
     private Dictionary<String, Object> properties;
 
-    public ECompletor(String component) {
+    public ECompleter(String component) {
         this.component = component;
     }
 
@@ -58,7 +58,7 @@ public class ECompletor {
 
     @Override
     public String toString() {
-        return "ECompletor{" +
+        return "ECompleter{" +
                 "component='" + component + '\'' +
                 ", properties=" + properties +
                 '}';

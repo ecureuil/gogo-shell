@@ -7,15 +7,15 @@
 
   <xs:complexType name="CommandType">
     <xs:sequence>
-      <xs:element name="completor"
-                  type="CompletorType"
+      <xs:element name="completer"
+                  type="CompleterType"
                   minOccurs="0"
                   maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="action" type="xs:string" use="required" />
   </xs:complexType>
 
-  <xs:complexType name="CompletorType">
+  <xs:complexType name="CompleterType">
     <xs:sequence>
         <xs:element name="property"
                     type="PropertyType"

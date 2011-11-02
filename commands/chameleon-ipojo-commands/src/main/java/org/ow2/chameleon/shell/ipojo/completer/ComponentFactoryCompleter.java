@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.ow2.chameleon.shell.ipojo.completor;
+package org.ow2.chameleon.shell.ipojo.completer;
 
 import java.util.List;
 import java.util.SortedSet;
@@ -21,23 +21,22 @@ import java.util.TreeSet;
 
 import jline.console.completer.Completer;
 import jline.console.completer.StringsCompleter;
+import org.apache.felix.ipojo.Factory;
 import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Unbind;
-import org.apache.felix.ipojo.architecture.Architecture;
-import org.apache.felix.ipojo.architecture.InstanceDescription;
 
 /**
- * This Completor provides completion support for iPOJO instance names.
+ * This Completer provides completion support for iPOJO factory names.
  */
 @Component(propagation = true)
 @Provides(specifications = Completer.class)
-public class ComponentInstanceCompletor extends StringsCompleter {
+public class ComponentFactoryCompleter extends StringsCompleter {
 
     private SortedSet<String> names;
 
-    public ComponentInstanceCompletor() {
+    public ComponentFactoryCompleter() {
         super("");
         names = new TreeSet<String>();
     }
@@ -50,22 +49,21 @@ public class ComponentInstanceCompletor extends StringsCompleter {
         return super.complete(buffer, cursor, clist);
     }
 
-    @Bind(id = "arch",
+    @Bind(id = "factory",
           aggregate = true,
           optional = true)
-    private void onArchitectureArrival(Architecture arch) {
-        String name = arch.getInstanceDescription().getName();
+    private void onFactoryArrival(Factory factory) {
+        String name = factory.getName();
         // Do not accept duplicates
         if (!names.contains(name)) {
             names.add(name);
         }
     }
 
-    @Unbind(id = "arch")
-    private void onArchitectureDeparture(Architecture arch) {
-        if (arch != null) {
-            InstanceDescription desc = arch.getInstanceDescription();
-            names.remove(desc.getName());
+    @Unbind(id = "factory")
+    private void onFactoryDeparture(Factory factory) {
+        if (factory != null) {
+            names.remove(factory.getName());
         }
     }
 }
