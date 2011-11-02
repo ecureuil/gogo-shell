@@ -19,7 +19,7 @@
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd"
        xmlns:shell="org.ow2.chameleon.shell">
 
-  <shell:command action="org.ow2.chameleon.shell.gogo.hello.HelloCommand">
+  <shell:command action="org.ow2.chameleon.shell.gogo.hello.internal.HelloCommand">
 <!--
     <shell:completer component="jline.console.completer.StringsCompleter">
       <shell:property name="candidates" type="array">
@@ -29,5 +29,5 @@
 -->
   </shell:command>
 
-  <shell:command action="org.ow2.chameleon.shell.gogo.hello.ServicesCommand" />
+  <shell:command action="org.ow2.chameleon.shell.gogo.hello.internal.ServicesCommand" />
 </ipojo>

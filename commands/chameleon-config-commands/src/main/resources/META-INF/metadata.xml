@@ -19,24 +19,24 @@
        xmlns:shell="org.ow2.chameleon.shell"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd">
 
-  <shell:command action="org.ow2.chameleon.shell.config.ListConfigurationAction" />
+  <shell:command action="org.ow2.chameleon.shell.config.internal.ListConfigurationAction" />
 
-  <shell:command action="org.ow2.chameleon.shell.config.CreateConfigurationAction" />
+  <shell:command action="org.ow2.chameleon.shell.config.internal.CreateConfigurationAction" />
 
-  <shell:command action="org.ow2.chameleon.shell.config.DeleteConfigurationAction">
-    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
+  <shell:command action="org.ow2.chameleon.shell.config.internal.DeleteConfigurationAction">
+    <shell:completer component="org.ow2.chameleon.shell.config.internal.completer.ConfigurationCompleter" />
   </shell:command>
 
-  <shell:command action="org.ow2.chameleon.shell.config.PropertyDeleteAction">
-    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
+  <shell:command action="org.ow2.chameleon.shell.config.internal.PropertyDeleteAction">
+    <shell:completer component="org.ow2.chameleon.shell.config.internal.completer.ConfigurationCompleter" />
   </shell:command>
 
-  <shell:command action="org.ow2.chameleon.shell.config.PropertySetAction">
-    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
+  <shell:command action="org.ow2.chameleon.shell.config.internal.PropertySetAction">
+    <shell:completer component="org.ow2.chameleon.shell.config.internal.completer.ConfigurationCompleter" />
   </shell:command>
 
-  <shell:command action="org.ow2.chameleon.shell.config.DetailsConfigurationAction">
-    <shell:completer component="org.ow2.chameleon.shell.config.completer.ConfigurationCompleter" />
+  <shell:command action="org.ow2.chameleon.shell.config.internal.DetailsConfigurationAction">
+    <shell:completer component="org.ow2.chameleon.shell.config.internal.completer.ConfigurationCompleter" />
   </shell:command>
 
 </ipojo>

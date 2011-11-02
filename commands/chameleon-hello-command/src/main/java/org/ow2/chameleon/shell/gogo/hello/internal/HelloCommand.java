@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package ${groupId};
+package org.ow2.chameleon.shell.gogo.hello.internal;
 
 import java.util.List;
 
@@ -26,44 +26,24 @@ import org.apache.felix.ipojo.annotations.HandlerDeclaration;
 import org.apache.felix.service.command.CommandSession;
 
 @Component
-@Command(name="hello",
-         scope="test",
-         description="A simple hello command")
+@Command(name="hello", scope="test", description="A simple hello command")
 @HandlerDeclaration("<sh:command xmlns:sh='org.ow2.chameleon.shell.gogo'/>")
-public class HelloAction implements Action {
+public class HelloCommand implements Action {
 
-    /**
-     * An option is a named command parameter that should be valued (except if the type is boolean).
-     * Example usage: hello --lang fr
-     */
-	@Option(name = "-l",
-            aliases = {"--lang", "--language"},
-            required = false,
-            description = "Language to return the salutation")
+	@Argument(multiValued=true)
+	private List<String> who;
+
+	@Option(name="-l", aliases="--lang", required=false)
 	private String lang = "en";
 
-    /**
-     * Arguments are un-named values.
-     */
-    @Argument(multiValued = true,
-              description = "The name of one or more person(s).")
-    private List<String> who;
-
 	public Object execute(CommandSession session) throws Exception {
-
-        // Select the output language
 		if ("en".equals(lang)) {
-
-            // Directly print the message using System.out or System.err
-			System.out.println("Hello " + who);
+			return "Hello " + who;
 		} else if ("fr".equals(lang)) {
-
-            // Really easy, isn't it ?
-			System.out.println("Bonjour " + who);
+			return "Bonjour " + who;
 		} else {
 			throw new Exception("Unknown language");
 		}
-        return null;
 
 	}
 }

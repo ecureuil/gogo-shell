@@ -18,8 +18,8 @@
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd"
        xmlns:shell="org.ow2.chameleon.shell" >
 
-	<shell:command action="org.ow2.chameleon.shell.gogo.ssh.command.StartSshdCommand" />
+	<shell:command action="org.ow2.chameleon.shell.gogo.ssh.internal.command.StartSshdCommand" />
 
-	<shell:command action="org.ow2.chameleon.shell.gogo.ssh.command.StopSshdCommand" />
+	<shell:command action="org.ow2.chameleon.shell.gogo.ssh.internal.command.StopSshdCommand" />
 
 </ipojo>

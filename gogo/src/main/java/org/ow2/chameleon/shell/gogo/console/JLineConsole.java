@@ -34,7 +34,7 @@ import org.codehaus.plexus.interpolation.PropertiesBasedValueSource;
 import org.codehaus.plexus.interpolation.RegexBasedInterpolator;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
-import org.ow2.chameleon.shell.gogo.handler.completer.ScopeCompleter;
+import org.ow2.chameleon.shell.gogo.internal.handler.completer.ScopeCompleter;
 
 /**
  * Created by IntelliJ IDEA.

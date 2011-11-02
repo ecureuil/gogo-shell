@@ -11,9 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Private-Package org.ow2.chameleon.shell.gogo.ssh.*, \
-                org.apache.felix.gogo.console.stdio
-Export-Package !*
 Embed-Dependency sshd-core;scope=compile;inline=true, \
                  mina-core;scope=compile;inline=true
 Embed-Transitive true

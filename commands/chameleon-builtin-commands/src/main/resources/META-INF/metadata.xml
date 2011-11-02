@@ -18,7 +18,7 @@
        xmlns:shell="org.ow2.chameleon.shell"
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd">
 
-  <shell:command action="org.ow2.chameleon.shell.builtin.SourceAction">
+  <shell:command action="org.ow2.chameleon.shell.builtin.internal.SourceAction">
     <shell:completer component="jline.console.completer.FileNameCompleter" />
   </shell:command>
 

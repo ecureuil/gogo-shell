@@ -19,19 +19,19 @@
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd">
 
   <command xmlns="org.ow2.chameleon.shell"
-           action="org.ow2.chameleon.shell.ipojo.InstancesAction" />
+           action="org.ow2.chameleon.shell.ipojo.internal.InstancesAction" />
 
   <command xmlns="org.ow2.chameleon.shell"
-           action="org.ow2.chameleon.shell.ipojo.FactoriesAction" />
+           action="org.ow2.chameleon.shell.ipojo.internal.FactoriesAction" />
 
   <command xmlns="org.ow2.chameleon.shell"
-           action="org.ow2.chameleon.shell.ipojo.InstanceAction">
-    <completer component="org.ow2.chameleon.shell.ipojo.completer.ComponentInstanceCompleter" />
+           action="org.ow2.chameleon.shell.ipojo.internal.InstanceAction">
+    <completer component="org.ow2.chameleon.shell.ipojo.internal.completer.ComponentInstanceCompleter" />
   </command>
 
   <command xmlns="org.ow2.chameleon.shell"
-           action="org.ow2.chameleon.shell.ipojo.FactoryAction">
-    <completer component="org.ow2.chameleon.shell.ipojo.completer.ComponentFactoryCompleter" />
+           action="org.ow2.chameleon.shell.ipojo.internal.FactoryAction">
+    <completer component="org.ow2.chameleon.shell.ipojo.internal.completer.ComponentFactoryCompleter" />
   </command>
 
 </ipojo>

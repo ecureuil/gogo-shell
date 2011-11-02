@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Private-Package org.ow2.chameleon.shell.gogo.*,\
+Private-Package org.ow2.chameleon.shell.gogo.internal.*,\
                 org.apache.karaf.shell.console
 
 Export-Package org.ow2.chameleon.shell.gogo,\
@@ -35,4 +35,4 @@ Import-Package sun.reflect;resolution:=optional, \
                !org.slf4j, \
                *
 
-IPOJO-Extension command:org.ow2.chameleon.shell.gogo.extension.CommandFactory
+IPOJO-Extension command:org.ow2.chameleon.shell.gogo.internal.extension.CommandFactory
