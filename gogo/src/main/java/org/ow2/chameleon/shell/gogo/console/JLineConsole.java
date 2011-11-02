@@ -90,9 +90,7 @@ public class JLineConsole implements Runnable {
         // Create a composite completer that use the given Completer and wrap it
         // in a Completer that tries to complement using the known scopes (from
         // SCOPE session variable)
-        Completer composite = new AggregateCompleter(new Completer[] {
-                completer, new ScopeCompleter(completer, session)
-        });
+        Completer composite = new AggregateCompleter(completer, new ScopeCompleter(completer, session));
         reader.addCompleter(composite);
 
         // TODO Setup History
