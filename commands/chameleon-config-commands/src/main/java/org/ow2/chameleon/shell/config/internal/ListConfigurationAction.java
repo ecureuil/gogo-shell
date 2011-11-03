@@ -53,7 +53,7 @@ public class ListConfigurationAction implements Action {
 	public Object execute(CommandSession session) throws Exception {
 
         if (type != null) {
-            // Only accept factory/conv as values
+            // Only accept factory/conf as values
             if (!("factory".equals(type) || "conf".equals(type))) {
                 throw new IllegalArgumentException("Only 'factory' or 'conf' are accepted for the --type option");
             }
