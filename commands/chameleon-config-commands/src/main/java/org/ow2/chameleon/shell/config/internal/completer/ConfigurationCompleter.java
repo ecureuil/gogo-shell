@@ -34,7 +34,7 @@ public class ConfigurationCompleter extends StringsCompleter implements Configur
     }
 
     @Override
-    public int complete(String buffer, int cursor, List clist) {
+    public int complete(String buffer, int cursor, List<CharSequence> clist) {
         // Update candidates list
         getStrings().clear();
         getStrings().addAll(configurations);

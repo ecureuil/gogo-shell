@@ -56,11 +56,11 @@ public class ScopeCompleter implements Completer {
      * @return the index of the <i>buffer</i> for which
      *         the completion will be relative
      */
-    public int complete(String buffer, int cursor, List candidates) {
+    public int complete(String buffer, int cursor, List<CharSequence> candidates) {
 
         // Use a SortedMap keyed by the return result of the delegate Completer so that
         // all values are grouped and maximum value can be easily retrieved
-        SortedMap<Integer, List<List>> completions = new TreeMap<Integer, List<List>>();
+        SortedMap<Integer, List<List<CharSequence>>> completions = new TreeMap<Integer, List<List<CharSequence>>>();
 
         String scopeValue = (String) session.get("SCOPE");
         if (scopeValue != null) {
@@ -71,15 +71,15 @@ public class ScopeCompleter implements Completer {
             // Run completer for each scope, saving its completion results
             for (String scope : scopes) {
 
-                List subCandidates = new ArrayList(candidates);
+                List<CharSequence> subCandidates = new ArrayList<CharSequence>(candidates);
                 int value = delegate.complete((scope + ":" + buffer),
                                               (scope + ":").length() + cursor,
                                               subCandidates);
 
-                List<List> completionResult = completions.get(value);
+                List<List<CharSequence>> completionResult = completions.get(value);
                 if (completionResult == null) {
                     // Init the list if required
-                    completionResult = new ArrayList<List>();
+                    completionResult = new ArrayList<List<CharSequence>>();
                     completions.put(value, completionResult);
                 }
                 // Store the sub-candidates list
@@ -90,8 +90,8 @@ public class ScopeCompleter implements Completer {
             // When all scopes have been used, select the List of candidates
             // that has returned the max value (possibly multiple List)
             int max = completions.lastKey();
-            List<List> listOfCandidates = completions.get(max);
-            for (List selectedCandidates : listOfCandidates) {
+            List<List<CharSequence>> listOfCandidates = completions.get(max);
+            for (List<CharSequence> selectedCandidates : listOfCandidates) {
                 // Append theses results to the selection list
                 candidates.addAll(selectedCandidates);
             }

@@ -43,7 +43,7 @@ public class ComponentInstanceCompleter extends StringsCompleter {
     }
 
     @Override
-    public int complete(String buffer, int cursor, List clist) {
+    public int complete(String buffer, int cursor, List<CharSequence> clist) {
         // Update candidates
         getStrings().clear();
         getStrings().addAll(names);

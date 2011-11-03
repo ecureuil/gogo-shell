@@ -28,6 +28,8 @@ import org.osgi.framework.ServiceReference;
 import org.ow2.chameleon.shell.gogo.ICompletable;
 import org.ow2.chameleon.shell.gogo.IScopeRegistry;
 
+import static java.util.Collections.*;
+
 /**
  * Created by IntelliJ IDEA.
  * User: sauthieg
@@ -123,18 +125,18 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
      * @return the index of the <i>buffer</i> for which
      *         the completion will be relative
      */
-    public int complete(String buffer, int cursor, List candidates) {
+    public int complete(String buffer, int cursor, List<CharSequence> candidates) {
 
-        // Create a multi completer for all registered completers
+        // Create an aggregate completer for all registered completer
         // and run them all
         int res = new AggregateCompleter(getCompleters()).complete(buffer, cursor, candidates);
 
         // Note to myself: It still seems to be a little bit magic, how can jline,
-        // from a list of all completers of all commands, provides the right completion values ...
+        // from a list of all completer of all commands, provides the right completion values ...
         // There is some magic left in the world ;)
 
         // Then sort the resulting candidate list
-        Collections.sort(candidates);
+        Collections.sort(candidates, new CharSequenceComparator());
         return res;
     }
 
