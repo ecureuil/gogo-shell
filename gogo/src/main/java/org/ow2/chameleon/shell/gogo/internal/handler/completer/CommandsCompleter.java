@@ -15,12 +15,7 @@
 
 package org.ow2.chameleon.shell.gogo.internal.handler.completer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import jline.console.completer.*;
 import org.apache.felix.ipojo.annotations.Component;
@@ -43,62 +38,27 @@ import org.ow2.chameleon.shell.gogo.IScopeRegistry;
 @Component
 @Provides
 @Wbp(filter = "(&(osgi.command.scope=*)(osgi.command.function=*))",
-     onArrival = "onArrival",
-     onDeparture = "onDeparture")
+     onArrival = "bindCommand",
+     onDeparture = "unbindCommand")
 public class CommandsCompleter implements Completer, IScopeRegistry {
 
-
-    private Map<ServiceReference, Completer> references;
+    private List<ServiceReference> references;
     private Map<String, Integer> scopes;
     private BundleContext context;
 
-    @ServiceProperty
-    private String type = "commands";
+    @ServiceProperty(value = "commands")
+    private String type;
 
     public CommandsCompleter(BundleContext context) {
-        references = new HashMap<ServiceReference, Completer>();
+        references = new ArrayList<ServiceReference>();
         scopes = new HashMap<String, Integer>();
         this.context = context;
     }
 
 
-    public void onArrival(ServiceReference reference) {
+    public void bindCommand(ServiceReference reference) {
 
-        // For each new command
-        // Provide a first Completer with registered function names
-        String[] functionNames = getFunctionNames(reference);
-        List<Completer> cl = new ArrayList<Completer>();
-        cl.add(new StringsCompleter(functionNames));
-
-        // Then, each command may provides its own set of Completers
-        try {
-            Object service = context.getService(reference);
-
-            if (service instanceof ICompletable) {
-                ICompletable completable = (ICompletable) service;
-                List<Completer> completers = completable.getCompleters();
-                if (completers != null) {
-                    for (Completer completer : completers) {
-                        // Support case where the completable explicitely set a null value in the list
-                        if (completer == null) {
-                            cl.add(new NullCompleter());
-                        } else {
-                            // Normal case, just add the given Completer
-                            cl.add(completer);
-                        }
-                    }
-                }
-            } else {
-                cl.add(new NullCompleter());
-            }
-            // then we wrap in an ArgumentCompleter (one for each command)
-            ArgumentCompleter argumentCompleter = new ArgumentCompleter(cl);
-
-            // We finally store the ArgumentCompleter of the command in the map
-            references.put(reference, argumentCompleter);
-        } finally {
-            context.ungetService(reference);
-        }
+        references.add(reference);
 
         // Lookup the scope of the command
         String scope = (String) reference.getProperty(CommandProcessor.COMMAND_SCOPE);
@@ -107,9 +67,10 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
             numberOfCommands = 0;
         }
         scopes.put(scope, ++numberOfCommands);
+
     }
 
-    public void onDeparture(ServiceReference reference) {
+    public void unbindCommand(ServiceReference reference) {
         references.remove(reference);
 
         // Lookup the scope of the command
@@ -117,7 +78,12 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
 
         Integer numberOfCommands = scopes.get(scope);
         if (numberOfCommands != null) {
-            scopes.put(scope, --numberOfCommands);
+            numberOfCommands--;
+            if (numberOfCommands == 0) {
+                scopes.remove(scope);
+            } else {
+                scopes.put(scope, numberOfCommands);
+            }
         }
     }
 
@@ -161,8 +127,7 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
 
         // Create a multi completer for all registered completers
         // and run them all
-        Completer[] array = references.values().toArray(new Completer[references.size()]);
-        int res = new AggregateCompleter(array).complete(buffer, cursor, candidates);
+        int res = new AggregateCompleter(getCompleters()).complete(buffer, cursor, candidates);
 
         // Note to myself: It still seems to be a little bit magic, how can jline,
         // from a list of all completers of all commands, provides the right completion values ...
@@ -171,6 +136,49 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
         // Then sort the resulting candidate list
         Collections.sort(candidates);
         return res;
+    }
+
+    private Collection<Completer> getCompleters() {
+
+        Collection<Completer> completers = new ArrayList<Completer>();
+
+        for (ServiceReference reference : references) {
+            // For each command
+            // Provide a first Completer with registered function names
+            String[] functionNames = getFunctionNames(reference);
+            List<Completer> cl = new ArrayList<Completer>();
+            cl.add(new StringsCompleter(functionNames));
+
+            // Then, each command may provides its own set of Completers
+            try {
+                Object service = context.getService(reference);
+
+                if (service instanceof ICompletable) {
+                    ICompletable completable = (ICompletable) service;
+                    List<Completer> commandCompleters = completable.getCompleters();
+                    if (commandCompleters != null) {
+                        for (Completer completer : commandCompleters) {
+                            // Support case where the completable explicitely set a null value in the list
+                            if (completer == null) {
+                                cl.add(new NullCompleter());
+                            } else {
+                                // Normal case, just add the given Completer
+                                cl.add(completer);
+                            }
+                        }
+                    }
+                } else {
+                    cl.add(new NullCompleter());
+                }
+                // then we wrap in an ArgumentCompleter (one for each command)
+                completers.add(new ArgumentCompleter(cl));
+
+            } finally {
+                context.ungetService(reference);
+            }
+        }
+
+        return completers;
     }
 
     /**

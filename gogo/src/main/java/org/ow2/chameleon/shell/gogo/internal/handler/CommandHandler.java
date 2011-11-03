@@ -46,7 +46,7 @@ import org.ow2.chameleon.shell.gogo.ICompletable;
  */
 @Handler(name = "command",
 		 namespace = CommandHandler.NAMESPACE)
-@Provides(specifications = Function.class)
+@Provides(specifications = {Function.class, ICompletable.class})
 public class CommandHandler extends PrimitiveHandler implements Function, ICompletable {
 
 	/**
