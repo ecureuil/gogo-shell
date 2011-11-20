@@ -47,7 +47,7 @@ public class HandlersAction implements Action {
 
     @Option(name = "-v",
             aliases = "--verbose",
-            description = "When activated, display additional HandlerFactory informations.",
+            description = "When activated, display additional HandlerFactory information.",
             required = false)
     private boolean verbose = false;
 
