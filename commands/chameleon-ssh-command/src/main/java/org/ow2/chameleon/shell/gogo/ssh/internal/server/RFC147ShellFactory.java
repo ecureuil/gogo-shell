@@ -15,95 +15,76 @@
 
 package org.ow2.chameleon.shell.gogo.ssh.internal.server;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.Map;
 
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
-import org.apache.sshd.server.ShellFactory;
-import org.ow2.chameleon.shell.gogo.console.JLineConsole;
+import org.apache.sshd.server.*;
+import org.apache.sshd.server.session.ServerSession;
 
-public class RFC147ShellFactory implements ShellFactory {
+import java.io.*;
 
-	private CommandProcessor provider;
-    private JLineConsole console;
+public class RFC147ShellFactory implements CommandFactory {
 
-    public RFC147ShellFactory(CommandProcessor provider) {
-		this.provider = provider;
-	}
+    private CommandProcessor commandProcessor;
 
-	public Shell createShell() {
-		return new SimpleShell();
-	}
+    public RFC147ShellFactory(CommandProcessor commandProcessor) {
+        this.commandProcessor = commandProcessor;
+    }
 
-	private class SimpleShell implements Shell {
+    public Command createCommand(String command) {
+        return new ShellCommand(command);
+    }
 
-		private InputStream in;
-		private OutputStream out;
-		private OutputStream err;
-		private CommandSession session;
-		private ExitCallback callback;
+    public class ShellCommand implements Command, SessionAware {
 
-		public void destroy() {
-			// TODO Auto-generated method stub
+        private String command;
+        private InputStream in;
+        private OutputStream out;
+        private OutputStream err;
+        private ExitCallback callback;
+        private ServerSession session;
 
-		}
+        public ShellCommand(String command) {
+            this.command = command;
+        }
 
-		public void setErrorStream(OutputStream err) {
-			this.err = err;
-		}
+        public void setInputStream(InputStream in) {
+            this.in = in;
+        }
 
-		public void setExitCallback(ExitCallback callback) {
-			this.callback = callback;
-		}
+        public void setOutputStream(OutputStream out) {
+            this.out = out;
+        }
 
-		public void setInputStream(InputStream in) {
-			this.in = in;
-		}
+        public void setErrorStream(OutputStream err) {
+            this.err = err;
+        }
 
-		public void setOutputStream(OutputStream out) {
-			this.out = out;
-		}
+        public void setExitCallback(ExitCallback callback) {
+            this.callback = callback;
+        }
 
-		public void start(Environment env) throws IOException {
+        public void setSession(ServerSession session) {
+            this.session = session;
+        }
 
-	        try {
-                console = new JLineConsole(provider,
-                                                        null,
-                        in, new PrintStream(out), new PrintStream(err)) {
+        public void start(final Environment env) throws IOException {
+            try {
+                final CommandSession session = commandProcessor.createSession(in, new PrintStream(out), new PrintStream(err));
 
-					@Override
-					public void run() {
-						super.run();
-						// the user has quit from the shell
-						// invoke a callback
-						onExit();
-					}
-
-                };
-                session = console.getSession();
-                for (Map.Entry<String,String> e : env.getEnv().entrySet()) {
-                    session.put(e.getKey(), e.getValue());
-                }
-                new Thread(console, "SSH Console").start();
+                session.execute(command);
             } catch (Exception e) {
                 throw (IOException) new IOException("Unable to start shell").initCause(e);
+            } finally {
+                close(in, out, err);
+                callback.onExit(0);
             }
+        }
 
-		}
+        public void destroy() {
+        }
 
-		public void onExit() {
-            console.close();
-			// close the streams
-			close(in, out, err);
-			callback.onExit(0);
-		}
-
-	}
+    }
 
     private static void close(Closeable... closeables) {
         for (Closeable c : closeables) {

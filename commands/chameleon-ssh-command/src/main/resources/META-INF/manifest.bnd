@@ -14,4 +14,4 @@
 Embed-Dependency sshd-core;scope=compile;inline=true, \
                  mina-core;scope=compile;inline=true
 Embed-Transitive true
-Import-Package !org.bouncycastle.*, !com.jcraft.*, *
+Import-Package !org.bouncycastle.*, !com.jcraft.*, !org.apache.tomcat.jni.*, *

@@ -45,7 +45,8 @@ public class SshDaemonComponent {
 	public void start() {
 		server = SshServer.setUpDefaultServer();
 		server.setPort(port);
-		server.setShellFactory(new RFC147ShellFactory(provider));
+        server.setShellFactory(new ShellFactoryImpl(provider));
+		server.setCommandFactory(new RFC147ShellFactory(provider));
 		server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
         server.setPasswordAuthenticator(new PasswordAuthenticator() {
 
@@ -57,8 +58,8 @@ public class SshDaemonComponent {
              * @param password the password
              * @return a non null identity object or <code>null</code if authentication fail
              */
-            public Object authenticate(String username, String password, ServerSession session) {
-                return username;
+            public boolean authenticate(String username, String password, ServerSession session) {
+                return true;
             }
         });
 		try {
@@ -70,7 +71,7 @@ public class SshDaemonComponent {
 	}
 
 	@Invalidate
-	public void stop() {
+	public void stop() throws Exception {
 		server.stop();
 		server = null;
 	}
