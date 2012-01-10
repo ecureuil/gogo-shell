@@ -46,7 +46,7 @@ public class SshDaemonComponent {
 		server = SshServer.setUpDefaultServer();
 		server.setPort(port);
         server.setShellFactory(new ShellFactoryImpl(provider));
-		server.setCommandFactory(new RFC147ShellFactory(provider));
+		server.setCommandFactory(new CommandFactoryImpl(provider));
 		server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
         server.setPasswordAuthenticator(new PasswordAuthenticator() {
 

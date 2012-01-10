@@ -23,11 +23,11 @@ import org.apache.sshd.server.session.ServerSession;
 
 import java.io.*;
 
-public class RFC147ShellFactory implements CommandFactory {
+public class CommandFactoryImpl implements CommandFactory {
 
     private CommandProcessor commandProcessor;
 
-    public RFC147ShellFactory(CommandProcessor commandProcessor) {
+    public CommandFactoryImpl(CommandProcessor commandProcessor) {
         this.commandProcessor = commandProcessor;
     }
 
