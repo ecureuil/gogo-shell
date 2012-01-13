@@ -37,6 +37,12 @@
     <karaf.version>2.2.4</karaf.version>
   </properties>
 
+    <scm>
+        <connection>scm:git:git@github.com:ecureuil/gogo-shell.git</connection>
+        <url>scm:git:git@github.com:ecureuil/gogo-shell.git</url>
+        <developerConnection>scm:git:git@github.com:ecureuil/gogo-shell.git</developerConnection>
+    </scm>
+
   <modules>
     <module>gogo</module>
     <module>commands</module>
@@ -49,6 +55,13 @@
        * ...
        -->
   <build>
+      <extensions>
+          <extension>
+              <groupId>org.jvnet.wagon-svn</groupId>
+              <artifactId>wagon-svn</artifactId>
+              <version>1.9</version>
+          </extension>
+      </extensions>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -58,6 +71,11 @@
           <target>1.5</target>
         </configuration>
       </plugin>
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.2.2</version>
+    </plugin>
     </plugins>
 
     <pluginManagement>
