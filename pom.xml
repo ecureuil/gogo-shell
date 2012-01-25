@@ -35,6 +35,9 @@
     <jansi.version>1.6</jansi.version>
     <wbp.version>1.4.0</wbp.version>
     <karaf.version>2.2.4</karaf.version>
+    <slf4j.version>1.6.4</slf4j.version>
+    <logback.version>1.0.0</logback.version>
+    <ow2util.version>1.0.35-SNAPSHOT</ow2util.version>
   </properties>
 
   <modules>
@@ -42,6 +45,7 @@
     <module>commands</module>
     <module>chameleon-startup-console</module>
     <module>chameleon-commands-archetype</module>
+    <module>distrib</module>
   </modules>
 
   <!-- Some common plugin configuration:
