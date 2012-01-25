@@ -1,0 +1,160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>org.ow2.chameleon.shell.distrib</groupId>
+    <artifactId>chameleon-shell-distrib</artifactId>
+    <version>0.3.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>chameleon-distrib-deployment-plan</artifactId>
+  <packaging>deployment-plan</packaging>
+  <name>OW2 Chameleon Shell :: Deployment Plan For µJOnAS</name>
+
+    <dependencies>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.ipojo.api</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+
+        <!-- XML utils -->
+        <dependency>
+            <groupId>org.apache.servicemix.specs</groupId>
+            <artifactId>org.apache.servicemix.specs.jaxb-api-2.1</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.jaxb-impl</artifactId>
+            <version>2.1.6_1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.schema</groupId>
+            <artifactId>XmlSchema</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.specs</groupId>
+            <artifactId>org.apache.servicemix.specs.activation-api-1.1</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.bundles</groupId>
+            <artifactId>org.apache.servicemix.bundles.woodstox</artifactId>
+            <version>3.2.9_1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.specs</groupId>
+            <artifactId>org.apache.servicemix.specs.stax-api-1.0</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+
+        <!-- Shell -->
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.gogo.runtime</artifactId>
+            <version>0.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.blueprint</groupId>
+            <artifactId>geronimo-blueprint-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.aries</groupId>
+            <artifactId>org.apache.aries.util</artifactId>
+            <version>0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.aries.proxy</groupId>
+            <artifactId>org.apache.aries.proxy</artifactId>
+            <version>0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.aries.blueprint</groupId>
+            <artifactId>org.apache.aries.blueprint</artifactId>
+            <version>0.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.ipojo.handler.whiteboard</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.chameleon.shell</groupId>
+            <artifactId>chameleon-shell-gogo</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.gogo.command</artifactId>
+            <version>${gogo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.chameleon.shell.commands</groupId>
+            <artifactId>chameleon-config-commands</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.chameleon.shell.commands</groupId>
+            <artifactId>chameleon-ipojo-commands</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.chameleon.shell.commands</groupId>
+            <artifactId>chameleon-ssh-command</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.chameleon.shell</groupId>
+            <artifactId>chameleon-startup-console</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.karaf.shell</groupId>
+            <artifactId>org.apache.karaf.shell.osgi</artifactId>
+            <version>${karaf.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.ow2.util.maven</groupId>
+                <artifactId>maven-deploymentplan-plugin</artifactId>
+                <version>${ow2util.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <notStarted>
+                        <item>org.slf4j:slf4j-api:jar</item>
+                        <item>ch.qos.logback:logback-core:jar</item>
+                        <item>ch.qos.logback:logback-classic:jar</item>
+                    </notStarted>
+                    <profiles>
+                        <jonas.felix.tui.enabled>org.ow2.chameleon.shell:chameleon-startup-console:jar</jonas.felix.tui.enabled>
+                    </profiles>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+
