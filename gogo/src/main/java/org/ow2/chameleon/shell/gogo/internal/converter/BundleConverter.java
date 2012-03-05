@@ -37,7 +37,8 @@ public class BundleConverter implements Converter {
     }
 
     public Object convert(Class<?> desiredType, Object in) throws Exception {
-        if (desiredType == Bundle.class) {
+        if (Bundle.class.equals(desiredType)) {
+
             String s = in.toString();
             try {
                 long id = Long.parseLong(s);

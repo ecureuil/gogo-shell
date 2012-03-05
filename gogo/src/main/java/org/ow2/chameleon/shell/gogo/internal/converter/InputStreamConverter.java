@@ -34,7 +34,7 @@ public class InputStreamConverter implements Converter {
     private String supportedClasses;
 
     public Object convert(Class<?> desiredType, Object in) throws Exception {
-        if (desiredType.isAssignableFrom(String.class) && in instanceof InputStream) {
+        if (desiredType.equals(String.class) && in instanceof InputStream) {
             return read((InputStream) in);
         }
         return null;
@@ -50,18 +50,13 @@ public class InputStreamConverter implements Converter {
     private CharSequence read(InputStream in) throws IOException {
         int c;
         StringBuffer sb = new StringBuffer();
-        while ((c = in.read()) > 0)
-        {
-            if (c >= 32 && c <= 0x7F || c == '\n' || c == '\r')
-            {
+        while ((c = in.read()) > 0) {
+            if (c >= 32 && c <= 0x7F || c == '\n' || c == '\r') {
                 sb.append((char) c);
-            }
-            else
-            {
+            } else {
                 String s = Integer.toHexString(c).toUpperCase();
                 sb.append("\\");
-                if (s.length() < 1)
-                {
+                if (s.length() < 1) {
                     sb.append(0);
                 }
                 sb.append(s);
