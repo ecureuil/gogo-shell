@@ -18,12 +18,21 @@
        xsi:schemaLocation="org.apache.felix.ipojo http://felix.apache.org/ipojo/schemas/1.6.0/core.xsd">
 
   <!-- Initial instances -->
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.ConverterManagerImpl" />
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.BundleConverter" />
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.CollectionConverter" />
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.FunctionConverter" />
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.InputStreamConverter" />
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.NumberConverter" />
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.ServiceReferenceConverter" />
+  <instance component="org.ow2.chameleon.shell.gogo.internal.converter.StringConverter" />
   <instance component="org.ow2.chameleon.shell.gogo.internal.blueprint.BlueprintConverterTracker" />
   <instance component="org.ow2.chameleon.shell.gogo.internal.handler.GogoPreparator" />
   <instance component="org.ow2.chameleon.shell.gogo.internal.handler.completer.CommandsCompleter" />
   <instance component="org.ow2.chameleon.shell.gogo.console.AnsiUsagePrinter" />
 
-  <!-- - - - - - - - - - - - - - - - - - - - - - -->
+
+    <!-- - - - - - - - - - - - - - - - - - - - - - -->
   <!-- Provides Components from JLine Completers -->
   <!-- - - - - - - - - - - - - - - - - - - - - - -->
 

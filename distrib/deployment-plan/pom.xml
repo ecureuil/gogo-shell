@@ -150,6 +150,18 @@
                     </notStarted>
                     <profiles>
                         <jonas.felix.tui.enabled>org.ow2.chameleon.shell:chameleon-startup-console:jar</jonas.felix.tui.enabled>
+                        <blueprint.enabled>
+                            org.apache.servicemix.specs:org.apache.servicemix.specs.jaxb-api-2.1:jar,
+                            org.apache.servicemix.bundles:org.apache.servicemix.bundles.jaxb-impl:jar,
+                            org.apache.ws.commons.schema:XmlSchema:jar,
+                            org.apache.servicemix.specs:org.apache.servicemix.specs.activation-api-1.1:jar,
+                            org.apache.servicemix.bundles:org.apache.servicemix.bundles.woodstox:jar,
+                            org.apache.servicemix.specs:org.apache.servicemix.specs.stax-api-1.0:jar,
+                            org.apache.aries:org.apache.aries.util:jar,
+                            org.apache.aries.proxy:org.apache.aries.proxy:jar,
+                            org.apache.aries.blueprint:org.apache.aries.blueprint:jar,
+                            org.apache.karaf.shell:org.apache.karaf.shell.osgi:jar
+                        </blueprint.enabled>
                     </profiles>
                 </configuration>
             </plugin>

@@ -18,8 +18,6 @@ package org.ow2.chameleon.shell.gogo.internal.handler;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.felix.gogo.commands.Action;
@@ -27,14 +25,11 @@ import org.apache.felix.gogo.commands.Argument;
 import org.apache.felix.gogo.commands.Command;
 import org.apache.felix.gogo.commands.Option;
 import org.apache.felix.gogo.commands.basic.DefaultActionPreparator;
-import org.apache.felix.gogo.commands.converter.DefaultConverter;
-import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Provides;
 import org.apache.felix.ipojo.annotations.Requires;
-import org.apache.felix.ipojo.annotations.Unbind;
 import org.apache.felix.service.command.CommandSession;
-import org.apache.felix.service.command.Converter;
+import org.ow2.chameleon.shell.gogo.IConverterManager;
 import org.ow2.chameleon.shell.gogo.IUsagePrinter;
 
 @Component
@@ -42,53 +37,21 @@ import org.ow2.chameleon.shell.gogo.IUsagePrinter;
 public class GogoPreparator extends DefaultActionPreparator {
 
     /**
-     * List of converters.
+     * Converter manager.
      */
-    private List<Converter> converters;
+    @Requires
+    private IConverterManager converterManager;
 
     @Requires
     private IUsagePrinter printer;
-
-    public GogoPreparator() {
-        this.converters = new ArrayList<Converter>();
-    }
-
-    @Bind(id="converters", optional = true)
-    public void addConverter(Converter converter) {
-        this.converters.add(converter);
-    }
-
-    @Unbind(id="converters")
-    public void removeConverter(Converter converter) {
-        this.converters.remove(converter);
-    }
 
     @Override
     protected Object convert(final Action action,
                              final CommandSession session,
                              final Object value,
                              final Type toType) throws Exception {
-        // Use the DefaultConverter in first place
-        DefaultConverter defaultConverter = new DefaultConverter(action.getClass().getClassLoader());
-        Object result = defaultConverter.convert(value, toType);
-
-        if (result != null) {
-            return result;
-        }
-
-        // Use the bound converters (if the default converter did nothing)
-        if (toType instanceof Class) {
-            Class<?> type = (Class) toType;
-            for (Converter converter : converters) {
-                result = converter.convert(type, value);
-                if (result != null) {
-                    return result;
-                }
-            }
-        }
-
-        // Return null if nothing could convert the value
-        return null;
+        // Delegate to the converter manager
+        return converterManager.convert((Class<?>) toType, value);
     }
 
     @Override

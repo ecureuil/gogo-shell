@@ -32,9 +32,9 @@
     <ipojo.version>1.8.0</ipojo.version>
     <ipojo.runtime.version>${ipojo.version}</ipojo.runtime.version>
     <jline.version>2.5</jline.version>
-    <jansi.version>1.6</jansi.version>
+    <jansi.version>1.8</jansi.version>
     <wbp.version>1.4.0</wbp.version>
-    <karaf.version>2.2.4</karaf.version>
+    <karaf.version>2.2.5</karaf.version>
     <slf4j.version>1.6.4</slf4j.version>
     <logback.version>1.0.0</logback.version>
     <ow2util.version>1.0.35-SNAPSHOT</ow2util.version>
