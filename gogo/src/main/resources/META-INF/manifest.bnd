@@ -30,6 +30,7 @@ Embed-Dependency jline;inline=true, \
 
 Import-Package sun.reflect;resolution:=optional, \
                org.osgi.service.blueprint.container;resolution:=optional, \
+               org.apache.aries.blueprint.*;resolution:=optional,\
                !org.apache.felix.gogo.runtime.*, \
                !org.slf4j, \
                !org.apache.karaf.shell.console.jline,\
