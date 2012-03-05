@@ -131,7 +131,7 @@ public class ConverterManagerImpl implements IConverterManager {
         return null;
     }
 
-    public Object convert(final Type desiredType,final Object in) throws Exception {
+    public Object convert(final Type desiredType, final Object in) throws Exception {
 
         GenericType genericType = new GenericType(desiredType);
         if (genericType.getRawClass().isAssignableFrom(in.getClass())) {
@@ -150,7 +150,7 @@ public class ConverterManagerImpl implements IConverterManager {
         return null;
     }
 
-    private boolean isSupportedClass(final Object in, Set<Class<?>> supportedClasses) {
+    private boolean isSupportedClass(final Object in, final Set<Class<?>> supportedClasses) {
         for (Class<?> c : supportedClasses) {
             if (c.isAssignableFrom(in.getClass())) {
                 return true;
