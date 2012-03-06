@@ -16,7 +16,7 @@ import org.apache.felix.service.command.CommandSession;
  */
 @Component
 @Command(name = "unset",
-         scope = "builtin",
+         scope = "shelbie",
          description = "Unset the value from a variable (remove it)")
 public class UnsetAction implements Action {
 

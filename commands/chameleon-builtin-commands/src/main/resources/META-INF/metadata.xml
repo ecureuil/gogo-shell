@@ -22,4 +22,8 @@
     <shell:completer component="jline.console.completer.FileNameCompleter" />
   </shell:command>
 
+  <shell:command action="org.ow2.chameleon.shell.builtin.internal.ExitAction" />
+  <shell:command action="org.ow2.chameleon.shell.builtin.internal.LogoutAction" />
+  <shell:command action="org.ow2.chameleon.shell.builtin.internal.ShutdownAction" />
+
 </ipojo>

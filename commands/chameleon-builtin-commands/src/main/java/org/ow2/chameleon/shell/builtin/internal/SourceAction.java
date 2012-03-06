@@ -22,8 +22,8 @@ import org.apache.felix.service.command.CommandSession;
  */
 @Component
 @Command(name = "source",
-         scope = "builtin",
-         description = "Execute a file containing a script.")  
+         scope = "shelbie",
+         description = "Execute a file containing a script.")
 @HandlerDeclaration("<sh:command xmlns:sh='org.ow2.chameleon.shell.gogo'/>")
 public class SourceAction implements Action {
 

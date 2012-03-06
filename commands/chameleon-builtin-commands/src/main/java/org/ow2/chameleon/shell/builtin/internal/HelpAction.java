@@ -14,7 +14,7 @@ import org.apache.felix.service.command.CommandSession;
  */
 @Component
 @Command(name = "help",
-         scope = "builtin",
+         scope = "shelbie",
          description = "Display help about commands")
 public class HelpAction implements Action {
 

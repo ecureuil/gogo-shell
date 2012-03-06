@@ -1,5 +1,6 @@
 package org.ow2.chameleon.shell.gogo.ssh.internal.server;
 
+import jline.console.completer.Completer;
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.felix.service.command.CommandSession;
 import org.apache.sshd.common.Factory;
@@ -13,12 +14,15 @@ import java.util.Map;
 
 public class ShellFactoryImpl implements Factory<Command>
 {
-    private CommandProcessor commandProcessor;
+    private final CommandProcessor commandProcessor;
+
+    private final Completer completer;
 
     private JLineConsole console;
 
-    public ShellFactoryImpl(CommandProcessor commandProcessor) {
+    public ShellFactoryImpl(final CommandProcessor commandProcessor, final Completer completer) {
         this.commandProcessor = commandProcessor;
+        this.completer = completer;
     }
 
     public Command create() {
@@ -58,7 +62,7 @@ public class ShellFactoryImpl implements Factory<Command>
 
             try {
                 console = new JLineConsole(commandProcessor,
-                        null,
+                        completer,
                         in,
                         new PrintStream(new LfToCrLfFilterOutputStream(out)),
                         new PrintStream(new LfToCrLfFilterOutputStream(err))) {

@@ -17,6 +17,7 @@ package org.ow2.chameleon.shell.gogo.ssh.internal.server;
 
 import java.io.IOException;
 
+import jline.console.completer.Completer;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Invalidate;
 import org.apache.felix.ipojo.annotations.Property;
@@ -37,15 +38,19 @@ public class SshDaemonComponent {
 	@Requires
 	private CommandProcessor provider;
 
+    @Requires(filter = "(type=commands)")
+    private Completer completer;
+
 	@Property(mandatory = true,
               name = Constants.SSHD_PORT)
 	private int port;
 
+
 	@Validate
-	public void start() {
+	public void start() throws IOException {
 		server = SshServer.setUpDefaultServer();
 		server.setPort(port);
-        server.setShellFactory(new ShellFactoryImpl(provider));
+        server.setShellFactory(new ShellFactoryImpl(provider, completer));
 		server.setCommandFactory(new CommandFactoryImpl(provider));
 		server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
         server.setPasswordAuthenticator(new PasswordAuthenticator() {
@@ -62,12 +67,7 @@ public class SshDaemonComponent {
                 return true;
             }
         });
-		try {
-			server.start();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		server.start();
 	}
 
 	@Invalidate

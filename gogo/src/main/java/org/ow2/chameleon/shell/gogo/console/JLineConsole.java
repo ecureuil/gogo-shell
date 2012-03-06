@@ -34,6 +34,7 @@ import org.codehaus.plexus.interpolation.PropertiesBasedValueSource;
 import org.codehaus.plexus.interpolation.RegexBasedInterpolator;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
+import org.ow2.chameleon.shell.gogo.ExitSessionException;
 import org.ow2.chameleon.shell.gogo.internal.handler.completer.ScopeCompleter;
 
 /**
@@ -64,7 +65,7 @@ public class JLineConsole implements Runnable {
     private static final String DEFAULT_PROMPT = "${user.name}@${application.name}$ ";
 
     public JLineConsole(final CommandProcessor processor,
-                        Completer completer,
+                        final Completer completer,
                         final InputStream in,
                         final PrintStream out,
                         final PrintStream err) throws Exception {
@@ -137,7 +138,7 @@ public class JLineConsole implements Runnable {
                 String line = reader.readLine(getPrompt());
                 if (line == null) {
                     // Jump to the next iteration
-                    continue;
+                    break;
                 }
 
                 // Execute the command line
@@ -149,6 +150,8 @@ public class JLineConsole implements Runnable {
                     CharSequence value = session.format(result, Converter.INSPECT);
                     session.getConsole().println(value);
                 }
+            } catch (ExitSessionException e) {
+                break;
             } catch (Throwable t) {
                 // Something went wrong during execution
 

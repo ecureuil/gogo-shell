@@ -49,6 +49,12 @@
       <artifactId>jansi</artifactId>
     </dependency>
 
+      <dependency>
+          <groupId>org.ow2.chameleon.shell</groupId>
+          <artifactId>chameleon-shell-gogo</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+
   </dependencies>  
 
   <build>
@@ -59,7 +65,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Private-Package>org.ow2.chameleon.shell.builtin</Private-Package>
+            <Private-Package>org.ow2.chameleon.shell.builtin.*</Private-Package>
             <Export-Package>!*</Export-Package>
           </instructions>
         </configuration>
