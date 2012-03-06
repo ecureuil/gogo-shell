@@ -15,12 +15,13 @@
 
 package org.ow2.chameleon.shell.gogo.console;
 
-import java.util.Set;
-
 import jline.console.completer.Completer;
+import org.apache.felix.ipojo.annotations.Bind;
 import org.apache.felix.ipojo.annotations.Component;
 import org.apache.felix.ipojo.annotations.Invalidate;
+import org.apache.felix.ipojo.annotations.Modified;
 import org.apache.felix.ipojo.annotations.Requires;
+import org.apache.felix.ipojo.annotations.Unbind;
 import org.apache.felix.ipojo.annotations.Validate;
 import org.apache.felix.service.command.CommandProcessor;
 import org.ow2.chameleon.shell.gogo.IScopeRegistry;
@@ -41,10 +42,32 @@ public class ConsoleStartupComponent {
     @Requires(filter = "(type=commands)")
     private Completer completer;
 
-    @Requires
-    private IScopeRegistry scopeRegistry;
-
     private JLineConsole console;
+
+    private String scopes;
+
+    @Bind
+    public void bindScopeRegistry(IScopeRegistry scopeRegistry) {
+        scopes = scopeRegistry.getScopes();
+        if (console != null) {
+            console.getSession().put("SCOPE", scopes);
+        }
+    }
+
+    @Modified
+    public void modifiedScopeRegistry(IScopeRegistry scopeRegistry) {
+        scopes = scopeRegistry.getScopes();
+        if (console != null) {
+            console.getSession().put("SCOPE", scopes);
+        }
+    }
+
+    @Unbind
+    public void unbindScopeRegistry(IScopeRegistry scopeRegistry) {
+        if (console != null) {
+            console.getSession().put("SCOPE", null);
+        }
+    }
 
     @Validate
     public void startup() throws Exception {
@@ -60,19 +83,7 @@ public class ConsoleStartupComponent {
 
         // Store some global properties
         console.getSession().put("application.name", "chameleon");
-
-        StringBuilder scopeValue = new StringBuilder();
-        if (scopeRegistry != null) {
-            Set<String> scopes = scopeRegistry.getScopes();
-            if (scopes != null) {
-                for (String scope : scopes) {
-                    scopeValue.append(scope);
-                    scopeValue.append(":");
-                }
-            }
-        }
-        scopeValue.append("*");
-        console.getSession().put("SCOPE", scopeValue.toString());
+        console.getSession().put("SCOPE", scopes);
 
         // TODO, handle property substitution using Beans
         OperatingSystem os = new OperatingSystem();

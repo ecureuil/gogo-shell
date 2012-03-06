@@ -30,5 +30,5 @@ public interface IScopeRegistry {
      * The returned value is verified only at the time of the invocation.
      * @return a list of currently available command scopes
      */
-    Set<String> getScopes();
+    String getScopes();
 }

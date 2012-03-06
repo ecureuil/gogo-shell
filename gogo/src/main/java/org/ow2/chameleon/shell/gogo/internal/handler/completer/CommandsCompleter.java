@@ -45,15 +45,28 @@ import static java.util.Collections.*;
 public class CommandsCompleter implements Completer, IScopeRegistry {
 
     private List<ServiceReference> references;
-    private Map<String, Integer> scopes;
+    private Map<String, Integer> nbCommandsForScope;
     private BundleContext context;
 
     @ServiceProperty(value = "commands")
     private String type;
 
+    @ServiceProperty(value = "*")
+    private String scopes;
+
+    private void refreshScopes() {
+        StringBuilder scopeValue = new StringBuilder();
+        for (String scope : nbCommandsForScope.keySet()) {
+            scopeValue.append(scope);
+            scopeValue.append(":");
+        }
+        scopeValue.append("*");
+        scopes = scopeValue.toString();
+    }
+
     public CommandsCompleter(BundleContext context) {
         references = new ArrayList<ServiceReference>();
-        scopes = new HashMap<String, Integer>();
+        nbCommandsForScope = new HashMap<String, Integer>();
         this.context = context;
     }
 
@@ -64,12 +77,14 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
 
         // Lookup the scope of the command
         String scope = (String) reference.getProperty(CommandProcessor.COMMAND_SCOPE);
-        Integer numberOfCommands = scopes.get(scope);
+        Integer numberOfCommands = nbCommandsForScope.get(scope);
         if (numberOfCommands == null) {
             numberOfCommands = 0;
         }
-        scopes.put(scope, ++numberOfCommands);
-
+        nbCommandsForScope.put(scope, ++numberOfCommands);
+        if (numberOfCommands == 1) {
+            refreshScopes();
+        }
     }
 
     public void unbindCommand(ServiceReference reference) {
@@ -78,13 +93,14 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
         // Lookup the scope of the command
         String scope = (String) reference.getProperty(CommandProcessor.COMMAND_SCOPE);
 
-        Integer numberOfCommands = scopes.get(scope);
+        Integer numberOfCommands = nbCommandsForScope.get(scope);
         if (numberOfCommands != null) {
             numberOfCommands--;
             if (numberOfCommands == 0) {
-                scopes.remove(scope);
+                nbCommandsForScope.remove(scope);
+                refreshScopes();
             } else {
-                scopes.put(scope, numberOfCommands);
+                nbCommandsForScope.put(scope, numberOfCommands);
             }
         }
     }
@@ -189,7 +205,7 @@ public class CommandsCompleter implements Completer, IScopeRegistry {
      *
      * @return a list of currently available command scopes
      */
-    public Set<String> getScopes() {
-        return scopes.keySet();
+    public String getScopes() {
+        return scopes;
     }
 }
