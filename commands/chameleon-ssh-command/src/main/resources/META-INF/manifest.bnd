@@ -15,3 +15,7 @@ Embed-Dependency sshd-core;scope=compile;inline=true, \
                  mina-core;scope=compile;inline=true
 Embed-Transitive true
 Import-Package !org.bouncycastle.*, !com.jcraft.*, !org.apache.tomcat.jni.*, *
+
+DynamicImport-Package org.ow2.jonas.security.auth.spi,\
+                      org.ow2.carol.jndi.spi,\
+                      org.ow2.carol.jndi.intercept.spi

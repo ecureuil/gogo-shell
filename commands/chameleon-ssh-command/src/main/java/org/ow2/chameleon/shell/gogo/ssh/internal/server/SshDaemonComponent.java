@@ -25,9 +25,8 @@ import org.apache.felix.ipojo.annotations.Requires;
 import org.apache.felix.ipojo.annotations.Validate;
 import org.apache.felix.service.command.CommandProcessor;
 import org.apache.sshd.SshServer;
-import org.apache.sshd.server.PasswordAuthenticator;
+import org.apache.sshd.server.jaas.JaasPasswordAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.apache.sshd.server.session.ServerSession;
 import org.ow2.chameleon.shell.gogo.ssh.internal.command.Constants;
 
 @Component
@@ -48,26 +47,22 @@ public class SshDaemonComponent {
 
 	@Validate
 	public void start() throws IOException {
-		server = SshServer.setUpDefaultServer();
-		server.setPort(port);
-        server.setShellFactory(new ShellFactoryImpl(provider, completer));
-		server.setCommandFactory(new CommandFactoryImpl(provider));
-		server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
-        server.setPasswordAuthenticator(new PasswordAuthenticator() {
+        ClassLoader old = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(SshDaemonComponent.class.getClassLoader());
 
-            /**
-             * Check the validity of a password.
-             * This method should return null if the authentication fails.
-             *
-             * @param username the username
-             * @param password the password
-             * @return a non null identity object or <code>null</code if authentication fail
-             */
-            public boolean authenticate(String username, String password, ServerSession session) {
-                return true;
-            }
-        });
-		server.start();
+        try {
+            server = SshServer.setUpDefaultServer();
+            server.setPort(port);
+            server.setShellFactory(new ShellFactoryImpl(provider, completer));
+            server.setCommandFactory(new CommandFactoryImpl(provider));
+            server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
+            JaasPasswordAuthenticator pswdAuth = new JaasPasswordAuthenticator();
+            pswdAuth.setDomain("shelbie");
+            server.setPasswordAuthenticator(pswdAuth);
+            server.start();
+        } finally {
+            Thread.currentThread().setContextClassLoader(old);
+        }
 	}
 
 	@Invalidate
